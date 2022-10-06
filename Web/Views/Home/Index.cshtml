@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+<div class="row">
+    <div class="col s12 l12 m12 ipekSlide">
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+            <div class="item">
+                <img src="~/tema/images/demoslide.jpg" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="row infoBox">
+    <div class="col s12 m6 l3">
+        <div class="box">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <div class="boxText">
+                <span>
+                    El Dokuması %100 İpek
+                </span>
+                <p>
+                    El Dokuması %100 İpek Şallarımız el dokumasıdır. Renkleri bile elde boyanmaktadır.
+                </p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="col s12 m6 l3">
+        <div class="box">
+            <i class="fa-regular fa-face-smile"></i>
+            <div class="boxText">
+                <span>
+                    %100 Müşteri Memnuniyeti!
+                </span>
+                <p>
+                    Bir çok kişi ilk online alışverişini bizimle gerçekleştirdi. Satış öncesi ve sonrası desteğimizi sizden esirgemiyoruz.
+                </p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="col s12 m6 l3">
+        <div class="box">
+            <i class="fa-regular fa-sun"></i>
+            <div class="boxText">
+                <span>
+                    Parlak & Zarif...
+                </span>
+                <p>
+                    İpek şallarımız parlak ve zariftir. Başörtüsü olarak kullanıldığında dik durur, kaymaz ve iç göstermez.
+                </p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="col s12 m6 l3">
+        <div class="box">
+            <i class="fa-solid fa-rotate-left"></i>
+            <div class="boxText">
+                <span>
+                    Geri İade Garantisi
+                </span>
+                <p>
+                    Ürünümüzü beğenmezseniz veya değiştirmek isterseniz koşulsuz geri yollayabilirsiniz.
+                </p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@{
+    var homeColumnModel = (ICollection<HomeColumn>)ViewBag.HomeColumn;
+}
+<div class="row dynamicRow">
+    @foreach (var item in homeColumnModel)
+    {
+        var col1 = "l" + item.LeftColumn;
+        var col2 = "l" + item.MidColumn;
+        var col3 = "l" + item.RightColumn;
+        if (item.LeftColumn != 0)
+        {
+            <div class="col s12 m6 @col1 dynamixBox"></div>
+        }
+        if (item.MidColumn != 0)
+        {
+            <div class="col s12 m6 @col2 dynamixBox"></div>
+        }
+        if (item.RightColumn != 0)
+        {
+            <div class="col s12 m6 @col3 dynamixBox"></div>
+        }
+        
+    }
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: false,
+                margin: 0,
+                nav: true,
+                dots: false,
+                items: 1,
+                navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>']
+            })
+        })
+    </script>
+}

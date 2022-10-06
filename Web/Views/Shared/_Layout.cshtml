@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web</title>
+    <link href="~/tema/css/materialize.css" rel="stylesheet" />
+    <link href="~/tema/css/all.min.css" rel="stylesheet" />
+    <link href="~/tema/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/tema/css/owl.theme.default.css" rel="stylesheet" />
+    </head>
+<body>
+    <header>
+        <div class="container">
+            <div class="topBar">
+                <div class="row">
+                    <div class="col s12 l6 m6 topbarLeft">
+                        <div class="whatsapp">
+                            <i class="fa-brands fa-whatsapp"></i> <a href="#">WhatsApp</a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="col s12 l6 m6 topbarRight">
+                        <div class="register">
+                            <i class="fa-solid fa-user-lock"></i><a href="#">Giriş yap & Üye ol</a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="head">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 l3 m3">
+                        <a href="/">LOGO</a>
+                    </div>
+                    <div class="col s12 l9 m9 headRight">
+                        <div class="cart">
+                            <a href="#">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Sepetim</span>
+                            </a>
+                        </div>
+                        <div class="searchandMenu">
+                            <div class="search">
+                                <input type="text" name="search" class="browser-default" value="Ürün ara..." onclick="this.value='';" onblur="if(this.value=='') this.value='Ürün ara...';" />
+                            </div>
+                            <ul>
+                                <li><a href="#">ANASAYFA</a></li>
+                                <li><a href="#">ÜRÜNLERİMİZ</a></li>
+                                <li><a href="#">KURUMSAL</a></li>
+                                <li><a href="#">BİZE ULAŞIN</a></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main>
+            @RenderBody()
+            <div class="clearfix"></div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/tema/js/jquery-3.6.1.min.js"></script>
+    <script src="~/tema/js/materialize.min.js"></script>
+    <script src="~/tema/js/owl.carousel.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

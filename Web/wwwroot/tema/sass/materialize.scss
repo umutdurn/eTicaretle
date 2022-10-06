@@ -1,0 +1,277 @@
+@charset "UTF-8";
+
+// Color
+@import "components/color-variables";
+@import "components/color-classes";
+
+// Variables;
+@import "components/variables";
+
+// Reset
+@import "components/normalize";
+
+// components
+@import "components/global";
+@import "components/badges";
+@import "components/icons-material-design";
+@import "components/grid";
+@import "components/navbar";
+@import "components/typography";
+@import "components/transitions";
+@import "components/cards";
+@import "components/toast";
+@import "components/tabs";
+@import "components/tooltip";
+@import "components/buttons";
+@import "components/dropdown";
+@import "components/waves";
+@import "components/modal";
+@import "components/collapsible";
+@import "components/chips";
+@import "components/materialbox";
+@import "components/forms/forms";
+@import "components/table_of_contents";
+@import "components/sidenav";
+@import "components/preloader";
+@import "components/slider";
+@import "components/carousel";
+@import "components/tapTarget";
+@import "components/pulse";
+@import "components/datepicker";
+@import "components/timepicker";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    background: #F9F9F9;
+
+    a {
+        color: #2a2a2a;
+    }
+}
+header {
+    .topBar {
+        padding: 0px;
+        font-size: 12px;
+
+        .row {
+            margin: 0px;
+        }
+
+        .topbarLeft {
+            padding-top:4px;
+
+            .whatsapp {
+                background: #30cc45;
+                color:#fff;
+                padding:5px 10px;
+                border-radius:5px;
+                display:inline-block;
+                transition:.5s;
+                &:hover{
+                    background:#1d872c;
+                }
+                i {
+                    font-size: 18px;
+                    float: left;
+                    margin-right: 5px;
+                }
+
+                a {
+                    margin-top: 1px;
+                    float: left;
+                    color:#fff;
+                }
+            }
+        }
+
+        .topbarRight {
+            text-align: right;
+
+            .register {
+                background: #df6e93;
+                padding: 10px;
+                display: inline-block;
+                transition: .5s;
+
+                a {
+                    color: #fff;
+                }
+
+                i {
+                    color: #fff;
+                    margin-right: 5px;
+                    display: inline-block;
+                }
+
+                &:hover {
+                    background: #c83f6a;
+                }
+            }
+        }
+    }
+
+    .head {
+        background: #FFF;
+        padding: 0px 0px;
+        height: 120px;
+        box-shadow:rgba(0,0,0,0.2) 2px 2px 2px;
+        .row {
+            margin: 0px;
+
+            .headRight {
+                text-align: right;
+
+                .searchandMenu {
+                    padding: 20px 0px 0px 0px;
+                    float: right;
+                    margin-right: 30px;
+
+                    .search {
+                        text-align: right;
+
+                        input {
+                            width: 100%;
+                            display: inline-block;
+                            border: 1px solid #c6c6c6;
+                            padding: 10px;
+                            color: #c6c6c6
+                        }
+                    }
+
+                    ul {
+                        padding: 0px;
+                        margin: 0px;
+                        text-align: right;
+                        margin-top: 10px;
+
+                        li {
+                            display: inline-block;
+                            text-align: center;
+                            padding: 10px 15px;
+
+                            &:first-child {
+                                padding-left: 0px;
+                            }
+
+                            &:last-child {
+                                padding-right: 0px;
+                            }
+                        }
+                    }
+                }
+
+                .cart {
+                    float: right;
+                    height: 100%;
+                    height: 120px;
+
+                    a {
+                        height: 120px;
+                        padding: 40px 40.5px;
+                        display: block;
+                        text-align: center;
+                        background: #df6e93;
+                        color: #fff;
+                        transition: .5s;
+
+                        i {
+                            display: inline-block;
+                            font-size: 25px;
+                        }
+
+                        span {
+                            display: block;
+                        }
+
+                        &:hover {
+                            background: #c83f6a;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+main {
+    .ipekSlide {
+        margin-top: 20px;
+
+        .item {
+            img {
+                width: 100%;
+            }
+        }
+
+        .owl-nav {
+            position: absolute;
+            top: 40%;
+            width: 100%;
+
+            .owl-prev {
+                float: left;
+            }
+
+            .owl-next {
+                float: right;
+            }
+
+            i {
+                font-size: 65px;
+                color: #fff;
+                opacity: .5;
+                transition: .5s;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .infoBox {
+        .box {
+            padding: 10px 20px;
+            border: 1px solid #f1f1f1;
+            background: #fff;
+            height: 100px;
+            transition: .5s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+
+            i {
+                font-size: 35px;
+                margin-top: 20px;
+                color: rgb(223, 110, 147);
+                float: left;
+                width: 20%;
+            }
+
+            .boxText {
+                float: right;
+                width: 75%;
+                font-size: 11px;
+
+                span {
+                    font-weight: 500;
+                    display: block;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                }
+
+                p {
+                    margin: 0px;
+                }
+            }
+        }
+    }
+
+    .dynamicRow {
+        .dynamixBox{
+            height:200px;
+            border:1px solid #000000;
+        }
+    }
+}
