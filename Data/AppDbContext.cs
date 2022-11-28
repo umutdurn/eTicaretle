@@ -16,5 +16,7 @@ namespace Data
         }
 
         public DbSet<HomeColumn>? HomeColumns { get; set; }
+        public DbSet<ColumnDetail>? columnDetail { get; set; }
+        public DbSet<Screen>? Screen { get; set; }
     }
 }

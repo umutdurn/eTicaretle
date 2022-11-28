@@ -1,4 +1,7 @@
-﻿using Core.UnitOfWork;
+﻿using Core.Repositories;
+using Core.Services;
+using Core.UnitOfWork;
+using Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +18,10 @@ namespace Data.UnitOfWork
         {
             _appDbContext = appDbContext;
         }
+
+        private HomeColumnRepository homeColumnRepository;
+
+        public IHomeColumnRepository HomeColumn => homeColumnRepository = homeColumnRepository ?? new HomeColumnRepository(_appDbContext);
 
         public void Commit()
         {

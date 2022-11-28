@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core.Repositories;
+using Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ namespace Core.UnitOfWork
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
+        IHomeColumnRepository HomeColumn { get; }
+
         Task CommitAsync();
 
         void Commit();

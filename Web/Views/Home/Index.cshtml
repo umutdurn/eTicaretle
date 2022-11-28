@@ -4,62 +4,7 @@
 }
 <div class="row">
     <div class="col s12 l12 m12 ipekSlide">
-        <div class="owl-carousel owl-theme">
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-            <div class="item">
-                <img src="~/tema/images/demoslide.jpg" />
-            </div>
-        </div>
+        <img src="/tema/images/banner3.jpg" />
         <div class="clearfix"></div>
     </div>
 </div>
@@ -122,41 +67,288 @@
     </div>
     <div class="clearfix"></div>
 </div>
+<div class="featuredProducts">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <h2>Sizin İçin Seçtiklerimiz</h2>
+            <div class="productBox">
+                <div class="owl-carousel owl-theme featuredProductOwl">
+                    <div class="item">
+                        <div class="productBoxOwl">
+                            <img src="/tema/images/demo/urun1.jpg" />
+                            <span>Lorem İpsum Dolor</span>
+                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="productBoxOwl">
+                            <img src="/tema/images/demo/urun2.jpg" />
+                            <span>Lorem İpsum Dolor</span>
+                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="productBoxOwl">
+                            <img src="/tema/images/demo/urun3.jpg" />
+                            <span>Lorem İpsum Dolor</span>
+                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="productBoxOwl">
+                            <img src="/tema/images/demo/urun4.jpg" />
+                            <span>Lorem İpsum Dolor</span>
+                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="productBoxOwl">
+                            <img src="/tema/images/demo/urun5.jpg" />
+                            <span>Lorem İpsum Dolor</span>
+                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @{
     var homeColumnModel = (ICollection<HomeColumn>)ViewBag.HomeColumn;
 }
 <div class="row dynamicRow">
     @foreach (var item in homeColumnModel)
     {
-        var col1 = "l" + item.LeftColumn;
-        var col2 = "l" + item.MidColumn;
-        var col3 = "l" + item.RightColumn;
-        if (item.LeftColumn != 0)
+        var scoll = "s" + item.LeftColumn;
+        var scolm = "s" + item.MidColumn;
+        var scolr = "s" + item.RightColumn;
+
+        var mcoll = "m" + item.LeftColumn;
+        var mcolm = "m" + item.MidColumn;
+        var mcolr = "m" + item.RightColumn;
+
+        var lcoll = "l" + item.LeftColumn;
+        var lcolm = "l" + item.MidColumn;
+        var lcolr = "l" + item.RightColumn;
+
+        @foreach (var detail in item.ColumnDetail)
         {
-            <div class="col s12 m6 @col1 dynamixBox"></div>
-        }
-        if (item.MidColumn != 0)
-        {
-            <div class="col s12 m6 @col2 dynamixBox"></div>
-        }
-        if (item.RightColumn != 0)
-        {
-            <div class="col s12 m6 @col3 dynamixBox"></div>
+            if (detail.Column == "Left")
+            {
+                <div class="col @scoll @mcoll @lcoll dynamixBox">
+                    <img src="/tema/images/homepage/@detail.Background" />
+                </div>
+            }
+
+            if (detail.Column == "Mid")
+            {
+                <div class="col @scolm @mcolm @lcolm dynamixBox">
+                    <img src="/tema/images/homepage/@detail.Background" />
+                </div>
+            }
+
+            if (detail.Column == "Right")
+            {
+                <div class="col @scolr @mcolr @lcolr dynamixBox">
+                    <img src="/tema/images/homepage/@detail.Background" />
+                </div>
+            }
         }
         
     }
 </div>
+<div class="instagramFeed">
+    <div class="container">
+        <div class="head">
+            <div class="row">
+                <div class="col s6 m6 l6">
+                    <i class="fa-brands fa-instagram"></i> <strong>@@ipeksalevi</strong>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col s6 m6 l6">
+                    <div class="instagramh">
+                        INSTAGRAM'DA SON PAYLAŞIANLAR!
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row commentsBox">
+    <div class="col s12 l12 m12">
+        <div class="commentTitle">
+            <h2><i class="fa-regular fa-comments"></i> Yorumlar</h2>
+            <p>Burada satın aldığınız <strong>ipek şal</strong>ınız ile ilgili tüm bilgileri paylaşabilirsiniz. </p>
+            <small>Acil sorunlarınız için lütfen iletişim bölümünden yazın. Buradan geç cevap verilebilir.</small>
+        </div>
+        <div class="clearfix"></div>
+        <div class="sendComment">
+            <div class="col s12 l4 m4">
+                <div class="commentInput">
+                    <input type="text" name="Adsoyad" class="browser-default" value="Adınız Soyadınız" onclick="this.value='';" onblur="if(this.value=='') this.value='Adınız Soyadınız';" />
+                </div>
+                <div class="commentInput">
+                    <input type="text" name="Email" class="browser-default" value="E-mail Adresiniz" onclick="this.value='';" onblur="if(this.value=='') this.value='E-mail Adresiniz';" />
+                </div>
+            </div>
+            <div class="col s12 l6 m6">
+                <div class="commentInput">
+                    <textarea name="Yorum" onclick="this.value='';" onblur="if(this.value=='') this.value='Yorumunuz';">Yorumunuz</textarea>
+                </div>
+            </div>
+            <div class="col s12 l2 m2">
+                <div class="commentInput">
+                    <input type="button" name="Email" value="Gönder" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain subComment">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain subComment">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="commentMain subComment">
+            <div class="col s12 l1 m1">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+            </div>
+            <div class="col s12 l11 m11">
+                <div class="commentText">
+                    <span>Lorem İpsum</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. Cras mauris nisi, cursus quis tincidunt ac, pretium in elit. Vestibulum in neque quam. Quisque in ex mollis, consectetur enim vitae, vehicula nibh. Nulla et metus imperdiet, condimentum dolor vitae, venenatis dolor. Vivamus egestas leo a metus tempus imperdiet. Pellentesque a maximus arcu. Nunc nec ligula ut enim ultricies interdum non vel nibh. Pellentesque faucibus porta sodales.</p>
+                </div>
+                <div class="commentIcon">
+                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <a href="#" class="commentLoad"><i class="fa-solid fa-angles-down"></i> Daha Fazla Yorum Yükle</a>
+    </div>
+</div>
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $('.owl-carousel').owlCarousel({
+            //$('.SliderOwl').owlCarousel({
+            //    loop: false,
+            //    margin: 0,
+            //    nav: true,
+            //    dots: false,
+            //    items: 1,
+            //    navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>']
+            //})
+
+            $('.featuredProductOwl').owlCarousel({
                 loop: false,
                 margin: 0,
                 nav: true,
                 dots: false,
-                items: 1,
+                items: 5,
                 navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>']
             })
+
+            $(document).ready(function () {
+
+                var screen = $(window).width();
+
+                if (screen > 1260) {
+                    $(".pc").removeClass("dnone").addClass("visible");
+                } else if (screen > 768 && screen <= 1260) {
+                    $(".tablet").removeClass("dnone").addClass("visible");
+                } else if (screen > 0 && screen <= 768) {
+                    $(".mobile").removeClass("dnone").addClass("visible");
+                }
+
+            });
         })
     </script>
 }

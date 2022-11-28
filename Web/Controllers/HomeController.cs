@@ -10,17 +10,17 @@ namespace Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IService<HomeColumn> _homeColumn;
+        private readonly IHomeColumnService _homeColumnService;
 
-        public HomeController(ILogger<HomeController> logger, IService<HomeColumn> homeColumn)
+        public HomeController(ILogger<HomeController> logger,IHomeColumnService columnService)
         {
             _logger = logger;
-            _homeColumn = homeColumn;
+            _homeColumnService = columnService;
         }
 
         public IActionResult Index()
         {
-            var homeColumn = _homeColumn.GetAll().OrderBy(x => x.Order).ToList();
+            var homeColumn = _homeColumnService.GetAllHomecolumn();
 
             ViewBag.HomeColumn = homeColumn;
 

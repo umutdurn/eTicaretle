@@ -12,7 +12,7 @@ namespace Service.Services
 {
     public class Services<T> : IService<T> where T : class
     {
-        private readonly IUnitOfWork _unitOfWork;
+        public readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<T> _repository;
 
         public Services(IUnitOfWork unitOfWork, IRepository<T> repository)

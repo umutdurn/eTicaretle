@@ -5,12 +5,14 @@ using Data;
 using Data.Repositories;
 using Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using Service.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service.Services.Services<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IHomeColumnService, HomeColumnService>();
 builder.Services.AddSession();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
