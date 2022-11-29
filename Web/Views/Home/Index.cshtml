@@ -1,12 +1,14 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Anasayfa";
 }
-<div class="row">
-    <div class="col s12 l12 m12 ipekSlide">
+<div class="row ipekSlide">
+    <div class="col s12 l12 m12 ">
         <img src="/tema/images/banner3.jpg" />
         <div class="clearfix"></div>
     </div>
+</div>
+<div class="indexSearch">
+    <input type="text" name="Searc" placeholder="Ürün ara..." class="browser-default" />
 </div>
 <div class="row infoBox">
     <div class="col s12 m6 l3">
@@ -154,7 +156,7 @@
                 </div>
             }
         }
-        
+
     }
 </div>
 <div class="instagramFeed">
@@ -162,8 +164,8 @@
         <div class="head">
             <div class="row">
                 <div class="col s6 m6 l6">
-                    <i class="fa-brands fa-instagram"></i> <strong>@@ipeksalevi</strong>
-                    <div class="clearfix"></div>
+                    @*<i class="fa-brands fa-instagram"></i> <strong>@@ipeksalevi</strong>
+                    <div class="clearfix"></div>*@
                 </div>
                 <div class="col s6 m6 l6">
                     <div class="instagramh">
@@ -205,12 +207,10 @@
             <div class="clearfix"></div>
         </div>
         <div class="commentMain">
-            <div class="col s3 l1 m1">
-                <div class="profilPhoto">
-                    <img src="/tema/images/commenthead.png" />
-                </div>
+            <div class="profilPhoto">
+                <img src="/tema/images/commenthead.png" />
             </div>
-            <div class="col s9 l11 m11">
+            <div class="commentElement">
                 <div class="commentText">
                     <span>Lorem İpsum</span>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. </p>
@@ -222,24 +222,28 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="commentMain subComment">
-            <div class="col s3 l1 m1">
+        <div class="subIcon">
+            <img src="~/tema/images/turnright.png" />
+        </div>
+        <div class="subComment">
+            <div class="commentMain">
                 <div class="profilPhoto">
                     <img src="/tema/images/commenthead.png" />
                 </div>
-            </div>
-            <div class="col s9 l11 m11">
-                <div class="commentText">
-                    <span>Lorem İpsum</span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. </p>
+                <div class="commentElement">
+                    <div class="commentText">
+                        <span>Lorem İpsum</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. </p>
+                    </div>
+                    <div class="commentIcon">
+                        <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                        <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
+                    </div>
                 </div>
-                <div class="commentIcon">
-                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
-                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
-                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
         </div>
+        <div class="clearfix"></div>
         <a href="#" class="commentLoad"><i class="fa-solid fa-angles-down"></i> Daha Fazla Yorum Yükle</a>
     </div>
 </div>
