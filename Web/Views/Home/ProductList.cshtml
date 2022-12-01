@@ -1,0 +1,28 @@
+﻿@model List<Product>
+
+<div class="row productList">
+    @foreach (var item in Model)
+    {
+        <div class="col s16 l3 m6">
+            <div class="listProductBox">
+                <div class="productImage">
+                    <img src="~/tema/images/upload/@item.FeaturedImage" />
+                </div>
+                <span class="title">@item.Title</span>
+                @{
+                    string priceStrike = "";
+                    if (item.DiscountPrice != null && item.DiscountPrice != 0)
+                    {
+                        priceStrike = "priceStrike";
+                    }
+                }
+                <span class="price @priceStrike">@item.Price TL</span>
+                @if (item.DiscountPrice != null && item.DiscountPrice != 0)
+                {
+                    <span class="priceDiscount">@item.DiscountPrice TL</span>
+                }
+                <a href="/urun/@item.SeoUrl" title="@item.Title"><i class="fa-solid fa-cart-arrow-down"></i> Sepete Ekle</a>
+            </div>
+        </div>
+    }
+</div>

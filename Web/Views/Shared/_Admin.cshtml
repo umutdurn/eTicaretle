@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web</title>
+    <link href="~/tema/css/materialize.css" rel="stylesheet" />
+    <link href="~/tema/css/all.min.css" rel="stylesheet" />
+    <link href="~/tema/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/tema/css/owl.theme.default.css" rel="stylesheet" />
+    <link href="~/tema/css/dropzone.min.css" rel="stylesheet" />
+    <link href="~/tema/css/jquery.datatables.min.css" rel="stylesheet" />
+    </head>
+<body class="admin">
+    
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col s12 l3 m3">
+                    <ul>
+                        <li><a href="/Admin/ProductList">Ürünler</a>
+                            <ul>
+                                <li><a href="/Admin/AddProducts">Ürün Ekle</a></li>
+                                <li><a href="/Admin/AllProductsChangePrice">Toplu Fiyat Deðiþimi</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col s12 l9 m9">
+                    @RenderBody()
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/tema/js/jquery-3.6.1.min.js"></script>
+    <script src="~/tema/js/materialize.min.js"></script>
+    <script src="~/tema/js/owl.carousel.js"></script>
+    <script src="~/tema/js/dropzone.min.js"></script>
+    <script src="~/tema/js/ckeditor.js"></script>
+    <script src="~/tema/js/jquery.datatables.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

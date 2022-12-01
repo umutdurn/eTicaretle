@@ -1,0 +1,63 @@
+﻿@model List<Product>
+@{
+    Layout = "_Admin";
+}
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Stok</th>
+            <th>Ürün Adı</th>
+            <th>Fiyatı</th>
+            <th>İndirimli Fiyatı</th>
+            <th>Durumu</th>
+            <th>Sırası</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Stock</td>
+                <td>@product.Title</td>
+                <td>@product.Price TL</td>
+                <td>@product.DiscountPrice TL</td>
+                <td>
+                    @if (product.Situation == true)
+                    {
+                        @: Aktif
+                    }
+                    else
+                    {
+                        @: Pasif
+                    }
+                </td>
+                <td><input type="number" name="ProductOrder" value="@product.Stock" class="browser-default" /></td>
+                <td><a href="/Admin/UpdateProduct/@product.Id">Düzenle</a></td>
+                <td><a href="/Admin/DeleteProduct/@product.Id" onclick="return confirmRemove();">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove(){
+        
+            var setConfirm = confirm("Bu ürünü silmek istediğinden emin misin?");
+
+            return setConfirm;
+        
+        }
+
+    </script>
+}

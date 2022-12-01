@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "_Admin";
+}
+<form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+    <div class="col s12 l6 m6">
+        <div class="input">
+            <input type="text" name="Title" placeholder="Ürün Adı" class="browser-default" required/>
+        </div>
+        <div class="input">
+            <textarea name="Explanation" class="Explanation" placeholder="Ürün Açıklaması"></textarea>
+        </div>
+        <div class="input">
+            <input type="text" name="Price" placeholder="Ürün Fiyat" class="browser-default" required />
+        </div>
+        <div class="input">
+            <input type="text" name="DiscountPrice" placeholder="İndirimli Ürün Fiyat" class="browser-default" />
+        </div>
+        <div class="input">
+            <input type="text" name="Stock" placeholder="Ürün Stoğu" class="browser-default" required />
+        </div>
+        <div class="input">
+            <input type="text" name="Order" placeholder="Ürün Sıralaması" class="browser-default" required />
+        </div>
+        <div class="input">
+            <small>Çoklu seçim için "CTRL" basılı tutarak seçiniz.</small>
+            <select name="Color" asp-items="@ViewBag.Colors" class="browser-default" multiple></select>
+        </div>
+        <div class="input">
+            <span>Öne Çıkartılan Resim <small>Ürünler sayfasında gösterilecek.</small></span>
+            <input type="file" name="fileImage" class="browser-default" />
+        </div>
+    </div>
+    <div class="col s12 l6 m6">
+        <div class="input">
+            <input type="text" name="SeoTitle" placeholder="Seo Adı" class="browser-default" />
+        </div>
+        <div class="input">
+            <textarea name="SeoDescpription" placeholder="Seo Açıklaması"></textarea>
+        </div>
+        <div class="input">
+            <input type="text" name="SeoUrl" placeholder="Seo Url" class="browser-default" required />
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <span>Ürün Resimleri</span>
+        <div class="dropzone dropzonePc">
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <span>Mobil Ürün Resimleri</span>
+        <div class="dropzone dropzoneMobile">
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <p>
+            <label>
+                <input type="checkbox" name="Situation" />
+                <span>Bu ürün aktif mi?</span>
+            </label>
+        </p>
+    </div>
+    <div class="col s12 m12 l12">
+        <input type="submit" name="AddProductButton" value="Ürünü Ekle" />
+    </div>
+</form>
+@section Scripts{
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('.Explanation'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(".dropzonePc").dropzone({
+            url: "/Admin/ImageUpload/0",
+            maxFilesize: 2,
+            maxFiles: 5
+        });
+        $(".dropzoneMobile").dropzone({
+            url: "/Admin/ImageUpload/1",
+            maxFilesize: 2,
+            maxFiles: 5
+        });
+    </script>
+
+}

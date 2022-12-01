@@ -1,0 +1,107 @@
+﻿@model Product
+@section Css{
+
+
+}
+    <div class="row productDetail">
+        <div class="col s12 l3 m3">
+            <div class="productGallery">
+                <div class="mainImg" id="img-container">
+                    <img src="/tema/images/upload/@Model.Gallery.First().Image" data-zoom-image="/tema/images/upload/@Model.Gallery.First().Image" data-fancybox />
+                </div>
+                <div id="mainGallery" class="gallery">
+                @foreach (var item in Model.Gallery)
+                {
+                    if (!item.Mobile)
+                    {
+                        <div class="thumbImage">
+                            <a href="#" data-image="/tema/images/upload/@item.Image" data-zoom-image="/tema/images/upload/@item.Image">
+                                <img src="~/tema/images/upload/@item.Image" />
+                            </a>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col s12 l9 m9">
+        <div class="productAddCartDetail">
+            <h1>@Model.Title</h1>
+            @{
+                string priceStrike = "";
+                if (Model.DiscountPrice != null && Model.DiscountPrice != 0)
+                {
+                    priceStrike = "priceStrike";
+                }
+            }
+            <div class="productPrice">
+                <span class="price @priceStrike">@Model.Price TL</span>
+                @if (Model.DiscountPrice != null && Model.DiscountPrice != 0)
+                {
+                    <span class="priceDiscount">@Model.DiscountPrice TL</span>
+                }
+            </div>
+            <hr />
+            <div class="productAddsetting">
+                <div class="col s12 l12 m12">
+                    <span>Adet:</span>
+                    <div class="plusMinus">
+                        <a href="javascript:void(0)" class="minus"><i class="fa-solid fa-minus"></i></a>
+                        <input type="number" name="Piece" class="browser-default" value="1" />
+                        <a href="javascript:void(0)" class="plus"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                    <input type="button" name="AddToCart" value="SEPETE EKLE" class="AddToCart" />
+                    <input type="button" name="BuyNow" value="HEMEN AL" class="BuyNow" />
+                    <a href="javascript:(void)" class="addFavorite"><i class="fa-regular fa-heart"></i> Favorilere Ekle!</a>
+                </div>
+                <div class="clearfix"></div>
+                <div class="explanation">
+                    <div class="text">
+                        <span>Ürün Açıklaması</span>
+                        @Html.Raw(Model.Explanation)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/tema/js/jquery.elevatezoom.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".mainImg img").elevateZoom({ gallery: 'mainGallery', cursor: 'pointer', galleryActiveClass: 'active' });
+
+            Fancybox.bind("[data-fancybox]", {
+                // Your options go here
+            });
+        });
+
+        $(".plus").click(function () {
+
+            var piece = $("[name='Piece']").val();
+
+            piece++;
+
+            $("[name='Piece']").val(piece);
+
+        });
+
+        $(".minus").click(function () {
+
+            var piece = $("[name='Piece']").val();
+
+            piece--;
+
+            if (piece <= 1) {
+                $("[name='Piece']").val(1);
+            } else {
+                $("[name='Piece']").val(piece);
+            }
+        })
+
+    </script>
+
+}

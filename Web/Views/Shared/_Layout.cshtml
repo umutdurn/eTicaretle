@@ -8,6 +8,8 @@
     <link href="~/tema/css/all.min.css" rel="stylesheet" />
     <link href="~/tema/css/owl.carousel.css" rel="stylesheet" />
     <link href="~/tema/css/owl.theme.default.css" rel="stylesheet" />
+    <link href="~/tema/css/fancybox.css" rel="stylesheet" />
+    @await RenderSectionAsync("Css", required: false)
     </head>
 <body>
     <header>
@@ -59,10 +61,10 @@
                                 <input type="text" name="search" class="browser-default" value="Ürün ara..." onclick="this.value='';" onblur="if(this.value=='') this.value='Ürün ara...';" />
                             </div>
                             <ul>
-                                <li><a href="#">ANASAYFA</a></li>
-                                <li><a href="#">ÜRÜNLERÝMÝZ</a></li>
-                                <li><a href="#">KURUMSAL</a></li>
-                                <li><a href="#">BÝZE ULAÞIN</a></li>
+                                <li><a href="/">ANASAYFA</a></li>
+                                <li><a href="/urunler">ÜRÜNLERÝMÝZ</a></li>
+                                <li><a href="/kurumsal">KURUMSAL</a></li>
+                                <li><a href="/iletisim">BÝZE ULAÞIN</a></li>
                             </ul>
                         </div>
                         <div class="clearfix"></div>
@@ -87,6 +89,8 @@
     <script src="~/tema/js/jquery-3.6.1.min.js"></script>
     <script src="~/tema/js/materialize.min.js"></script>
     <script src="~/tema/js/owl.carousel.js"></script>
+    <script src="~/tema/js/fancybox.umd.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

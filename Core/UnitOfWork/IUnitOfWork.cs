@@ -11,6 +11,7 @@ namespace Core.UnitOfWork
     public interface IUnitOfWork : IAsyncDisposable
     {
         IHomeColumnRepository HomeColumn { get; }
+        IProductRepository Product { get; }
 
         Task CommitAsync();
 

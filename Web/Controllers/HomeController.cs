@@ -11,11 +11,13 @@ namespace Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHomeColumnService _homeColumnService;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger,IHomeColumnService columnService)
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService)
         {
             _logger = logger;
             _homeColumnService = columnService;
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -27,10 +29,25 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
+        [Route("urunler")]
+        public IActionResult ProductList() {
+
+            var products = _productService.GetAllProductsList();
+
+            return View(products);
+        
         }
+
+        [Route("urun/{seoUrl}")]
+        public IActionResult Product(string seoUrl)
+        {
+
+            var product = _productService.GetProductBySeoUrl(seoUrl);
+
+            return View(product);
+
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

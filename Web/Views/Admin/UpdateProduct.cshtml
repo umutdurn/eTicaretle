@@ -1,0 +1,142 @@
+﻿@model Product
+@{
+    Layout = "_Admin";
+}
+<form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="col s12 l6 m6">
+        <div class="input">
+            <input type="text" name="Title" placeholder="Ürün Adı" class="browser-default" value="@Model.Title" required />
+        </div>
+        <div class="input">
+            <textarea name="Explanation" class="Explanation" placeholder="Ürün Açıklaması">@Model.Explanation</textarea>
+        </div>
+        <div class="input">
+            <input type="text" name="Price" placeholder="Ürün Fiyat" class="browser-default" value="@Model.Price" required />
+        </div>
+        <div class="input">
+            <input type="text" name="DiscountPrice" placeholder="İndirimli Ürün Fiyat" class="browser-default" value="@Model.DiscountPrice" />
+        </div>
+        <div class="input">
+            <input type="text" name="Stock" placeholder="Ürün Stoğu" class="browser-default" value="@Model.Stock" required />
+        </div>
+        <div class="input">
+            <input type="text" name="Order" placeholder="Ürün Sıralaması" class="browser-default" value="@Model.Order" required />
+        </div>
+        <div class="input">
+            <small>Çoklu seçim için "CTRL" basılı tutarak seçiniz.</small>
+            <select name="Color" asp-items="@ViewBag.Colors" class="browser-default" multiple></select>
+        </div>
+        <div class="input">
+            <span>Öne Çıkartılan Resim <small>Ürünler sayfasında gösterilecek.</small></span>
+            <input type="file" name="fileImage" class="browser-default" />
+        </div>
+    </div>
+    <div class="col s12 l6 m6">
+        <div class="input">
+            <input type="text" name="SeoTitle" placeholder="Seo Adı" class="browser-default" value="@Model.SeoTitle" />
+        </div>
+        <div class="input">
+            <textarea name="SeoDescpription" placeholder="Seo Açıklaması">@Model.SeoDescpription</textarea>
+        </div>
+        <div class="input">
+            <input type="text" name="SeoUrl" placeholder="Seo Url" class="browser-default" value="@Model.SeoUrl" required />
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <span>Ürün Resimleri</span>
+        <div class="dropzone dropzonePc">
+        </div>
+        <div class="getImages">
+            @foreach (var item in Model.Gallery)
+            {
+                if (!item.Mobile)
+                {
+                    <div id="@item.Id">
+                        <img src="~/tema/images/upload/@item.Image" />
+                        <a href="javascript:void(0)" class="@item.Id">Sil</a>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <span>Mobil Ürün Resimleri</span>
+        <div class="dropzone dropzoneMobile">
+        </div>
+        <div class="getImages">
+            @foreach (var item in Model.Gallery)
+            {
+                if (item.Mobile)
+                {
+                    <div id="@item.Id">
+                        <img src="~/tema/images/upload/@item.Image" />
+                        <a href="javascript:void(0)" class="@item.Id">Sil</a>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+    <div class="col s12 m12 l12">
+        <p>
+            <label>
+                <input type="checkbox" name="Situation" />
+                <span>Bu ürün aktif mi?</span>
+            </label>
+        </p>
+    </div>
+    <div class="col s12 m12 l12">
+        <input type="submit" name="AddProductButton" value="Ürünü Ekle" />
+    </div>
+</form>
+@section Scripts{
+
+    <script>
+
+        $(".getImages a").click(function () {
+
+            var id = $(this).attr("class");
+
+            fetch("/Admin/RemoveImage/" + id, {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+
+                    $("#" + r).hide();
+
+                })
+
+        });
+
+        $(document).ready(function () {
+
+                @foreach (var color in Model.Colors)
+                {
+                    @:$("[name='Color'] option[value='@color.Id']").prop("selected", true);
+                }
+
+                $("[name='Situation']").prop("checked", "@Model.Situation");
+        });
+
+        ClassicEditor
+            .create(document.querySelector('.Explanation'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(".dropzonePc").dropzone({
+            url: "/Admin/ImageUpload/0",
+            maxFilesize: 2,
+            maxFiles: 5
+        });
+        $(".dropzoneMobile").dropzone({
+            url: "/Admin/ImageUpload/1",
+            maxFilesize: 2,
+            maxFiles: 5
+        });
+    </script>
+
+}
