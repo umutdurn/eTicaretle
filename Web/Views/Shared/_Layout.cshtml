@@ -9,27 +9,28 @@
     <link href="~/tema/css/owl.carousel.css" rel="stylesheet" />
     <link href="~/tema/css/owl.theme.default.css" rel="stylesheet" />
     <link href="~/tema/css/fancybox.css" rel="stylesheet" />
+    <script src="~/tema/js/jquery-3.6.1.min.js"></script>
     @await RenderSectionAsync("Css", required: false)
-    </head>
+</head>
 <body>
     <header>
-@*        <div class="container">
-            <div class="topBar">
-                <div class="row">
-                    <div class="col s12 l6 m6 topbarLeft">
-                        <div class="whatsapp">
-                            <i class="fa-brands fa-whatsapp"></i> <a href="#">WhatsApp</a>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="col s12 l6 m6 topbarRight">
-                        <div class="register">
-                            <i class="fa-solid fa-user-lock"></i><a href="#">Giriþ yap & Üye ol</a>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+        @*        <div class="container">
+        <div class="topBar">
+        <div class="row">
+        <div class="col s12 l6 m6 topbarLeft">
+        <div class="whatsapp">
+        <i class="fa-brands fa-whatsapp"></i> <a href="#">WhatsApp</a>
+        <div class="clearfix"></div>
+        </div>
+        </div>
+        <div class="col s12 l6 m6 topbarRight">
+        <div class="register">
+        <i class="fa-solid fa-user-lock"></i><a href="#">Giriþ yap & Üye ol</a>
+        </div>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        </div>
         </div>*@
         <div class="head">
             <div class="container">
@@ -39,7 +40,8 @@
                     </div>
                     <div class="col s12 l9 m9 headRight">
                         <div class="cart">
-                            <a href="#">
+                            <a href="/sepet">
+                                <div class="pieceCount"></div>
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <span>Sepetim</span>
                             </a>
@@ -86,11 +88,34 @@
             &copy; 2022 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/tema/js/jquery-3.6.1.min.js"></script>
     <script src="~/tema/js/materialize.min.js"></script>
     <script src="~/tema/js/owl.carousel.js"></script>
     <script src="~/tema/js/fancybox.umd.js"></script>
-    
+    <script>
+        $(document).ready(function () {
+
+            cartcount();
+
+        })
+
+        function cartcount(){
+        
+            $(".pieceCount").hide();
+
+            fetch("/Home/PieceCount", {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+                    if (r != 0) {
+                        $(".pieceCount").show();
+                        $(".pieceCount").html(r + " ürün");
+                    }
+
+                })
+                
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

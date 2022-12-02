@@ -21,5 +21,11 @@ namespace Data
         public DbSet<Colors> Colors { get; set; }
         public DbSet<Galleries> Galleries { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Member> Member { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<District> District { get; set; }
     }
 }

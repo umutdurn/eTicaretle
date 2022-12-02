@@ -12,6 +12,7 @@ namespace Core.UnitOfWork
     {
         IHomeColumnRepository HomeColumn { get; }
         IProductRepository Product { get; }
+        ICartRepository Cart { get; }
 
         Task CommitAsync();
 

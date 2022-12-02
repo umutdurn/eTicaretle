@@ -1,0 +1,168 @@
+﻿@model CalculateModel
+<table class="productCartTable">
+    <thead>
+        <tr>
+            <th>Ürün</th>
+            <th>Adet</th>
+            <th>Birim Fiyat</th>
+            <th>Toplam Fiyat</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var cart in Model.Calculate)
+        {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col s12 l1 m1">
+                            <img src="~/tema/images/upload/@cart.Product.FeaturedImage" />
+                        </div>
+                        <div class="col s12 l11 m11">
+                            <span class="title">@cart.Product.Title</span>
+                            @{
+                                string priceStrike = "";
+                                if (cart.Product.DiscountPrice != null && cart.Product.DiscountPrice != 0)
+                                {
+                                    priceStrike = "priceStrike";
+                                }
+                            }
+                            <span class="price @priceStrike">@cart.Product.Price.ToString("C")</span>
+                            @if (cart.Product.DiscountPrice != null && cart.Product.DiscountPrice != 0)
+                            {
+                                <span class="priceDiscount">@Convert.ToDecimal(cart.Product.DiscountPrice).ToString("C")</span>
+                            }
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="plusMinus">
+                        <a href="javascript:void(0)" class="minus"><i class="fa-solid fa-minus"></i></a>
+                        <input type="number" id="@cart.CartId" name="Piece" class="browser-default" value="@cart.Piece" />
+                        <a href="javascript:void(0)" class="plus"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                </td>
+                <td>
+                    @{
+                        if (cart.Product.DiscountPrice != null && cart.Product.DiscountPrice != 0)
+                        {
+                                    @Convert.ToDecimal(cart.Product.DiscountPrice).ToString("C")
+
+
+                        }
+                        else
+                        {
+                                    @cart.Product.Price.ToString("C")
+                        }
+                    }
+                </td>
+                <td>@cart.Subtotal.ToString("C")</td>
+                <td><a href="javascript:void(0)" id="@cart.CartId" class="removeCart"><i class="fa-solid fa-trash-can"></i></a></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<div class="row">
+    <div class="col s12 l8 m8">
+        <div class="coupon">
+            <input type="text" name="Coupon" placeholder="Kupon kodu giriniz" class="browser-default" /><input type="button" name="CouponBtn" value="Kupon Kullan" />
+        </div>
+    </div>
+    <div class="col s12 l4 m4">
+        <div class="cartInfo">
+            <h3>Sepet Özeti</h3>
+            <table class="browser-default">
+                <tbody>
+                    <tr>
+                        <td>Sepet Toplamı</td>
+                        <td>@Model.CartTotal.ToString("C")</td>
+                    </tr>
+                    <tr>
+                        <td>Genel Toplam</td>
+                        <td>@Model.GeneralTotal.ToString("C")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="button" name="address" value="Satın Al" class="buyBtn" />
+        </div>
+    </div>
+</div>
+<script>
+    $(".plus").click(function () {
+
+        var piece = $("[name='Piece']").val();
+
+        piece++;
+
+        $("[name='Piece']").val(piece);
+
+        updateCart();
+    });
+
+    $(".minus").click(function () {
+
+        var piece = $("[name='Piece']").val();
+
+        piece--;
+
+        if (piece <= 1) {
+            $("[name='Piece']").val(1);
+        } else {
+            $("[name='Piece']").val(piece);
+        }
+
+        updateCart();
+    })
+
+    $("[name='Piece']").change(function () {
+
+        updateCart();
+
+    })
+
+    $(".removeCart").click(function () {
+
+        var cartId = $(this).attr("id");
+
+        fetch("/Home/RemoveCart?cartId=" + cartId, {
+            method: "post"
+        }).
+            then(r => r.text())
+            .then(r => {
+
+                $(".cartTable").html(r);
+
+            })
+    })
+
+    function updateCart() {
+
+        var piece = $("[name='Piece']").val();
+        var cartId = $("[name='Piece']").attr("id");
+
+        fetch("/Home/GetCartTable?process=update&piece=" + piece + "&cartId=" + cartId, {
+            method: "post"
+        }).
+            then(r => r.text())
+            .then(r => {
+
+                $(".cartTable").html(r);
+
+            })
+
+    }
+
+    $(".buyBtn").click(function () {
+
+        $(".column").hide();
+
+        var id = $(this).attr("name");
+        $("." + id).addClass("active");
+        $("." + id).removeAttr("disabled");
+        $("#" + id).show();
+
+    })
+
+</script>

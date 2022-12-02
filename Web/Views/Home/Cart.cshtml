@@ -1,0 +1,61 @@
+﻿
+<div class="cartPage">
+    <div class="row">
+        <div class="cartHeader">
+            <div class="col s12 l3 m6"><input type="button" class="cart active" value="Sepet" /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s12 l3 m6"><input type="button" class="address" value="Adres" disabled /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s12 l3 m6"><input type="button" class="payment" value="Ödeme" disabled /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s12 l3 m6"><input type="button" class="approval" value="Onay" disabled /></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div id="cart" class="column">
+        <div class="cartTable">
+            <div class="cartLoad">
+                Sepet Yükleniyor...
+            </div>
+        </div>
+    </div>
+    <div id="address" class="column">address</div>
+    <div id="payment" class="column">ödeme</div>
+    <div id="approval" class="column">onay</div>
+</div>
+@section Scripts{
+
+    <script>
+
+        $(".cartHeader input[type=button]").click(function () {
+            
+            var getclass = $(this).attr("class").split(' ');
+
+            $(".column").hide();
+
+            $("#" + getclass[0]).show();
+
+        })
+
+        var address = false, payment = false, approval = false;
+
+        $(document).ready(function () {
+
+            fetch("/Home/GetCartTable?process=get", {
+                method: "post"
+            }).
+                then(r => r.text())
+                .then(r => {
+
+                    $(".cartTable").html(r);
+
+                })
+
+            $("#address").hide();
+            $("#payment").hide();
+            $("#approval").hide();
+
+        })
+
+
+    </script>
+
+
+}

@@ -27,6 +27,11 @@ namespace Service.Services
             return _unitOfWork.Product.GetProductBySeoUrl(seoUrl);
         }
 
+        public ICollection<Product> RandomProductListTake5()
+        {
+            return _unitOfWork.Product.RandomProductListTake5();
+        }
+
         public Product UpdateProductGetAllInclude(int id)
         {
             return _unitOfWork.Product.UpdateProductGetAllInclude(id);

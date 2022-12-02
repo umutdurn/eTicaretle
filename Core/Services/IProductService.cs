@@ -12,5 +12,6 @@ namespace Core.Services
         Product UpdateProductGetAllInclude(int id);
         ICollection<Product> GetAllProductsList();
         Product GetProductBySeoUrl(string seoUrl);
+        ICollection<Product> RandomProductListTake5();
     }
 }

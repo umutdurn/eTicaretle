@@ -31,5 +31,10 @@ namespace Data.Repositories
         {
             return _appDbContext.Product.Include(x => x.Colors).Include(x => x.Gallery).FirstOrDefault(x => x.SeoUrl == seoUrl);
         }
+
+        public ICollection<Product> RandomProductListTake5()
+        {
+            return _appDbContext.Product.Where(x => x.Situation == true).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+        }
     }
 }

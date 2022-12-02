@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221202193353_addcountry")]
+    partial class addcountry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,23 +86,6 @@ namespace Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("Core.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("Core.Models.Colors", b =>
@@ -176,28 +162,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Country");
-                });
-
-            modelBuilder.Entity("Core.Models.District", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("District");
                 });
 
             modelBuilder.Entity("Core.Models.Galleries", b =>
@@ -414,17 +378,6 @@ namespace Data.Migrations
                     b.Navigation("HomeColumn");
                 });
 
-            modelBuilder.Entity("Core.Models.District", b =>
-                {
-                    b.HasOne("Core.Models.City", "City")
-                        .WithMany("Districts")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("Core.Models.Galleries", b =>
                 {
                     b.HasOne("Core.Models.Product", "Product")
@@ -445,11 +398,6 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Screen");
-                });
-
-            modelBuilder.Entity("Core.Models.City", b =>
-                {
-                    b.Navigation("Districts");
                 });
 
             modelBuilder.Entity("Core.Models.HomeColumn", b =>
