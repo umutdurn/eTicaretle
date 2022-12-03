@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core.Models
 {
-    public class Country : EntityBase
+    public class Cargo : EntityBase
     {
         public string Title { get; set; }
-        public string Code { get; set; }
-        public ICollection<Cargo> Cargos { get; set; } = new HashSet<Cargo>();
+        public decimal Price { get; set; }
+        public ICollection<Country> Countries { get; set; } = new HashSet<Country>();
     }
 }

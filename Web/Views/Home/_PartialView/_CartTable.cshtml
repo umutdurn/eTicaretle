@@ -47,13 +47,13 @@
                     @{
                         if (cart.Product.DiscountPrice != null && cart.Product.DiscountPrice != 0)
                         {
-                                    @Convert.ToDecimal(cart.Product.DiscountPrice).ToString("C")
+                                                    @Convert.ToDecimal(cart.Product.DiscountPrice).ToString("C")
 
 
                         }
                         else
                         {
-                                    @cart.Product.Price.ToString("C")
+                                                    @cart.Product.Price.ToString("C")
                         }
                     }
                 </td>
@@ -67,7 +67,7 @@
 <div class="row">
     <div class="col s12 l8 m8">
         <div class="coupon">
-            <input type="text" name="Coupon" placeholder="Kupon kodu giriniz" class="browser-default" /><input type="button" name="CouponBtn" value="Kupon Kullan" />
+            <input type="text" name="Coupon" placeholder="Kupon kodu giriniz" class="browser-default couponCode" /><input type="button" name="CouponBtn" value="Kupon Kullan" />
         </div>
     </div>
     <div class="col s12 l4 m4">
@@ -85,7 +85,9 @@
                     </tr>
                 </tbody>
             </table>
-            <input type="button" name="address" value="Satın Al" class="buyBtn" />
+            <div class="buyBtnContainer">
+                <input type="button" name="address" value="Satın Al" class="buyBtn" />
+            </div>
         </div>
     </div>
 </div>
@@ -99,6 +101,7 @@
         $("[name='Piece']").val(piece);
 
         updateCart();
+
     });
 
     $(".minus").click(function () {
@@ -149,20 +152,12 @@
             .then(r => {
 
                 $(".cartTable").html(r);
+                payPrice();
 
             })
 
+        
     }
 
-    $(".buyBtn").click(function () {
-
-        $(".column").hide();
-
-        var id = $(this).attr("name");
-        $("." + id).addClass("active");
-        $("." + id).removeAttr("disabled");
-        $("#" + id).show();
-
-    })
 
 </script>

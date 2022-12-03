@@ -2,6 +2,7 @@
 using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Services;
 using Service.Services.Calculate;
 using System.Diagnostics;
@@ -16,13 +17,21 @@ namespace Web.Controllers
         private readonly IHomeColumnService _homeColumnService;
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
+        private readonly ICargoService _cargoService;
+        private readonly ICountryService _countryService;
+        private readonly IService<City> _cityService;
+        private readonly IService<District> _districtService;
 
-        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService)
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService)
         {
             _logger = logger;
             _homeColumnService = columnService;
             _productService = productService;
             _cartService = cartService;
+            _cargoService = cargoService;
+            _countryService = countryService;
+            _cityService = cityService;
+            _districtService = districtService;
         }
 
         public IActionResult Index()
@@ -127,6 +136,30 @@ namespace Web.Controllers
         [Route("sepet")]
         public IActionResult Cart() {
 
+
+            // Country 
+            var country = _countryService.GetAllIncludeCountry();
+
+            List<SelectListItem> countryList = new List<SelectListItem>();
+            foreach (var item in country)
+            {
+                countryList.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+            }
+
+            ViewBag.Country = countryList;
+
+            // City 
+            var city = _cityService.GetAll().ToList();
+
+            List<SelectListItem> cityList = new List<SelectListItem>();
+            foreach (var item in city)
+            {
+                cityList.Add(new SelectListItem { Text = item.Title, Value = item.Id.ToString() });
+            }
+
+            ViewBag.City = cityList;
+
+
             return View();
         
         }
@@ -179,7 +212,7 @@ namespace Web.Controllers
 
                 CalculateService calcService = new CalculateService();
 
-                carts = calcService.CartCalculate(getCarts);
+                carts = calcService.CartCalculate(getCarts,null);
             }
 
             return PartialView("~/Views/Home/_PartialView/_CartTable.cshtml", carts);
@@ -197,9 +230,47 @@ namespace Web.Controllers
 
             CalculateService calcService = new CalculateService();
 
-            carts = calcService.CartCalculate(getCarts);
+            carts = calcService.CartCalculate(getCarts, null);
 
             return PartialView("~/Views/Home/_PartialView/_CartTable.cshtml", carts);
+        }
+
+        [HttpPost]
+        public JsonResult Getcargos(int id) {
+
+            var cargos = _cargoService.GetAllCargosForCountry(id);
+
+            return Json(cargos);
+        
+        }
+        [HttpPost]
+        public JsonResult PayPrice(string coupon, string cargo) {
+
+            CalculateModel carts = new CalculateModel();
+
+            Cargo getCargo = null;
+
+            if (!String.IsNullOrEmpty(cargo))
+            {
+                getCargo = _cargoService.GetSingleCargo(Convert.ToInt32(cargo));
+            }
+
+            var getCarts = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString()).ToList();
+
+            CalculateService calcService = new CalculateService();
+
+            carts = calcService.CartCalculate(getCarts, getCargo);
+
+            return Json(carts);
+
+        }
+        [HttpPost]
+        public JsonResult GetDistrict(int id) {
+
+            var districts = _districtService.Where(x => x.City.Id == id).Result;
+
+            return Json(districts);
+
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

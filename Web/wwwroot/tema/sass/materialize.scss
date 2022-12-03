@@ -863,7 +863,7 @@ main {
 
             .active {
                 background: #fff;
-                cursor:pointer;
+                cursor: pointer;
             }
         }
 
@@ -968,17 +968,87 @@ main {
                 font-size: 20px;
                 text-align: left;
             }
+        }
+
+        #address {
+            h4 {
+                padding: 0px 0px 0px 15px;
+                margin: 30px 0px 30px 10px;
+                font-size: 25px;
+                border-left: 5px solid #df6e93;
+            }
+
+            .giftNoteDetail {
+                padding: 10px;
+                margin: 15px 0px;
+
+                span {
+                    display: block;
+                }
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .input {
+                margin-bottom: 10px;
+                position: relative;
+
+                label {
+                    position:absolute;
+                    right:30px;
+                    top:10px;
+                    font-size:16px;
+                    color:#c10000;
+                }
+
+                span {
+                    font-weight: 500;
+                    margin-bottom: 10px;
+                    display: block;
+                }
+
+                select {
+                    border: 1px solid #f1f1f1;
+                    padding: 5px;
+                }
+
+                input[type=text], input[type=email] {
+                    border: 1px solid #f1f1f1;
+                    padding: 15px;
+                    width: 100%;
+
+                    &::placeholder {
+                        color: #000;
+                    }
+                }
+
+                textarea {
+                    height: 150px;
+                    padding: 15px;
+                    border: 1px solid #f1f1f1;
+
+                    &::placeholder {
+                        color: #000;
+                    }
+                }
+            }
+        }
+
+        .buyBtnContainer {
+            text-align: right;
 
             .buyBtn {
                 background: #df6e93;
                 color: #fff;
                 padding: 10px;
-                width: 50%;
+                width: 200px;
                 margin: 5px 0px 0px 0px;
                 border: none;
                 font-size: 16px;
                 display: inline-block;
-                cursor:pointer;
+                cursor: pointer;
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Service.Services.Calculate
 {
     public class CalculateService
     {
-        public CalculateModel CartCalculate(List<Cart> carts) {
+        public CalculateModel CartCalculate(List<Cart> carts, Cargo? cargo) {
 
             CalculateModel calculateCartList = new CalculateModel();
             List<Calculate> calcModel = new List<Calculate>();
@@ -39,6 +39,11 @@ namespace Service.Services.Calculate
 
             calculateCartList.Calculate = calcModel;
             calculateCartList.CartTotal = total;
+
+            if (cargo != null)
+            {
+                calculateCartList.Cargo = cargo.Price;
+            }
 
             decimal generalTotal = (calculateCartList.CartTotal + calculateCartList.Cargo) - calculateCartList.Coupon;
 

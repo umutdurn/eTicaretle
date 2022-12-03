@@ -21,13 +21,18 @@ namespace Data.UnitOfWork
 
         private HomeColumnRepository homeColumnRepository;
         private ProductRepository productRepository;
-
         private CartRepository cartRepository;
+        private CargoRepository cargoRepository;
+        private CountryRepository countryRepository;
 
         public IHomeColumnRepository HomeColumn => homeColumnRepository = homeColumnRepository ?? new HomeColumnRepository(_appDbContext);
         public IProductRepository Product => productRepository = productRepository ?? new ProductRepository(_appDbContext);
 
         public ICartRepository Cart => cartRepository = cartRepository ?? new CartRepository(_appDbContext);
+
+        public ICargoRepository Cargo => cargoRepository = cargoRepository ?? new CargoRepository(_appDbContext);
+
+        public ICountryRepository Country => countryRepository = countryRepository ?? new CountryRepository(_appDbContext);
 
         public void Commit()
         {

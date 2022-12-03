@@ -16,25 +16,179 @@
             </div>
         </div>
     </div>
-    <div id="address" class="column">address</div>
-    <div id="payment" class="column">ödeme</div>
+    <div id="address" class="column">
+        <form class="addressForm">
+            <div class="row">
+                <div class="col s12 l6 m6">
+                    <div class="input">
+                        <select name="Country" asp-items="@ViewBag.Country" class="browser-default" required>
+                            <option value="">Bulunduğunuz Ülkeyi Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="cargoList">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="personelInformation">
+                        <h4>Siparişi Veren</h4>
+                        <div class="col s12 l6 m6">
+                            <div class="input">
+                                <input type="text" name="Name" placeholder="Adınız" class="browser-default" required />
+                            </div>
+                        </div>
+                        <div class="col s12 l6 m6">
+                            <div class="input">
+                                <input type="text" name="Surname" placeholder="Soyadınız" class="browser-default" required />
+                            </div>
+                        </div>
+                        <div class="col s12 l6 m6">
+                            <div class="input">
+                                <input type="text" name="GSM" placeholder="Telefon numaranız" class="browser-default" required />
+                            </div>
+                        </div>
+                        <div class="col s12 l6 m6">
+                            <div class="input">
+                                <input type="email" name="Email" placeholder="E-mail Adresiniz" class="browser-default" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="addressInformation">
+                        <h4>Adres Bilgileri</h4>
+                        <div class="CityDistrict">
+                            <div class="col s12 l6 m6">
+                                <div class="input">
+                                    <span>İl</span>
+                                    <select name="City" class="browser-default" asp-items="@ViewBag.City">
+                                        <option value="">Yaşadığınız Şehir</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col s12 l6 m6">
+                                <div class="input">
+                                    <span>İlçe</span>
+                                    <select name="District" class="browser-default">
+                                        <option>Yaşadığınız İlçe</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 l12 m12">
+                            <div class="input">
+                                <textarea name="Adress" placeholder="Adres bilginizi eksiksiz olarak giriniz."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="orderInformation">
+                        <h4>Sipariş Bilgileri</h4>
+                        <div class="col s12 l12 m12">
+                            <div class="input">
+                                <textarea name="Adress" placeholder="Siparişiniz ile ilgili notunuz var ise buraya yazabilirsiniz. (Bu alan hediye notu ile alakalı değildir.)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="giftInformation">
+                        <div class="col s12 l6 m6">
+                            <div class="col s12 l6 m6">
+                                <p>
+                                    <label>
+                                        <input type="checkbox" name="GiftBox" />
+                                        <span>Hediye paketi olsun.</span>
+                                    </label>
+                                </p>
+                            </div>
+                            <div class="col s12 l6 m6">
+                                <p>
+                                    <label>
+                                        <input type="checkbox" name="GiftNote" />
+                                        <span>Hediye notu olsun.</span>
+                                    </label>
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col s12 l12 m12 giftNoteDetail">
+                                <span>Hediye Kartı Seçebilirsiniz</span>
+                                <div class="col s12 l4 m4">
+                                    <div class="col s12 l12 m12">
+                                        <p>
+                                            <label>
+                                                <input name="GiftNoteGroup" type="radio" value="1" checked />
+                                                <span><img src="~/tema/images/hediye1.jpg" data-fancybox /></span>
+                                            </label>
+                                            <div class="clearfix"></div>
+                                        </p>
+
+                                    </div>
+                                    @*                            <div class="col s12 l6 m6">
+                                    <p>
+                                    <label>
+                                    <input name="GiftNoteGroup" type="radio" value="2" />
+                                    <span><img src="~/tema/images/hediye1.jpg" data-fancybox /></span>
+                                    </label>
+                                    <div class="clearfix"></div>
+                                    </p>
+                                    </div>*@
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="col s12 l8 m8">
+                                    <div class="input">
+                                        <input type="text" name="giftNoteTop" placeholder="1. Satır hediye yazısı." class="browser-default" />
+                                    </div>
+                                    <div class="input">
+                                        <input type="text" name="giftNoteBottom" placeholder="2. Satır hediye yazısı." class="browser-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buyBtnContainer">
+                    <input type="button" name="payment" value="Ödeme Yap" class="buyBtn" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="payment" class="column">
+        <div class="paymentOrder">
+            <div class="row">
+                <div class="col s12 m6 l6">
+                </div>
+                <div class="col s12 m6 l6">
+                    <div class="cartInfo">
+                        <h3>Sepet Özeti</h3>
+                        <table class="browser-default">
+                            <tbody>
+                                <tr>
+                                    <td>Sepet Toplamı</td>
+                                    <td class="SubTotal"></td>
+                                </tr>
+                                <tr>
+                                    <td>Kargo</td>
+                                    <td class="CargoPrice"></td>
+                                </tr>
+                                <tr>
+                                    <td>Kupon</td>
+                                    <td class="CouponPrice"></td>
+                                </tr>
+                                <tr>
+                                    <td>Genel Toplam</td>
+                                    <td class="GeneralTotal"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
     <div id="approval" class="column">onay</div>
 </div>
 @section Scripts{
 
     <script>
-
-        $(".cartHeader input[type=button]").click(function () {
-            
-            var getclass = $(this).attr("class").split(' ');
-
-            $(".column").hide();
-
-            $("#" + getclass[0]).show();
-
-        })
-
-        var address = false, payment = false, approval = false;
 
         $(document).ready(function () {
 
@@ -51,9 +205,181 @@
             $("#address").hide();
             $("#payment").hide();
             $("#approval").hide();
+            $(".giftNoteDetail").hide();
+            $(".CityDistrict").hide();
+            Fancybox.bind("[data-fancybox]", {
+                // Your options go here
+            });
+
+        });
+
+        $("[name='City']").change(function () {
+
+            var getCity = $(this).val();
+            $("[name='District']").html("<option value=''>Yaşadığınız İlçe</option>");
+            fetch("/Home/GetDistrict/" + getCity, {
+                method: "post"
+            })
+                .then(r => r.json())
+                .then(r => {
+
+                    $.each(r, function (i, e) {
+
+                        $("[name='District']").append($("<option>", {
+                            value: e.id,
+                            text: e.title
+                        }))
+
+                    })
+
+
+
+                })
 
         })
 
+        $("[name='GiftNote']").click(function () {
+
+            if ($(this).is(":checked")) {
+
+                $(".giftNoteDetail").show();
+
+            } else {
+                $(".giftNoteDetail").hide();
+            }
+
+        })
+        $("[name='Country']").change(function () {
+
+            var countryId = $(this).val();
+
+            if (countryId == 1) {
+
+                $(".CityDistrict").show();
+
+            } else {
+                $(".CityDistrict").hide();
+            }
+
+            fetch("/Home/Getcargos/" + countryId, {
+                method: "post"
+            })
+                .then(r => r.json())
+                .then(r => {
+
+                    var ifCargo = false;
+
+                    $(".cargoList").html("");
+                    $.each(r, function (i, e) {
+
+                        var ucret = e.price;
+
+                        if (ucret == "0") {
+                            ucret = "ÜCRETSİZ";
+                        } else {
+                            ucret = "₺" + ucret;
+                        }
+
+                        var checked = "";
+
+                        if (i == 0) {
+                            checked = "checked";
+                        }
+
+                        $(".cargoList").append("<p>" +
+                            "<label>" +
+                            "<input name='Cargos' type='radio' value='" + e.id + "' " + checked + "/>" +
+                            "<span>" + e.title + " (" + ucret + ")</span>" +
+                            "</label>" +
+                            "</p>");
+
+                        ifCargo = true;
+
+                    })
+
+                    payPrice();
+
+                })
+
+
+        })
+
+        $(".cartHeader input[type=button]").click(function () {
+
+            var getclass = $(this).attr("class").split(' ');
+
+            $(".column").hide();
+
+            $("#" + getclass[0]).show();
+
+        })
+
+        $(document).on("click", "[name='Cargos']", function () {
+
+            payPrice();
+
+        })
+
+        var form = $(".addressForm");
+        form.validate({
+            lang: 'tr'
+        });
+
+        $(document).on("click", ".buyBtn", function () {
+
+            var id = $(this).attr("name");
+
+            if (id == "payment") {
+
+                if (form.valid()) {
+                    $(".column").hide();
+                    $("." + id).addClass("active");
+                    $("." + id).removeAttr("disabled");
+                    $("#" + id).show();
+
+                    payPrice();
+
+                }
+
+            } else {
+                $(".column").hide();
+                $("." + id).addClass("active");
+                $("." + id).removeAttr("disabled");
+                $("#" + id).show();
+
+            }
+
+        })
+
+        function payPrice() {
+
+            var coupon = $("[name='Coupon']").val();
+
+            var cargo = "";
+
+            var cargoList = $("[name='Cargos']:checked").val();
+
+            if (cargoList != undefined) {
+
+                cargo = $("[name='Cargos']:checked").val();
+
+            }
+
+            fetch("/Home/PayPrice?coupon=" + coupon + "&cargo=" + cargo, {
+                method: "post"
+            })
+                .then(r => r.json())
+                .then(r => {
+
+                    $(".payment").val("Ödeme (₺" + r.generalTotal + ")");
+
+                    $(".SubTotal").html("₺" + r.cartTotal);
+                    $(".CargoPrice").html("₺" + r.cargo);
+                    $(".CouponPrice").html("₺" + r.coupon);
+                    $(".GeneralTotal").html("₺" + r.generalTotal);
+                })
+
+        }
 
     </script>
 
