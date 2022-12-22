@@ -29,5 +29,7 @@ namespace Data
         public DbSet<District> District { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Cargo> Cargo { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Installment> Installments { get; set; }
     }
 }

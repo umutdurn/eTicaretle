@@ -197,11 +197,19 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="row orderSelection">
+                    @{
+                        var payments = (List<Payment>)ViewBag.Payments;
+                    }
                     <div class="col s12">
                         <ul class="tabs">
-                            <li class="tab col s4"><a class="active" href="#creditcart">Kredi Kartı</a></li>
-                            <li class="tab col s4"><a href="#transfer">Havale İle Ödeme</a></li>
-                            <li class="tab col s4"><a href="#payatthedoor">Kapıda Ödeme</a></li>
+                            @foreach (var payment in payments)
+                            {
+                                <li class="tab col s4"><input type="radio" value="@payment.Price" name="Payment" /><a class="active" href="#@payment.Url">@payment.Name 
+                                    @if(payment.Price != 0){
+                                            <small>(₺@payment.Price.ToString("N"))</small>
+                                    }
+                                </a></li>
+                            }
                         </ul>
                     </div>
                     <div id="creditcart" class="col s12">
@@ -326,6 +334,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="installment"></div>
                         <div class="paymentBtnEnd">
                             <input type="submit" value="Ödeme Yap" name="creditCartBtn" class="creditCartBtn" />
                         </div>
@@ -345,6 +354,19 @@
 
         $(document).ready(function () {
             $('.tabs').tabs();
+
+            $(".tabs li").click(function(){
+            
+                var radio = $(this).find("[name='Payment']");
+
+                $(".tabs li [name='Payment']").removeAttr("checked");
+
+                radio.attr("checked", "checked");
+
+                payPrice();
+            
+            })
+
             fetch("/Home/GetCartTable?process=get", {
                 method: "post"
             }).
@@ -463,14 +485,14 @@
 
             $(".column").hide();
 
-            if (getclass[0] != "payment"){
+            if (getclass[0] != "payment") {
 
                 $(".payment").attr("disabled", "disabled");
                 $(".payment").removeClass("active");
-            
+
             }
 
-            
+
 
             $("#" + getclass[0]).show();
 
@@ -505,7 +527,7 @@
                     $(".addressOrder").html($("[name='Adress']").val() + " " + $("[name='District'] option:selected").text() + "/" + $("[name='City'] option:selected").text());
 
                     payPrice();
-
+                    getInstallment();
                 }
 
             } else {
@@ -532,7 +554,9 @@
 
             }
 
-            fetch("/Home/PayPrice?coupon=" + coupon + "&cargo=" + cargo, {
+            var paymentPrice = $("[name='Payment']:checked").val();
+
+            fetch("/Home/PayPrice?coupon=" + coupon + "&cargo=" + cargo + "&paymentPrice=" + paymentPrice, {
                 method: "post"
             })
                 .then(r => r.json())
@@ -548,6 +572,31 @@
 
         }
 
+        function getInstallment() {
+
+            var coupon = $("[name='Coupon']").val();
+
+            var cargo = "";
+
+            var cargoList = $("[name='Cargos']:checked").val();
+
+            if (cargoList != undefined) {
+                cargo = $("[name='Cargos']:checked").val();
+            }
+
+            var paymentPrice = $("[name='Payment']:checked").val();
+
+            fetch("/Home/GetInstallment?coupon=" + coupon + "&cargo=" + cargo + "&paymentPrice=" + paymentPrice, {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+
+                    $(".installment").html(r);
+                    
+                })
+
+        }
     </script>
 
 

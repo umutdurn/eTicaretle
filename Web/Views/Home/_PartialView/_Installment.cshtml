@@ -1,0 +1,44 @@
+﻿@model List<CalculateInstallmentModel>
+<div class="_installment">
+    <div class="installmentSelectTable">
+        <table class="installmentTable">
+            <thead>
+                <tr>
+                    <td>
+                        <p>
+                            <label>
+                                <input type="radio" name="Installment" value="1" checked />
+                                <span>Peşin Ödeme</span>
+                            </label>
+                        </p>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Taksit</th>
+                    <th>Taksitli Tutar</th>
+                    <th>Toplam Tutar</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p>
+                                <label>
+                                    <input type="radio" name="Installment" value="@item.NumberOfInstallment" />
+                                    <span>@item.NumberOfInstallment Taksit</span>
+                                </label>
+                            </p>
+                        </td>
+                        <td>@item.InstallmentPrice.ToString("C")</td>
+                        <td>@item.TotalPrice.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

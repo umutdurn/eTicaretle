@@ -9,7 +9,7 @@ namespace Service.Services.Calculate
 {
     public class CalculateService
     {
-        public CalculateModel CartCalculate(List<Cart> carts, Cargo? cargo) {
+        public CalculateModel CartCalculate(List<Cart> carts, Cargo? cargo, float? paymentPrice) {
 
             CalculateModel calculateCartList = new CalculateModel();
             List<Calculate> calcModel = new List<Calculate>();
@@ -37,6 +37,8 @@ namespace Service.Services.Calculate
                 calcModel.Add(new Calculate { Product = cart.Product, Piece = cart.Piece, CartId = cart.Id, Subtotal = subTotal });
             }
 
+            total += Convert.ToDecimal(paymentPrice);
+
             calculateCartList.Calculate = calcModel;
             calculateCartList.CartTotal = total;
 
@@ -50,6 +52,23 @@ namespace Service.Services.Calculate
             calculateCartList.GeneralTotal = generalTotal;
 
             return calculateCartList;
+        
+        }
+
+        public List<CalculateInstallmentModel> InstallmentCalculate(List<Installment> installment, CalculateModel calculate) { 
+        
+            List<CalculateInstallmentModel> listCalculateInstalmentModel = new List<CalculateInstallmentModel>();
+
+            foreach (var item in installment)
+            {
+                var totalInterest = Math.Round((calculate.GeneralTotal / 100) * Convert.ToDecimal(item.Interest) + calculate.GeneralTotal,2);
+
+                var installmentPrice = Math.Round(totalInterest / item.Number, 2);
+
+                listCalculateInstalmentModel.Add(new CalculateInstallmentModel { InstallmentPrice = installmentPrice, NumberOfInstallment = item.Number.ToString(), TotalPrice = totalInterest });
+            }
+
+            return listCalculateInstalmentModel;
         
         }
     }

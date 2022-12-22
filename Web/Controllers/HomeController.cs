@@ -8,6 +8,9 @@ using Service.Services.Calculate;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using Web.Models;
+using ThreeDPayment;
+using ThreeDPayment.Providers;
+using ThreeDPayment.Requests;
 
 namespace Web.Controllers
 {
@@ -21,8 +24,11 @@ namespace Web.Controllers
         private readonly ICountryService _countryService;
         private readonly IService<City> _cityService;
         private readonly IService<District> _districtService;
+        private readonly IService<Payment> _paymentService;
+        private readonly IService<Installment> _installmentService;
 
-        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService)
+
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService)
         {
             _logger = logger;
             _homeColumnService = columnService;
@@ -32,6 +38,8 @@ namespace Web.Controllers
             _countryService = countryService;
             _cityService = cityService;
             _districtService = districtService;
+            _paymentService = paymentService;
+            _installmentService = installmentService;
         }
 
         public IActionResult Index()
@@ -148,6 +156,11 @@ namespace Web.Controllers
 
             ViewBag.Country = countryList;
 
+            // Payment
+            var payments = _paymentService.GetAll().ToList();
+
+            ViewBag.Payments = payments;
+
             // City 
             var city = _cityService.GetAll().ToList();
 
@@ -159,7 +172,6 @@ namespace Web.Controllers
 
             ViewBag.City = cityList;
 
-
             return View();
         
         }
@@ -169,7 +181,7 @@ namespace Web.Controllers
 
             if (Request.Cookies["CookieId"] != null)
             {
-                var cartList = _cartService.GetAll();
+                var cartList = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString());
 
                 int totalpiece = 0;
 
@@ -212,7 +224,7 @@ namespace Web.Controllers
 
                 CalculateService calcService = new CalculateService();
 
-                carts = calcService.CartCalculate(getCarts,null);
+                carts = calcService.CartCalculate(getCarts,null,null);
             }
 
             return PartialView("~/Views/Home/_PartialView/_CartTable.cshtml", carts);
@@ -230,7 +242,7 @@ namespace Web.Controllers
 
             CalculateService calcService = new CalculateService();
 
-            carts = calcService.CartCalculate(getCarts, null);
+            carts = calcService.CartCalculate(getCarts, null, null);
 
             return PartialView("~/Views/Home/_PartialView/_CartTable.cshtml", carts);
         }
@@ -244,7 +256,7 @@ namespace Web.Controllers
         
         }
         [HttpPost]
-        public JsonResult PayPrice(string coupon, string cargo) {
+        public JsonResult PayPrice(string coupon, string cargo, float paymentPrice) {
 
             CalculateModel carts = new CalculateModel();
 
@@ -259,7 +271,7 @@ namespace Web.Controllers
 
             CalculateService calcService = new CalculateService();
 
-            carts = calcService.CartCalculate(getCarts, getCargo);
+            carts = calcService.CartCalculate(getCarts, getCargo, paymentPrice);
 
             return Json(carts);
 
@@ -271,6 +283,31 @@ namespace Web.Controllers
 
             return Json(districts);
 
+        }
+        [HttpPost]
+        public IActionResult GetInstallment(string coupon, string cargo, float paymentPrice)
+        {
+
+            CalculateModel carts = new CalculateModel();
+
+            Cargo getCargo = null;
+
+            if (!String.IsNullOrEmpty(cargo))
+            {
+                getCargo = _cargoService.GetSingleCargo(Convert.ToInt32(cargo));
+            }
+
+            var getCarts = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString()).ToList();
+
+            CalculateService calcService = new CalculateService();
+
+            carts = calcService.CartCalculate(getCarts, getCargo, paymentPrice);
+
+            var getInstallment = _installmentService.GetAll().ToList();
+
+            var calcInstallment = calcService.InstallmentCalculate(getInstallment, carts);
+
+            return PartialView("~/Views/Home/_PartialView/_Installment.cshtml", calcInstallment);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
