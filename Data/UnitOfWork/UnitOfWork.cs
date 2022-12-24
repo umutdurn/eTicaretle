@@ -24,7 +24,8 @@ namespace Data.UnitOfWork
         private CartRepository cartRepository;
         private CargoRepository cargoRepository;
         private CountryRepository countryRepository;
-
+        private BankTransferRepository bankTransferRepository;
+        private OrderRepository orderRepository;
         public IHomeColumnRepository HomeColumn => homeColumnRepository = homeColumnRepository ?? new HomeColumnRepository(_appDbContext);
         public IProductRepository Product => productRepository = productRepository ?? new ProductRepository(_appDbContext);
 
@@ -33,6 +34,10 @@ namespace Data.UnitOfWork
         public ICargoRepository Cargo => cargoRepository = cargoRepository ?? new CargoRepository(_appDbContext);
 
         public ICountryRepository Country => countryRepository = countryRepository ?? new CountryRepository(_appDbContext);
+
+        public IBankTransferRepository BankTransfer => bankTransferRepository = bankTransferRepository ?? new BankTransferRepository(_appDbContext);
+
+        public IOrderRepository Order => orderRepository = orderRepository ?? new OrderRepository(_appDbContext);
 
         public void Commit()
         {

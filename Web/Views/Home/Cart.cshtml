@@ -2,10 +2,10 @@
 <div class="cartPage">
     <div class="row">
         <div class="cartHeader">
-            <div class="col s12 l3 m6"><input type="button" class="cart active" value="Sepet" /><i class="fa-solid fa-chevron-right"></i></div>
-            <div class="col s12 l3 m6"><input type="button" class="address" value="Adres" disabled /><i class="fa-solid fa-chevron-right"></i></div>
-            <div class="col s12 l3 m6"><input type="button" class="payment" value="Ödeme" disabled /><i class="fa-solid fa-chevron-right"></i></div>
-            <div class="col s12 l3 m6"><input type="button" class="approval" value="Onay" disabled /></div>
+            <div class="col s3 l3 m6"><input type="button" class="cart active" value="Sepet" /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s3 l3 m6"><input type="button" class="address" value="Adres" disabled /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s3 l3 m6"><input type="button" class="payment" value="Ödeme" disabled /><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="col s3 l3 m6"><input type="button" class="approval" value="Onay" disabled /></div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -204,11 +204,15 @@
                         <ul class="tabs">
                             @foreach (var payment in payments)
                             {
-                                <li class="tab col s4"><input type="radio" value="@payment.Price" name="Payment" /><a class="active" href="#@payment.Url">@payment.Name 
-                                    @if(payment.Price != 0){
+                                <li class="tab col s4">
+                                    <input type="radio" value="@payment.Price" name="Payment" class="@payment.Id" /><a class="active" href="#@payment.Url">
+                                        @payment.Name
+                                        @if (payment.Price != 0)
+                                        {
                                             <small>(₺@payment.Price.ToString("N"))</small>
-                                    }
-                                </a></li>
+                                        }
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </div>
@@ -325,7 +329,7 @@
                                     </svg>
                                 </div>
                                 <div class="field-container">
-                                    <label for="expirationdate">Son Kullanma Tarihi (mm/yy)</label>
+                                    <label for="expirationdate">Tarih (mm/yy)</label>
                                     <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" class="browser-default">
                                 </div>
                                 <div class="field-container">
@@ -339,14 +343,90 @@
                             <input type="submit" value="Ödeme Yap" name="creditCartBtn" class="creditCartBtn" />
                         </div>
                     </div>
-                    <div id="transfer" class="col s12">Test 2</div>
-                    <div id="payatthedoor" class="col s12">Test 3</div>
+                    <div id="transfer" class="col s12">
+                        <div class="bankTransfer">
+                            <select name="BankTransfer" asp-items="@ViewBag.BankTransfer" class="browser-default"></select>
+                            <div class="Information"></div>
+                            <div class="InformationTable">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td width="200">Alıcı</td>
+                                            <td width="20">:</td>
+                                            <td class="Buyer"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Şube</td>
+                                            <td>:</td>
+                                            <td class="Branch"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hesap Numarası</td>
+                                            <td>:</td>
+                                            <td class="AccountNumber"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>IBAN</td>
+                                            <td>:</td>
+                                            <td class="IBAN"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Swift</td>
+                                            <td>:</td>
+                                            <td class="Swift"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="button" value="HAVALE & EFT İLE ÖDE" class="paymentButton" />
+                        </div>
+                    </div>
+                    <div id="payatthedoor" class="col s12">
+                        <div class="payDoor">
+                            <div class="Information"></div>
+                            <div class="col s12 l6 m6">
+                                <p>
+                                    <label>
+                                        <input name="PayAtDoor" type="radio" value="Kapıda Nakit Ödeme" checked />
+                                        <span>
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                            <small>Kapıda Nakit Ödeme</small>
+                                        </span>
+                                    </label>
+                                    <div class="clearfix"></div>
+                                </p>
+                            </div>
+                            <div class="col s12 l6 m6">
+                                <p>
+                                    <label>
+                                        <input name="PayAtDoor" type="radio" value="Kapıda Kredi Kartı İle Ödeme" />
+                                        <span>
+                                            <i class="fa-solid fa-credit-card"></i>
+                                            <small>Kapıda Kredi Kartı İle Ödeme</small>
+                                        </span>
+                                    </label>
+                                    <div class="clearfix"></div>
+                                </p>
+                            </div>
+                            <input type="button" value="SİPARİŞİ TAMAMLA" class="paymentButton" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="approval" class="column">onay</div>
+    <div id="approval" class="column approvalOrder">
+        <p class="title">Sayın, <span class="orderNameSurname"></span> Siparişiniz Başarıyla Alındı!</p>
+        <p>Alışverişlerinizde bizi tercih ettiğiniz için teşekkür ederiz.</p>
+        <i class="fa-solid fa-circle-check"></i>
+        <p>Sipariş No: <span class="orderId"></span></p>
+        <p>Siparişiniz en kısa sürede hazırlanmaya başlayacaktır.</p>
+        <p>Whatsapptan siparişinizle daha detaylı bilgi alabilirsiniz: +90 0542 600 91 71</p>
+    </div>
 </div>
+@{
+    var bankTransfer = (List<SelectListItem>)ViewBag.BankTransfer;
+}
 @section Scripts{
     <script src="~/tema/js/imask.min.js"></script>
     <script src="~/tema/js/creditcart.theme.js"></script>
@@ -355,8 +435,55 @@
         $(document).ready(function () {
             $('.tabs').tabs();
 
-            $(".tabs li").click(function(){
-            
+            var transferId = "@bankTransfer[0].Value";
+
+            bankTransfer(transferId);
+
+            $("[name='BankTransfer']").change(function () {
+
+                transferId = $(this).val();
+                bankTransfer(transferId);
+
+            })
+
+            function bankTransfer(transferId) {
+
+                fetch("/Home/GetBankTransfer/" + transferId, {
+                    method: "post"
+                })
+                    .then(r => r.json())
+                    .then(r => {
+
+
+                        $(".Buyer").html(r.buyer);
+                        $(".Branch").html(r.branch);
+                        $(".AccountNumber").html(r.accountNumber);
+                        $(".IBAN").html(r.iban);
+                        $(".Swift").html(r.swift);
+
+                    })
+
+            }
+
+            function getPaymentInformation() {
+
+                var paymentId = $("[name='Payment']:checked").attr("class");
+
+                fetch("/Home/GetPaymentInformation/" + paymentId, {
+                    method: "post"
+                })
+                    .then(r => r.text())
+                    .then(r => {
+
+                        $(".Information").html(r);
+
+                    })
+
+
+            }
+
+            $(".tabs li").click(function () {
+
                 var radio = $(this).find("[name='Payment']");
 
                 $(".tabs li [name='Payment']").removeAttr("checked");
@@ -364,7 +491,8 @@
                 radio.attr("checked", "checked");
 
                 payPrice();
-            
+                getPaymentInformation();
+
             })
 
             fetch("/Home/GetCartTable?process=get", {
@@ -492,8 +620,6 @@
 
             }
 
-
-
             $("#" + getclass[0]).show();
 
         })
@@ -593,8 +719,89 @@
                 .then(r => {
 
                     $(".installment").html(r);
-                    
+
                 })
+
+        }
+
+        $(".paymentButton").click(function () {
+
+            CreateOrder();
+
+        });
+
+        function CreateOrder() {
+
+            var coupon = $("[name='Coupon']").val();
+
+            var cargo = "";
+
+            var cargoList = $("[name='Cargos']:checked").val();
+
+            if (cargoList != undefined) {
+
+                cargo = $("[name='Cargos']:checked").val();
+
+            }
+
+            var paymentPrice = $("[name='Payment']:checked").val();
+            var paymentId = $("[name='Payment']:checked").attr("class");
+
+            var giftBox = false;
+
+            if ($("[name='GiftBox']").is("checked")) {
+                giftBox = true;
+            }
+
+            var payAtDoor = "0";
+
+            if($("[name='Payment']:checked").attr("class") == "4"){
+            
+                payAtDoor = $("[name='PayAtDoor']:checked").val();
+            
+            }
+
+            var formData = new FormData();
+
+            formData.append("Name", $("[name='Name']").val());
+            formData.append("Surname", $("[name='Surname']").val());
+            formData.append("GSM", $("[name='GSM']").val());
+            formData.append("Email", $("[name='Email']").val());
+            formData.append("City", $("[name='City']").val());
+            formData.append("District", $("[name='District']").val());
+            formData.append("Adress", $("[name='Adress']").val());
+            formData.append("OrderNote", $("[name='OrderNote']").val());
+            formData.append("GiftBox", giftBox);
+            formData.append("giftNoteTop", $("[name='giftNoteTop']").val());
+            formData.append("giftNoteBottom", $("[name='giftNoteBottom']").val());
+            formData.append("PayAtDoor", payAtDoor);
+
+            fetch("/Home/CreateOrder?coupon=" + coupon + "&cargo=" + cargo + "&paymentPrice=" + paymentPrice + "&paymentId=" + paymentId, {
+                method: "post",
+                body: formData
+            })
+                .then(r => r.json())
+                .then(r => {
+
+                    if (r != "0") {
+
+                        $(".column").hide();
+
+                        $(".cartHeader input[type=button]").attr("disabled", "disabled");
+
+                        $(".approval").addClass("active");
+
+                        $("#approval").show();
+
+                        $(".orderNameSurname").html(r.name + " " + r.surname);
+
+                        $(".orderId").html(r.orderId);
+
+                        cartcount();
+
+                    }
+
+                });
 
         }
     </script>

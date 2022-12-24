@@ -26,9 +26,12 @@ namespace Web.Controllers
         private readonly IService<District> _districtService;
         private readonly IService<Payment> _paymentService;
         private readonly IService<Installment> _installmentService;
+        private readonly IService<OrderSituation> _orderSituationService;
+        private readonly IBankTransferService _bankService;
+        private readonly IOrderService _orderService;
 
 
-        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService)
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService, IBankTransferService bankService, IOrderService orderService, IService<OrderSituation> orderSituationService)
         {
             _logger = logger;
             _homeColumnService = columnService;
@@ -40,6 +43,9 @@ namespace Web.Controllers
             _districtService = districtService;
             _paymentService = paymentService;
             _installmentService = installmentService;
+            _bankService = bankService;
+            _orderService = orderService;
+            _orderSituationService = orderSituationService;
         }
 
         public IActionResult Index()
@@ -171,6 +177,18 @@ namespace Web.Controllers
             }
 
             ViewBag.City = cityList;
+
+            // Bank Transfer
+            var bankTransfer = _bankService.GetAllBankTransfer();
+
+            List<SelectListItem> listBankTransfer = new List<SelectListItem>();
+
+            foreach (var bank in bankTransfer)
+            {
+                listBankTransfer.Add(new SelectListItem { Text = bank.Bank.Name, Value = bank.Id.ToString() });
+            }
+
+            ViewBag.BankTransfer = listBankTransfer;
 
             return View();
         
@@ -308,6 +326,103 @@ namespace Web.Controllers
             var calcInstallment = calcService.InstallmentCalculate(getInstallment, carts);
 
             return PartialView("~/Views/Home/_PartialView/_Installment.cshtml", calcInstallment);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetBankTransfer(int id) {
+
+            var bankTransfer = await _bankService.FirstOfDefaultAsync(x => x.Id == id);
+
+            return Json(bankTransfer);
+
+        }
+        [HttpPost]
+        public async Task<string> GetPaymentInformation(int id) {
+
+            var payment = await _paymentService.FirstOfDefaultAsync(x => x.Id == id);
+
+            return payment.Information;
+
+
+        }
+        [HttpPost]
+        public async Task<JsonResult> CreateOrder(string coupon, string cargo, float paymentPrice, int paymentId)
+        {
+            try
+            {
+                CalculateModel carts = new CalculateModel();
+
+                Cargo getCargo = null;
+
+                if (!String.IsNullOrEmpty(cargo))
+                {
+                    getCargo = _cargoService.GetSingleCargo(Convert.ToInt32(cargo));
+                }
+
+                var getCarts = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString()).ToList();
+
+                CalculateService calcService = new CalculateService();
+
+                carts = calcService.CartCalculate(getCarts, getCargo, paymentPrice);
+
+                var city = await _cityService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["City"].ToString()));
+                var district = await _districtService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["District"].ToString()));
+                var orderSituation = await _orderSituationService.FirstOfDefaultAsync(x => x.Id == 1);
+                var payment = await _paymentService.FirstOfDefaultAsync(x => x.Id == paymentId);
+                var guid = Guid.NewGuid().ToString("N").Substring(0,9);
+
+                Order order = new Order();
+                order.OrderNote = Request.Form["OrderNote"].ToString();
+                order.GiftBox = Convert.ToBoolean(Request.Form["GiftBox"].ToString());
+                order.GiftTextOne = Request.Form["giftNoteTop"].ToString();
+                order.GiftTextTwo = Request.Form["giftNoteBottom"].ToString();
+                order.OrderDate = DateTime.Now;
+                order.Cargo = getCargo;
+                order.OrderSituation = orderSituation;
+                order.Payment = payment;
+                order.OrderId = guid;
+                order.TotalPrice = carts.GeneralTotal;
+                order.Cart = getCarts;
+                order.Name = Request.Form["Name"].ToString();
+                order.Surname = Request.Form["Surname"].ToString();
+                order.GSM = Request.Form["GSM"].ToString();
+                order.Email = Request.Form["Email"].ToString();
+                order.City = city;
+                order.District = district;
+                order.Adress = Request.Form["Adress"].ToString();
+
+                if (Request.Form["PayAtDoor"].ToString() != "0")
+                {
+                    order.PaymentAtDoorType = Request.Form["PayAtDoor"].ToString();
+                }
+
+                await _orderService.AddAsync(order);
+
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Append("CookieId", "", cookie);
+
+                if (paymentId == 1) // Kredi Kartı
+                {
+
+                }
+                else if (paymentId == 2) // Havale EFT
+                {
+
+                }
+                else if (paymentId == 3) // Kapıda Ödeme
+                {
+
+                }
+
+                return Json(order);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json("0");
+                throw;
+            }
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

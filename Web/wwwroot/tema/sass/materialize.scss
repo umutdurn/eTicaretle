@@ -60,6 +60,10 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     background: #F9F9F9;
+
+    @media screen and (max-width:768px) {
+        background: #fff;
+    }
 }
 
 a {
@@ -143,8 +147,16 @@ header {
         .logo {
             display: block;
 
+            @media screen and (max-width:768px) {
+                text-align:center;
+            }
+
             img {
                 width: 100%;
+
+                @media screen and (max-width:768px) {
+                    width: 80%;
+                }
             }
         }
 
@@ -154,7 +166,9 @@ header {
             .headRight {
 
                 @media screen and (max-width:768px) {
-                    display: none;
+                    border-top: 1px solid #f1f1f1;
+                    background: #f7f7f7;
+                    text-align: center;
                 }
 
                 text-align: right;
@@ -204,6 +218,12 @@ header {
                     height: 120px;
                     position: relative;
 
+                    @media screen and (max-width:768px) {
+                        float: none;
+                        display: inline-block;
+                        height: auto;
+                    }
+
                     .pieceCount {
                         position: absolute;
                         background: #df6e93;
@@ -215,11 +235,21 @@ header {
                         width: 100%;
                         bottom: 5px;
                         left: 0px;
+
+                        @media screen and (max-width:768px) {
+                            bottom: -10px;
+                        }
                     }
 
                     a {
                         height: 120px;
                         padding: 40px 30px;
+
+                        @media screen and (max-width:768px) {
+                            padding: 20px 15px;
+                            height: auto;
+                        }
+
                         display: block;
                         text-align: center;
                         /*background: #df6e93;*/
@@ -290,6 +320,7 @@ main {
     }
 
     .infoBox {
+        margin-top: 10px;
 
         @media screen and (max-width:768px) {
             display: none;
@@ -301,6 +332,10 @@ main {
             background: #fff;
             height: 100px;
             transition: .5s;
+
+            @media screen and (max-width:998px) {
+                margin-top: 10px;
+            }
 
             &:hover {
                 transform: scale(1.1);
@@ -339,8 +374,6 @@ main {
         margin: 0px;
 
         .dynamixBox {
-            max-height: 250px;
-            overflow: hidden;
             margin-bottom: 20px;
 
             @media screen and (max-width:768px) {
@@ -597,6 +630,10 @@ main {
             padding: 20px;
             text-align: center;
 
+            @media screen and (max-width:768px) {
+                background: #f1f1f1;
+            }
+
             .productImage {
                 img {
                     width: 100%;
@@ -653,6 +690,11 @@ main {
         background: #fff;
         padding: 50px calc(50px - 0.75rem);
 
+        @media screen and (max-width:768px) {
+            margin: 0px 0px;
+            padding: 50px 10px;
+        }
+
         .productGallery {
             width: 100%;
             margin: 0 auto;
@@ -683,6 +725,12 @@ main {
             padding-left: 60px;
             margin-left: 40px;
             border-left: 1px solid #f1f1f1;
+
+            @media screen and (max-width:768px) {
+                padding: 20px;
+                margin: 10px 0px;
+                border: none;
+            }
 
             h1 {
                 font-size: 35px;
@@ -766,6 +814,12 @@ main {
                     transition: 0.5s;
                     margin-left: 10px;
 
+                    @media screen and (max-width:768px) {
+                        display: block;
+                        margin: 10px 0px;
+                        width: 100%;
+                    }
+
                     &:hover {
                         background: #000;
                     }
@@ -780,6 +834,12 @@ main {
                     cursor: pointer;
                     transition: 0.5s;
                     margin-left: 0px;
+
+                    @media screen and (max-width:768px) {
+                        display: block;
+                        margin: 10px 0px;
+                        width: 100%;
+                    }
 
                     &:hover {
                         background: #000;
@@ -832,6 +892,10 @@ main {
                 margin: 50px 0px;
                 font-size: 30px;
                 border-left: 5px solid #df6e93;
+
+                @media screen and (max-width:768px) {
+                    font-size: 18px;
+                }
             }
 
             .randombox {
@@ -845,6 +909,10 @@ main {
         padding: 30px 20px 20px 20px;
         margin: 50px 0px;
 
+        @media screen and (max-width:768px) {
+            margin: 10px 0px;
+        }
+
         .cartHeader {
             background: #f1f1f1;
             padding: 20px 10px;
@@ -855,10 +923,19 @@ main {
                 padding: 10px 0px;
                 border: none;
                 font-size: 30px;
+
+                @media screen and (max-width:768px) {
+                    font-size: 11px;
+                    width:100%;
+                }
             }
 
             i {
                 font-size: 25px;
+
+                @media screen and (max-width:768px) {
+                    display: none;
+                }
             }
 
             .active {
@@ -870,6 +947,10 @@ main {
         .productCartTable {
             margin-top: 50px;
 
+            @media screen and (max-width:768px) {
+                margin-top: 10px;
+            }
+
             img {
                 width: 50px;
             }
@@ -877,6 +958,10 @@ main {
             span {
                 display: block;
                 padding-left: 20px;
+
+                @media screen and (max-width:768px) {
+                    display: none;
+                }
             }
 
             .title {
@@ -939,11 +1024,19 @@ main {
         .coupon {
             padding: 50px 0px;
 
+            @media screen and (max-width:768px) {
+                padding: 20px 0px;
+            }
+
             input[type=text] {
                 display: inline-block;
                 padding: 10px;
                 border: 1px solid #f1f1f1;
                 width: 70%;
+
+                @media screen and (max-width:768px) {
+                    width: 50%;
+                }
             }
 
             input[type=button] {
@@ -982,12 +1075,23 @@ main {
                 padding: 10px;
                 margin: 15px 0px;
 
+                label {
+                    @media screen and (max-width:768px) {
+                        display: block;
+                        min-height: 130px;
+                    }
+                }
+
                 span {
                     display: block;
                 }
 
                 img {
                     width: 100%;
+
+                    @media screen and (max-width:768px) {
+                        width: 80%;
+                    }
                 }
             }
 
@@ -1047,6 +1151,11 @@ main {
                 border-radius: 40px 20px;
                 margin-top: 40px;
 
+                @media screen and (max-width:768px){
+                    border-radius:0px;
+                    margin-top:10px;
+                }
+
                 .addressRow {
                     margin-bottom: 10px;
                 }
@@ -1054,6 +1163,10 @@ main {
 
             .orderSelection {
                 margin: 100px 0px;
+
+                @media screen and (max-width:768px) {
+                    margin: 20px 0px;
+                }
 
                 .indicator {
                     background-color: #ccc;
@@ -1072,6 +1185,10 @@ main {
                         }
 
                         font-size: 20px;
+
+                        @media screen and (max-width:768px) {
+                            font-size: 11px;
+                        }
                     }
                 }
 
@@ -1079,6 +1196,10 @@ main {
                     margin-top: 10px;
                     background: #f1f1f1;
                     padding: 50px;
+
+                    @media screen and (max-width:768px) {
+                        padding: 0px;
+                    }
                 }
 
                 .paymentBtnEnd {
@@ -1122,13 +1243,20 @@ main {
         ._installment {
             text-align: right;
 
+            @media screen and (max-width:768px) {
+                text-align: left;
+            }
+
             .installmentSelectTable {
                 width: 50%;
                 display: inline-block;
 
+                @media screen and (max-width:768px) {
+                    width:100%;
+                }
+
                 .installmentTable {
                     text-align: left;
-
 
                     td {
                         p {
@@ -1136,6 +1264,79 @@ main {
                             padding: 0px !important;
                         }
                     }
+                }
+            }
+        }
+
+        .bankTransfer {
+            select {
+                width: 100%;
+                margin: 20px 0px 0px 0px;
+            }
+        }
+
+        .Information {
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #f1f1f1;
+            margin-top: 20px;
+        }
+
+        .paymentButton {
+            padding: 15px;
+            font-size: 20px;
+            text-align: center;
+            background: #df6e93;
+            color: #fff;
+            transition: 0.5s;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 25px;
+
+            &:hover {
+                background: #c83f6a;
+            }
+        }
+
+        .approvalOrder {
+            text-align: center;
+            font-size: 18px;
+
+            .title {
+                font-size: 35px;
+
+                .orderNameSurname {
+                    font-weight: 500;
+                }
+            }
+
+            .orderId {
+                font-weight: 500;
+            }
+
+            i {
+                font-size: 220px;
+                color: #1d872c;
+            }
+        }
+
+        .payDoor {
+            label {
+                display: block;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                padding: 30px;
+
+                i {
+                    font-size: 100px;
+                }
+
+                small {
+                    display: block;
+                    margin-top: 15px;
+                    font-size: 18px;
                 }
             }
         }
@@ -1172,6 +1373,13 @@ main {
             font-size: 25px;
             font-weight: bold;
             margin-top: 3px;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .instaLogo{
+            width:120px;
+            margin-top:5px;
         }
     }
 }

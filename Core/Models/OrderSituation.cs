@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Core.Models
 {
-    public class Payment : EntityBase
+    public class OrderSituation : EntityBase
     {
         public string Name { get; set; }
-        public float Price { get; set; }
-        public string Url { get; set; }
-        public string Information { get; set; }
     }
 }

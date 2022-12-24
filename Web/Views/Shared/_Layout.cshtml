@@ -14,24 +14,12 @@
 </head>
 <body>
     <header>
-        @*        <div class="container">
-        <div class="topBar">
-        <div class="row">
-        <div class="col s12 l6 m6 topbarLeft">
-        <div class="whatsapp">
-        <i class="fa-brands fa-whatsapp"></i> <a href="#">WhatsApp</a>
-        <div class="clearfix"></div>
-        </div>
-        </div>
-        <div class="col s12 l6 m6 topbarRight">
-        <div class="register">
-        <i class="fa-solid fa-user-lock"></i><a href="#">Giriþ yap & Üye ol</a>
-        </div>
-        </div>
-        <div class="clearfix"></div>
-        </div>
-        </div>
-        </div>*@
+        <ul id="slide-out" class="sidenav">
+            <li><a href="/">ANASAYFA</a></li>
+            <li><a href="/urunler">ÜRÜNLERÝMÝZ</a></li>
+            <li><a href="/kurumsal">KURUMSAL</a></li>
+            <li><a href="/iletisim">BÝZE ULAÞIN</a></li>
+        </ul>
         <div class="head">
             <div class="container">
                 <div class="row">
@@ -58,7 +46,13 @@
                                 <span>Favorilerim</span>
                             </a>
                         </div>
-                        <div class="searchandMenu">
+                        <div class="cart hide-on-large-only">
+                            <a href="#" data-target="slide-out" class="sidenav-trigger">
+                                <i class="fa-solid fa-bars"></i>
+                                <span>Menü</span>
+                            </a>
+                        </div>
+                        <div class="searchandMenu hide-on-med-and-down">
                             <div class="search">
                                 <input type="text" name="search" class="browser-default" value="Ürün ara..." onclick="this.value='';" onblur="if(this.value=='') this.value='Ürün ara...';" />
                             </div>
@@ -95,13 +89,14 @@
     <script src="~/tema/js/validate.messages_tr.js"></script>
     <script>
         $(document).ready(function () {
+            $('.sidenav').sidenav();
 
             cartcount();
 
         })
 
-        function cartcount(){
-        
+        function cartcount() {
+
             $(".pieceCount").hide();
 
             fetch("/Home/PieceCount", {
@@ -115,7 +110,7 @@
                     }
 
                 })
-                
+
         }
     </script>
     @await RenderSectionAsync("Scripts", required: false)

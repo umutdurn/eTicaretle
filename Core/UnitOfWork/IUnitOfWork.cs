@@ -15,6 +15,8 @@ namespace Core.UnitOfWork
         ICartRepository Cart { get; }
         ICargoRepository Cargo { get; }
         ICountryRepository Country { get; }
+        IBankTransferRepository BankTransfer { get; }
+        IOrderRepository Order { get; }
 
         Task CommitAsync();
 
