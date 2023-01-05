@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{32964870-B0CD-4353-B4B7-B8C2D3CD20D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{32964870-B0CD-4353-B4B7-B8C2D3CD20D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{52321879-D8B1-49BB-B8C2-61A953EE9DAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{52321879-D8B1-49BB-B8C2-61A953EE9DAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{23AE4B8C-7F51-4586-8385-E9874E9A7E58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{23AE4B8C-7F51-4586-8385-E9874E9A7E58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{32059C25-0950-49E5-96A6-C2BBE08CE188}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{32059C25-0950-49E5-96A6-C2BBE08CE188}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPara.DeveloperPortal.Core", "IPara.DeveloperPortal.Core\IPara.DeveloperPortal.Core.csproj", "{06DF004E-0137-489A-9636-9C5B24ACE3EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{32059C25-0950-49E5-96A6-C2BBE08CE188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32059C25-0950-49E5-96A6-C2BBE08CE188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32059C25-0950-49E5-96A6-C2BBE08CE188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06DF004E-0137-489A-9636-9C5B24ACE3EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06DF004E-0137-489A-9636-9C5B24ACE3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06DF004E-0137-489A-9636-9C5B24ACE3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06DF004E-0137-489A-9636-9C5B24ACE3EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

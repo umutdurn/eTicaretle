@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Ödemeniz Onaylandı!";
+}
+@{
+    string nameSurname = Context.Request.Query["nameSurname"];
+    string orderNo = Context.Request.Query["orderNo"];
+}
+<div id="approval" class="column approvalOrder">
+    <p class="title">Sayın @nameSurname, <span class="orderNameSurname"></span> Siparişiniz Başarıyla Alındı!</p>
+    <p>Alışverişlerinizde bizi tercih ettiğiniz için teşekkür ederiz.</p>
+    <i class="fa-solid fa-circle-check"></i>
+    <p>Sipariş No: <span class="orderId">@orderNo</span></p>
+    <p>Siparişiniz en kısa sürede hazırlanmaya başlayacaktır.</p>
+    <p>Whatsapptan siparişinizle daha detaylı bilgi alabilirsiniz: +90 0542 600 91 71</p>
+</div>

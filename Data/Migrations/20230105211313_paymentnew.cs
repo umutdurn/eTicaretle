@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Data.Migrations
+{
+    /// <inheritdoc />
+    public partial class paymentnew : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "PaymentErrorCode",
+                table: "Order",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "PaymentErrorMessage",
+                table: "Order",
+                type: "nvarchar(max)",
+                nullable: true);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "PaymentErrorCode",
+                table: "Order");
+
+            migrationBuilder.DropColumn(
+                name: "PaymentErrorMessage",
+                table: "Order");
+        }
+    }
+}

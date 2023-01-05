@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Ödeme Yapılırken Bir Hata Oluştu!";
+}
+<div id="error" class="column errorOrder">
+    <p class="title">Sipariş Verirken Bir Hata Oluştu!</p>
+    <p>Siparişinizi verirken bir hata ile karşılaştık. Hata kodunu ve sebebini aşağıda görebilirsiniz. Bankanız ile iletişime geçebilir veya yeniden deneyebilirsiniz.</p>
+    <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
+    <p>Hata No: <span class="orderId">@Context.Request.Form["errorCode"]</span></p>
+    <p>Hata Mesajı: <span class="orderId">@Context.Request.Form["errorMessage"]</span></p>
+    <p>Eğer hata kredi kartınızdan kaynaklanmıyorsa bu numaraya hatanın ekran görüntüsünü whapsApp üzerinden gönderebilirsiniz. +90 0542 600 91 71</p>
+</div>

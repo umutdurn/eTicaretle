@@ -377,7 +377,7 @@ main {
             margin-bottom: 20px;
 
             @media screen and (max-width:768px) {
-                max-height: 280px;
+                max-height: auto;
             }
 
             img {
@@ -1299,28 +1299,6 @@ main {
             }
         }
 
-        .approvalOrder {
-            text-align: center;
-            font-size: 18px;
-
-            .title {
-                font-size: 35px;
-
-                .orderNameSurname {
-                    font-weight: 500;
-                }
-            }
-
-            .orderId {
-                font-weight: 500;
-            }
-
-            i {
-                font-size: 220px;
-                color: #1d872c;
-            }
-        }
-
         .payDoor {
             label {
                 display: block;
@@ -1818,5 +1796,32 @@ footer {
     .creditcard.flipped {
         -webkit-transform: rotateY(180deg);
         transform: rotateY(180deg);
+    }
+}
+.approvalOrder {
+    text-align: center;
+    font-size: 18px;
+    padding:100px 0px;
+    .title {
+        font-size: 35px;
+
+        .orderNameSurname {
+            font-weight: 500;
+        }
+    }
+
+    .orderId {
+        font-weight: 500;
+    }
+
+    i {
+        font-size: 220px;
+        color: #1d872c;
+    }
+}
+.errorOrder{
+    @extend.approvalOrder;
+    i{
+        color:#b10000;
     }
 }

@@ -8,9 +8,13 @@ using Service.Services.Calculate;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using Web.Models;
-using ThreeDPayment;
-using ThreeDPayment.Providers;
-using ThreeDPayment.Requests;
+using System.Net;
+using System.Text;
+using System.Security.Cryptography;
+using Service.Services.Payment;
+using Service.Services.Mail;
+using IPara.DeveloperPortal.Core.Entity;
+using Payment = Core.Models.Payment;
 
 namespace Web.Controllers
 {
@@ -346,84 +350,154 @@ namespace Web.Controllers
 
         }
         [HttpPost]
-        public async Task<JsonResult> CreateOrder(string coupon, string cargo, float paymentPrice, int paymentId)
+        public async Task<string> CreateOrder(string coupon, string cargo, float paymentPrice, int paymentId)
         {
+            CalculateModel carts = new CalculateModel();
+
+            Cargo getCargo = null;
+
+            if (!String.IsNullOrEmpty(cargo))
+            {
+                getCargo = _cargoService.GetSingleCargo(Convert.ToInt32(cargo));
+            }
+
+            var getCarts = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString()).ToList();
+
+            CalculateService calcService = new CalculateService();
+
+            carts = calcService.CartCalculate(getCarts, getCargo, paymentPrice);
+
+            var city = await _cityService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["City"].ToString()));
+            var district = await _districtService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["District"].ToString()));
+            var orderSituation = await _orderSituationService.FirstOfDefaultAsync(x => x.Id == 1);
+            var payment = await _paymentService.FirstOfDefaultAsync(x => x.Id == paymentId);
+            var guid = Guid.NewGuid().ToString("N").Substring(0, 9);
+
+            Order order = new Order();
+            order.OrderNote = Request.Form["OrderNote"].ToString();
+            order.GiftBox = Convert.ToBoolean(Request.Form["GiftBox"].ToString());
+            order.GiftTextOne = Request.Form["giftNoteTop"].ToString();
+            order.GiftTextTwo = Request.Form["giftNoteBottom"].ToString();
+            order.OrderDate = DateTime.Now;
+            order.Cargo = getCargo;
+            order.OrderSituation = orderSituation;
+            order.Payment = payment;
+            order.OrderId = guid;
+            order.TotalPrice = carts.GeneralTotal;
+            order.Cart = getCarts;
+            order.Name = Request.Form["Name"].ToString();
+            order.Surname = Request.Form["Surname"].ToString();
+            order.GSM = Request.Form["GSM"].ToString();
+            order.Email = Request.Form["Email"].ToString();
+            order.City = city;
+            order.District = district;
+            order.Adress = Request.Form["Adress"].ToString();
+
+            if (Request.Form["PayAtDoor"].ToString() != "0")
+            {
+                order.PaymentAtDoorType = Request.Form["PayAtDoor"].ToString();
+            }
+
+            await _orderService.AddAsync(order);
+
+            CookieOptions cookie = new CookieOptions();
+            cookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Append("CookieId", "", cookie);
+
+            if (paymentId == 1) // Kredi Kartı
+            {
+
+                PaymentModel model = new PaymentModel();
+                model.Total = carts.GeneralTotal;
+                model.CardHolderName = Request.Form["CardHolderName"].ToString();
+                model.CardNumber = Request.Form["CardNumber"].ToString().Replace(" ","");
+                model.ExpirateDateMonth = Request.Form["CardExpireDateMonth"].ToString();
+                model.ExpirateDateYear = Request.Form["CardExpireDateYear"].ToString();
+                model.CardCVV2 = Request.Form["CardCVV2"].ToString();
+                model.MerchantOrderId = guid;
+                model.Installment = Convert.ToInt32(Request.Form["Installment"].ToString());
+                model.IpAdress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                model.OkUrl = $"{Request.Scheme}://{Request.Host}/odeme-onaylandi?nameSurname=" + order.Name + " " + order.Surname + "&orderNo=" + order.OrderId;
+                model.FailUrl = $"{Request.Scheme}://{Request.Host}/odeme-hatali?orderNo=" + order.OrderId;
+
+                var response = "";
+
+                PaymentService paymentService = new PaymentService();
+
+                if (model.Installment == 1)
+                {
+                    response = paymentService.CartPayment(model);
+                }
+                else
+                {
+                    List<IPara.DeveloperPortal.Core.Entity.Product> products = new List<IPara.DeveloperPortal.Core.Entity.Product>();
+
+                    foreach (var cart in getCarts)
+                    {
+                        products.Add(new IPara.DeveloperPortal.Core.Entity.Product { Title = cart.Product.Title, Price = cart.Product.Price.ToString(), Quantity = cart.Piece, Code = "IPK" + cart.Product.Id });
+                    }
+
+                    response = paymentService.PaytrPayment(model, products, order);
+
+                }
+
+                return response;
+            }
+            else
+            {
+                return order.Id.ToString();
+            }
+
+            MailModel mailModel = new MailModel();
+            mailModel.From = "info@ipeksalevi.com";
+            mailModel.SendMail = order.Email;
+            mailModel.Subject = "İpek Şal Evi | Yeni Sipariş";
+            mailModel.Title = "İpek Şal Evi | Yeni Sipariş";
+            mailModel.OrderNo = guid;
+
+            MailService mailService = new MailService();
+
             try
             {
-                CalculateModel carts = new CalculateModel();
-
-                Cargo getCargo = null;
-
-                if (!String.IsNullOrEmpty(cargo))
-                {
-                    getCargo = _cargoService.GetSingleCargo(Convert.ToInt32(cargo));
-                }
-
-                var getCarts = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString()).ToList();
-
-                CalculateService calcService = new CalculateService();
-
-                carts = calcService.CartCalculate(getCarts, getCargo, paymentPrice);
-
-                var city = await _cityService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["City"].ToString()));
-                var district = await _districtService.FirstOfDefaultAsync(x => x.Id == Convert.ToInt32(Request.Form["District"].ToString()));
-                var orderSituation = await _orderSituationService.FirstOfDefaultAsync(x => x.Id == 1);
-                var payment = await _paymentService.FirstOfDefaultAsync(x => x.Id == paymentId);
-                var guid = Guid.NewGuid().ToString("N").Substring(0,9);
-
-                Order order = new Order();
-                order.OrderNote = Request.Form["OrderNote"].ToString();
-                order.GiftBox = Convert.ToBoolean(Request.Form["GiftBox"].ToString());
-                order.GiftTextOne = Request.Form["giftNoteTop"].ToString();
-                order.GiftTextTwo = Request.Form["giftNoteBottom"].ToString();
-                order.OrderDate = DateTime.Now;
-                order.Cargo = getCargo;
-                order.OrderSituation = orderSituation;
-                order.Payment = payment;
-                order.OrderId = guid;
-                order.TotalPrice = carts.GeneralTotal;
-                order.Cart = getCarts;
-                order.Name = Request.Form["Name"].ToString();
-                order.Surname = Request.Form["Surname"].ToString();
-                order.GSM = Request.Form["GSM"].ToString();
-                order.Email = Request.Form["Email"].ToString();
-                order.City = city;
-                order.District = district;
-                order.Adress = Request.Form["Adress"].ToString();
-
-                if (Request.Form["PayAtDoor"].ToString() != "0")
-                {
-                    order.PaymentAtDoorType = Request.Form["PayAtDoor"].ToString();
-                }
-
-                await _orderService.AddAsync(order);
-
-                CookieOptions cookie = new CookieOptions();
-                cookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Append("CookieId", "", cookie);
-
-                if (paymentId == 1) // Kredi Kartı
-                {
-
-                }
-                else if (paymentId == 2) // Havale EFT
-                {
-
-                }
-                else if (paymentId == 3) // Kapıda Ödeme
-                {
-
-                }
-
-                return Json(order);
+               
+                mailService.OrderMail(mailModel);
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return Json("0");
+                return "0";
                 throw;
             }
         }
+        [Route("odeme-onaylandi")]
+        public async Task<IActionResult> ReturnApproval() {
+
+            var order = await _orderService.FirstOfDefaultAsync(x => x.OrderId == Request.Query["orderNo"].ToString());
+            order.PaymentResult = Request.Form["result"].ToString();
+
+            _orderService.Update(order);
+
+            return View();
+        
+        }
+        [Route("odeme-hatali")]
+        public async Task<IActionResult> ReturnError()
+        {
+
+            var order = await _orderService.FirstOfDefaultAsync(x => x.OrderId == Request.Query["orderNo"].ToString());
+
+            order.PaymentErrorCode = Request.Form["errorCode"].ToString();
+            order.PaymentErrorMessage = Request.Form["errorMessage"].ToString();
+            order.PaymentResult = Request.Form["result"].ToString();
+
+            _orderService.Update(order);
+
+            return View();
+
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

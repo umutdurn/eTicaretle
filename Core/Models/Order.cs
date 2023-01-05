@@ -35,5 +35,8 @@ namespace Core.Models
         public District District { get; set; }
         public string Adress { get; set; }
         public string? PaymentAtDoorType { get; set; }
+        public string? PaymentErrorCode { get; set; }
+        public string? PaymentErrorMessage { get; set; }
+        public string? PaymentResult { get; set; }
     }
 }

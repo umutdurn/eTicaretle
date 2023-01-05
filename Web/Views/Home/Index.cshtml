@@ -139,6 +139,14 @@
             {
                 <div class="col @scoll @mcoll @lcoll dynamixBox">
                     <img src="/tema/images/homepage/@detail.Background" />
+                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
+                    {
+                        <span>@detail.FrontTitle</span>
+                    }
+                    @if (!String.IsNullOrEmpty(detail.FrontText))
+                    {
+                        <p>@detail.FrontText</p>
+                    }
                 </div>
             }
 
@@ -146,6 +154,14 @@
             {
                 <div class="col @scolm @mcolm @lcolm dynamixBox">
                     <img src="/tema/images/homepage/@detail.Background" />
+                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
+                    {
+                        <span>@detail.FrontTitle</span>
+                    }
+                    @if (!String.IsNullOrEmpty(detail.FrontText))
+                    {
+                        <p>@detail.FrontText</p>
+                    }
                 </div>
             }
 
@@ -153,6 +169,14 @@
             {
                 <div class="col @scolr @mcolr @lcolr dynamixBox">
                     <img src="/tema/images/homepage/@detail.Background" />
+                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
+                    {
+                        <span>@detail.FrontTitle</span>
+                    }
+                    @if (!String.IsNullOrEmpty(detail.FrontText))
+                    {
+                        <p>@detail.FrontText</p>
+                    }
                 </div>
             }
         }
