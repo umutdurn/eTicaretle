@@ -1,71 +1,110 @@
 ﻿@{
     Layout = "_Admin";
 }
-<form asp-action="AddProduct" method="post" enctype="multipart/form-data">
-    <div class="col s12 l6 m6">
-        <div class="input">
-            <input type="text" name="Title" placeholder="Ürün Adı" class="browser-default" required/>
+
+<link href="~/tema/css/dropzone.min.css" rel="stylesheet" />
+
+<div class="row">
+    <form name="addProduct" asp-action="AddProduct" method="post" enctype="multipart/form-data" method="post" class="col s12 m10 l12 productform">
+        <div class="row">
+            <div class="input-field">
+                <label for="first_name">Adı</label>
+                <input type="text" name="Title" placeholder="Ürün Adı" class="browser-default" required />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Açıklama</label>
+                <textarea name="Explanation" class="Explanation" placeholder="Ürün Açıklaması"></textarea>
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Fiyat</label>
+                <input type="text" name="Price" placeholder="Ürün Fiyat" class="browser-default" required />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">İndirimli Fiyat</label>
+                <input type="text" name="DiscountPrice" placeholder="İndirimli Ürün Fiyat" class="browser-default" />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Stok</label>
+                <input type="text" name="Stock" placeholder="Ürün Stoğu" class="browser-default" required />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Stok Adet</label>
+                <input placeholder="" id="pruduct_stock" name="Stock" class="browser-default" type="text">
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Sıralama</label>
+                <input type="text" name="Order" placeholder="Ürün Sıralaması" class="browser-default" required />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Ürün Rengi</label>
+                <small>Çoklu seçim için "CTRL" basılı tutarak seçiniz.</small>
+                <select name="Color" asp-items="@ViewBag.Colors" class="browser-default" multiple></select>
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Fotoğraf</label>
+                <input type="file" name="fileImage" class="browser-default" />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Seo Adı</label>
+                <input type="text" name="SeoTitle" placeholder="Seo Adı" class="browser-default" />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Seo Açıklaması</label>
+                <input type="text" name="SeoDescpription" placeholder="Seo Açıklaması" class="browser-default" />
+            </div>
+            <br class="clearfix" />
+            <div class="input-field">
+                <label for="first_name">Seo URL</label>
+                <input type="text" name="SeoUrl" placeholder="Seo Url" class="browser-default" required />
+            </div>
+            <br class="clearfix" />
+            <div class="col s12 m12 l12">
+                <span>Ürün Resimleri</span>
+                <div class="dropzone dropzonePc">
+                </div>
+            </div>
+            <div class="col s12 m12 l12">
+                <span>Mobil Ürün Resimleri</span>
+                <div class="dropzone dropzoneMobile">
+                </div>
+            </div>
+            <div class="col s12 m12 l12">
+                <p>
+                    <label>
+                        <input type="checkbox" name="Situation" />
+                        <span>Bu ürün aktif mi?</span>
+                    </label>
+                </p>
+            </div>
+            <div class="col s12 m12 l12">
+                <input type="submit" name="AddProductButton" value="Ürünü Ekle" />
+            </div>
         </div>
-        <div class="input">
-            <textarea name="Explanation" class="Explanation" placeholder="Ürün Açıklaması"></textarea>
-        </div>
-        <div class="input">
-            <input type="text" name="Price" placeholder="Ürün Fiyat" class="browser-default" required />
-        </div>
-        <div class="input">
-            <input type="text" name="DiscountPrice" placeholder="İndirimli Ürün Fiyat" class="browser-default" />
-        </div>
-        <div class="input">
-            <input type="text" name="Stock" placeholder="Ürün Stoğu" class="browser-default" required />
-        </div>
-        <div class="input">
-            <input type="text" name="Order" placeholder="Ürün Sıralaması" class="browser-default" required />
-        </div>
-        <div class="input">
-            <small>Çoklu seçim için "CTRL" basılı tutarak seçiniz.</small>
-            <select name="Color" asp-items="@ViewBag.Colors" class="browser-default" multiple></select>
-        </div>
-        <div class="input">
-            <span>Öne Çıkartılan Resim <small>Ürünler sayfasında gösterilecek.</small></span>
-            <input type="file" name="fileImage" class="browser-default" />
-        </div>
-    </div>
-    <div class="col s12 l6 m6">
-        <div class="input">
-            <input type="text" name="SeoTitle" placeholder="Seo Adı" class="browser-default" />
-        </div>
-        <div class="input">
-            <textarea name="SeoDescpription" placeholder="Seo Açıklaması"></textarea>
-        </div>
-        <div class="input">
-            <input type="text" name="SeoUrl" placeholder="Seo Url" class="browser-default" required />
-        </div>
-    </div>
-    <div class="col s12 m12 l12">
-        <span>Ürün Resimleri</span>
-        <div class="dropzone dropzonePc">
-        </div>
-    </div>
-    <div class="col s12 m12 l12">
-        <span>Mobil Ürün Resimleri</span>
-        <div class="dropzone dropzoneMobile">
-        </div>
-    </div>
-    <div class="col s12 m12 l12">
-        <p>
-            <label>
-                <input type="checkbox" name="Situation" />
-                <span>Bu ürün aktif mi?</span>
-            </label>
-        </p>
-    </div>
-    <div class="col s12 m12 l12">
-        <input type="submit" name="AddProductButton" value="Ürünü Ekle" />
-    </div>
-</form>
+    </form>
+</div>
+
 @section Scripts{
+    <script src="~/admintema/js/jquery.validate.min.js"></script>
+    <script src="~/admintema/js/ckeditor.js"></script>
+    <script src="~/admintema/js/jquery.maskmoney.min.js"></script>
+    <script src="~/admintema/cstmjs/productjs.js"></script>
+    <script src="~/tema/js/dropzone.min.js"></script>
 
     <script>
+        function changeOption() {
+            $('#SubCategory-error').css("display", "none");
+        }
+
         ClassicEditor
             .create(document.querySelector('.Explanation'))
             .catch(error => {
@@ -83,5 +122,7 @@
             maxFiles: 5
         });
     </script>
+
+    
 
 }

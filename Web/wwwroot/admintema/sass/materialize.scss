@@ -1,0 +1,286 @@
+@charset "UTF-8";
+
+// Color
+@import "components/color-variables";
+@import "components/color-classes";
+
+// Variables;
+@import "components/variables";
+
+// Reset
+@import "components/normalize";
+
+// components
+@import "components/global";
+@import "components/badges";
+@import "components/icons-material-design";
+@import "components/grid";
+@import "components/navbar";
+@import "components/typography";
+@import "components/transitions";
+@import "components/cards";
+@import "components/toast";
+@import "components/tabs";
+@import "components/tooltip";
+@import "components/buttons";
+@import "components/dropdown";
+@import "components/waves";
+@import "components/modal";
+@import "components/collapsible";
+@import "components/chips";
+@import "components/materialbox";
+@import "components/forms/forms";
+@import "components/table_of_contents";
+@import "components/sidenav";
+@import "components/preloader";
+@import "components/slider";
+@import "components/carousel";
+@import "components/tapTarget";
+@import "components/pulse";
+@import "components/datepicker";
+@import "components/timepicker";
+
+.sidenav-trigger {
+
+    @media screen and (min-width:900px) {
+       display:none;
+    }
+}
+.sidenav {
+    .collapsible-header {
+        position: relative;
+    }
+
+    .active {
+        .arrow {
+            -webkit-transform: rotate(45deg) translate(-5px, -5px);
+            transform: rotate(45deg) translate(-5px, -5px);
+
+            &:before {
+                -webkit-transform: translate(10px, 0);
+                transform: translate(10px, 0);
+            }
+
+            &:after {
+                -webkit-transform: rotate(90deg) translate(10px, 0);
+                transform: rotate(90deg) translate(10px, 0);
+            }
+        }
+    }
+
+    .arrow {
+        width: 13px;
+        height: 13px;
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        right: 27px;
+        transition: .4s ease;
+        margin-top: 2px;
+        text-align: left;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        float: right;
+
+        &:before, &:after {
+            position: absolute;
+            content: "";
+            display: inline-block;
+            width: 12px;
+            height: 3px;
+            background-color: #000;
+            transition: 0.4s ease;
+        }
+
+        &:after {
+            position: absolute;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            top: -5px;
+            left: 5px;
+        }
+    }
+}
+.adminright {
+    float: left;
+    width: calc(100% - 200px);
+    padding: 30px;
+    margin-left: 210px;
+}
+.input-field {
+    margin: 10px 0;
+    width: 100%;
+
+    .active2 {
+        position: absolute;
+        right: 0px;
+        top: 10px;
+    }
+
+    label {
+        color: #171717 !important;
+        width: 140px;
+        float: left;
+        display: block;
+        position: relative;
+        transform: none !important;
+        padding: 12px 0 0 0;
+    }
+
+    input[type=text] {
+        width:calc(100% - 140px) !important;
+        float: left;
+        display: block;
+        position: relative;
+        height: 45px !important;
+        background-color: #f2f2f2 !important;
+        padding: 0px 10px !important;
+        color: #000000 !important;
+    }
+
+    .btn-primary {
+        background-color: #2bbbad;
+    }
+
+    .character-counter {
+        font-size: 17px !important;
+        padding: 10px 11px;
+        display: block;
+        float: left !important;
+        position: absolute;
+        left: 461px;
+    }
+
+    span {
+        font-size: 17px;
+        padding: 10px 11px;
+        display: block;
+        float: left;
+    }
+
+    .texteditor {
+        float: left;
+        width: calc(60% - 140px);
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 250px;
+    }
+
+    .spnchk {
+        padding: 0;
+        width: 230px;
+        display: block !important;
+        margin-bottom: 10px;
+    }
+
+    .dropzndis {
+        float: left;
+        width: calc(60% - 140px);
+    }
+
+    .dropzone-wrapper {
+        padding: 10px;
+        border: 2px dashed #91b0b3;
+        color: #92b0b3;
+        position: relative;
+        height: 182px;
+        margin-bottom: 20px;
+
+
+        .dz-default {
+            background: url(../images/upload-file.webp) center top no-repeat;
+            text-align: center;
+            height: 100%;
+            min-height: 100px;
+            padding-top: 81px;
+        }
+
+        .dz-size span {
+            width: 100%;
+        }
+
+        .dropzone {
+            min-height: 180px;
+            background: white;
+            box-shadow: 3px 3px 5px rgba(0,0,0,.5);
+            padding: 20px 20px;
+        }
+
+        .dropzone, .dropzone:focus {
+            position: absolute;
+            outline: none !important;
+            width: 100%;
+            height: 150px;
+            cursor: pointer;
+            opacity: 0;
+            top: 0;
+            left: 0;
+        }
+
+        .dropzone-desc {
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            width: 40%;
+            top: 50px;
+            font-size: 16px;
+        }
+
+        .progress {
+            margin-top: 170px;
+            background: none;
+            height: 132px;
+            margin-bottom: 25px;
+            text-align: center;
+
+            .progress-bar {
+                background-color: #acece6;
+            }
+        }
+    }
+
+    .error {
+        width: 310px;
+        padding: 0px 0 3px 9px;
+        margin-left: 145px;
+        background: rgba(179,17,17,.8);
+        margin-top: -8px;
+        color: #fff !important;
+        font-size: 12px;
+    }
+}
+.uzn{
+    width:100%;
+}
+#fotoDisDiv {
+    float: left;
+    width: 140px;
+    text-align: center;
+    position: relative;
+    margin: 39px 0 21px 0;
+    min-height: 50px;
+}
+#fotoDisDiv #fotoDiv {
+    width: 127px;
+    height: 90px;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 2px dotted #f1f1f1;
+}
+#fotoDisDiv a {
+    position: absolute;
+    background: url(../images/carpi.png) center center no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+    right: 0px;
+    margin-left: -15px;
+    top: -10px;
+}
+.dispnone {
+    display: none;
+}

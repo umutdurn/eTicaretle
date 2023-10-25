@@ -343,5 +343,29 @@ namespace Web.Controllers
             return RedirectToAction(nameof(ProductList));
         
         }
+
+        public IActionResult AllProductsChangePrice() {
+
+            return View();
+        
+        }
+
+        public IActionResult updateProductAllPrice() {
+
+            var products = _productService.GetAll();
+
+            foreach (var product in products)
+            {
+
+                product.Price = Convert.ToDecimal(Request.Form["Price"]);
+                product.DiscountPrice = Convert.ToDecimal(Request.Form["discountPrice"]);
+
+                _productService.Update(product);
+
+            }
+
+            return RedirectToAction(nameof(AllProductsChangePrice));
+        
+        }
     }
 }

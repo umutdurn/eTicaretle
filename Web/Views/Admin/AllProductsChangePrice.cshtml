@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "_Admin";
+}
+<div class="row">
+    <form name="updateProductAllPrice" asp-action="updateProductAllPrice" method="post" method="post" class="col s12 m10 l12 productform">
+        <div class="row">
+            <div class="input-field">
+                <label for="first_name">Fiyat</label>
+                <input type="text" name="Price" placeholder="Normal Fiyat" class="browser-default" required />
+            </div>
+            <div class="clearfix"></div>
+            <div class="input-field">
+                <label for="first_name">İndirimli Fiyat</label>
+                <input type="text" name="discountPrice" placeholder="İndirimli Fiyat" class="browser-default" required />
+            </div>
+            <div class="clearfix"></div>
+            <div class="input-field">
+                <input type="submit" name="updateProductAllPriceButton" value="Tüm Fiyatları Değiştir" /><br />
+                <small>Not: Bu işlem geri alınamaz.</small>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+
+
+}
