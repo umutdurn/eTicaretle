@@ -15,5 +15,10 @@ namespace Service.Services
         public OrderService(IUnitOfWork unitOfWork, IRepository<Order> repository) : base(unitOfWork, repository)
         {
         }
+
+        public List<Order> GetAllInclude()
+        {
+            return _unitOfWork.Order.GetAllInclude();
+        }
     }
 }

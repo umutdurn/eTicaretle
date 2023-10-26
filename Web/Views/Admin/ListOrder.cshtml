@@ -1,0 +1,46 @@
+﻿@model List<Order>
+@{
+    Layout = "_Admin";
+}
+
+<table id="orderTable">
+    <thead>
+        <tr>
+            <th>Sipariş Durumu</th>
+            <th>Fiyat</th>
+            <th>Müşteri</th>
+            <th>Tarih</th>
+            <th>İl</th>
+            <th>Düzenle</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>
+                    <select name="OrderSituation" asp-items="@ViewBag.OrderSituation" class="browser-default">
+                    </select>
+                </td>
+                <td>@order.TotalPrice.ToString("C")</td>
+                <td>@order.Member.Name @order.Member.Surname</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.City.Title</td>
+                <td><a href="/Admin/OrderDetail/@order.Id">Detayı</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#orderTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+    </script>
+}

@@ -9,5 +9,6 @@ namespace Core.Services
 {
     public interface IOrderService : IService<Order>
     {
+        List<Order> GetAllInclude();
     }
 }

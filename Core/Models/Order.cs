@@ -38,5 +38,6 @@ namespace Core.Models
         public string? PaymentErrorCode { get; set; }
         public string? PaymentErrorMessage { get; set; }
         public string? PaymentResult { get; set; }
+        public Member Member { get; set; }
     }
 }

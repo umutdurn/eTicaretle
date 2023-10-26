@@ -9,6 +9,6 @@ namespace Core.Repositories
 {
     public interface IOrderRepository : IRepository<Order>
     {
-
+        List<Order> GetAllInclude();
     }
 }

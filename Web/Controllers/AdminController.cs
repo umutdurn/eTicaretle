@@ -16,14 +16,18 @@ namespace Web.Controllers
         private readonly IService<Colors> _colorService;
         private readonly IService<Galleries> _imageGallery;
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
+        private readonly IService<OrderSituation> _orderSituationService;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
             _colorService = colorService;
             _productService = productService;
             _imageGallery = imageGallery;
+            _orderService = orderService;
+            _orderSituationService = orderSituationService;
         }
 
         public IActionResult Index()
@@ -365,6 +369,25 @@ namespace Web.Controllers
             }
 
             return RedirectToAction(nameof(AllProductsChangePrice));
+        
+        }
+
+        public IActionResult ListOrder() {
+
+            var orders = _orderService.GetAllInclude();
+
+            var orderSituation = _orderSituationService.GetAll();
+
+            List<SelectListItem> orderSituationListItem = new List<SelectListItem>();
+
+            foreach (var situation in orderSituation)
+            {
+                orderSituationListItem.Add(new SelectListItem { Text = situation.Name, Value = situation.Id.ToString() });
+            }
+
+            ViewBag.OrderSituation = orderSituationListItem;
+
+            return View(orders);
         
         }
     }
