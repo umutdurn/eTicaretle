@@ -103,7 +103,7 @@ namespace Service.Services.Payment
             settings.Version = "1.0";
             settings.Mode = "P";
             settings.HashString = String.Empty;
-            settings.TransactionDate = Helper.GetTransactionDateString();
+            //settings.TransactionDate = Helper.GetTransactionDateString();
             settings.BaseUrl = "https://api.ipara.com/";
 
             ThreeDPaymentRequest request = new();
@@ -116,7 +116,7 @@ namespace Service.Services.Payment
             request.CardExpireYear = model.ExpirateDateYear;
             request.Installment = model.Installment.ToString();
             request.Cvc = model.CardCVV2;
-            request.TransactionDate = Helper.GetTransactionDateString();
+            //request.TransactionDate = Helper.GetTransactionDateString();
             request.Mode = settings.Mode;
             request.Language = "tr-TR";
             request.SuccessUrl = model.OkUrl;
@@ -130,7 +130,7 @@ namespace Service.Services.Payment
 
             string hashString = settings.PrivateKey + request.OrderId + request.Amount + request.Mode + request.CardOwnerName + request.CardNumber + request.CardExpireMonth + request.CardExpireYear + request.Cvc + request.UserId + request.Purchaser.Name + request.Purchaser.SurName + request.Purchaser.Email + request.TransactionDate;
 
-            request.Token = Helper.CreateToken(settings.PublicKey, hashString);
+            //request.Token = Helper.CreateToken(settings.PublicKey, hashString);
 
             request.Products = products;
 

@@ -28,5 +28,35 @@ namespace Data.Repositories
                 .Include(x => x.District)
                 .ToList();
         }
+
+        public Order GetAllIncludeOrderId(string orderId)
+        {
+            return _appDbContext.Order
+                .Include(x => x.Member)
+                .Include(x => x.Payment)
+                .Include(x => x.Cargo)
+                .Include(x => x.Payment)
+                .Include(x => x.OrderSituation)
+                .Include(x => x.City)
+                .Include(x => x.District)
+                .Include(x => x.Cart)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefault(x => x.OrderId == orderId);
+        }
+
+        public Order GetAllIncludeId(int id)
+        {
+            return _appDbContext.Order
+               .Include(x => x.Member)
+               .Include(x => x.Payment)
+               .Include(x => x.Cargo)
+               .Include(x => x.Payment)
+               .Include(x => x.OrderSituation)
+               .Include(x => x.City)
+               .Include(x => x.District)
+               .Include(x => x.Cart)
+               .ThenInclude(x => x.Product)
+               .FirstOrDefault(x => x.Id == id);
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace Data
         public DbSet<Bank> Bank { get; set; }
         public DbSet<BankTransfer> BankTransfer { get; set; }
         public DbSet<OrderSituation> OrderSituation { get; set; }
+        public DbSet<ReturnOrder> ReturnOrder { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

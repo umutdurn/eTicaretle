@@ -1825,3 +1825,52 @@ footer {
         color:#b10000;
     }
 }
+.infoPage {
+    padding: 50px 0px;
+
+    .sayfaSatir {
+        margin-bottom: 15px;
+
+        input[type=text] {
+            padding: 5px;
+            width: 100%;
+        }
+
+        .kurumsalSoru {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .kurumsalCevap {
+            font-size: 17px;
+        }
+    }
+
+    .infomenu {
+        li {
+            font-size: 17px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #f1f1f1;
+
+            span {
+                display: block;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .getOrderDiv {
+        margin-top: 50px;
+    }
+
+    .getOrderDivItems {
+        margin-top: 30px;
+    }
+
+    
+}
+.ReturnOrderOk {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c83f6a;
+}

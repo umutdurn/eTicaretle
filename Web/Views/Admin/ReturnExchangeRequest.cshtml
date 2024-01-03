@@ -1,0 +1,88 @@
+﻿@model List<ReturnOrder>
+@{
+    Layout = "_Admin";
+}
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Sipariş ID</th>
+            <th>Değişim / İade Ürün</th>
+            <th>Yeni Ürün</th>
+            <th>İsim</th>
+            <th>IBAN</th>
+            <th>İşlem</th>
+            <th>Durum</th>
+            <th>Onayla / Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderReturn in Model)
+        {
+            <tr>
+                <td>@orderReturn.Order.OrderId</td>
+                <td>@orderReturn.SendToBack.Title</td>
+                <td>@orderReturn.WantToBuy.Title</td>
+                <td>@orderReturn.NameSurname</td>
+                <td>@orderReturn.IBAN</td>
+                <td>
+                    @if (orderReturn.Type) { 
+
+                        @:İade 
+
+                    }else{ 
+
+                        @:Değişim 
+                    }
+                </td>
+                <td>
+                    @if (orderReturn.Situation)
+                    {
+
+                        @:Bekliyor
+
+                    }
+                    else
+                    {
+
+                        @:İade/Değişim Yapıldı
+                    }
+                </td>
+                <th><a href="ClosedReturnOrder/@orderReturn.Id">
+                        @if (orderReturn.Situation)
+                        {
+
+                            @:Onayla
+
+                        }
+                        else
+                        {
+
+                            @:Onayı Kaldır
+                        }
+                    </a> / <a href="DeleteReturnOrder/@orderReturn.Id" onclick="return confirmRemove();">Sil</a>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove() {
+
+            var setConfirm = confirm("Bu iade talebini silmek istediğinden emin misin?");
+
+            return setConfirm;
+
+        }
+
+    </script>
+}

@@ -18,8 +18,10 @@ namespace Web.Controllers
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly IService<OrderSituation> _orderSituationService;
+        private readonly IReturnOrderService _returnOrderService;
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService)
+
+        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService, IReturnOrderService returnOrderService)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
@@ -28,6 +30,7 @@ namespace Web.Controllers
             _imageGallery = imageGallery;
             _orderService = orderService;
             _orderSituationService = orderSituationService;
+            _returnOrderService = returnOrderService;
         }
 
         public IActionResult Index()
@@ -388,6 +391,67 @@ namespace Web.Controllers
             ViewBag.OrderSituation = orderSituationListItem;
 
             return View(orders);
+        
+        }
+
+        public IActionResult ReturnExchangeRequest() {
+
+            var returnOrders = _returnOrderService.GetAllInclude();
+
+            return View(returnOrders);
+
+        }
+
+        public IActionResult ClosedReturnOrder(int id)
+        {
+
+            var ro = _returnOrderService.GetAllIncludeById(id);
+
+            if (ro.Situation)
+            {
+                ro.Situation = false;
+            }
+            else
+            {
+                ro.Situation = true;
+            }
+
+            _returnOrderService.Update(ro);
+
+            return RedirectToAction(nameof(ReturnExchangeRequest));
+
+
+        }
+        public IActionResult DeleteReturnOrder(int id)
+        {
+
+            var ro = _returnOrderService.GetAllIncludeById(id);
+
+            _returnOrderService.Remove(ro);
+
+            return RedirectToAction(nameof(ReturnExchangeRequest));
+
+
+        }
+
+        public IActionResult OrderDetail(int id)
+        {
+
+            var order = _orderService.GetAllIncludeId(id);
+
+            return View(order);
+
+        }
+
+        public string SaveCargoCode(string id) {
+
+            var order = _orderService.GetAllIncludeOrderId(id);
+
+            order.CargoCode = Request.Form["CargoCode"].ToString();
+
+            _orderService.Update(order);
+
+            return "1";
         
         }
     }

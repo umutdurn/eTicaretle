@@ -15,6 +15,8 @@ using Service.Services.Payment;
 using Service.Services.Mail;
 using IPara.DeveloperPortal.Core.Entity;
 using Payment = Core.Models.Payment;
+using Azure.Core;
+using Service.Services.Helper;
 
 namespace Web.Controllers
 {
@@ -33,9 +35,11 @@ namespace Web.Controllers
         private readonly IService<OrderSituation> _orderSituationService;
         private readonly IBankTransferService _bankService;
         private readonly IOrderService _orderService;
+        private readonly IMemberService _memberService;
+        private readonly IReturnOrderService _returnOrderService;
 
 
-        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService, IBankTransferService bankService, IOrderService orderService, IService<OrderSituation> orderSituationService)
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService, IBankTransferService bankService, IOrderService orderService, IService<OrderSituation> orderSituationService, IMemberService memberService, IReturnOrderService returnOrderService)
         {
             _logger = logger;
             _homeColumnService = columnService;
@@ -50,6 +54,8 @@ namespace Web.Controllers
             _bankService = bankService;
             _orderService = orderService;
             _orderSituationService = orderSituationService;
+            _memberService = memberService;
+            _returnOrderService = returnOrderService;
         }
 
         public IActionResult Index()
@@ -106,7 +112,10 @@ namespace Web.Controllers
                                 var getPiece = cart.Piece;
                                 var totalPiece = piece + getPiece;
 
+                                var totalPrice = totalPiece * cart.Price;
+
                                 cart.Piece = totalPiece;
+                                cart.TotalPrice = totalPrice;
 
                                 _cartService.Update(cart);
 
@@ -129,6 +138,8 @@ namespace Web.Controllers
                     newCart.Product = getProduct;
                     newCart.Piece = piece;
                     newCart.CookieId = cookieId;
+                    newCart.Price = getProduct.Price;
+                    newCart.TotalPrice = piece * getProduct.Price;
 
                     await _cartService.AddAsync(newCart);
                 }
@@ -352,6 +363,24 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<string> CreateOrder(string coupon, string cargo, float paymentPrice, int paymentId)
         {
+            Member member = _memberService.GetMemberMail(Request.Form["Email"].ToString());
+
+            if (member == null)
+            {
+                Hlpr hl = new Hlpr();
+
+                string pass = hl.RandomPassword();
+
+                member = new Member();
+
+                member.Name = Request.Form["Name"].ToString();
+                member.Surname = Request.Form["Surname"].ToString();
+                member.Email = Request.Form["Email"].ToString();
+                member.Password = hl.CreateMD5(pass);
+
+                await _memberService.AddAsync(member);
+            }
+
             CalculateModel carts = new CalculateModel();
 
             Cargo getCargo = null;
@@ -392,6 +421,7 @@ namespace Web.Controllers
             order.City = city;
             order.District = district;
             order.Adress = Request.Form["Adress"].ToString();
+            order.Member = member;
 
             if (Request.Form["PayAtDoor"].ToString() != "0")
             {
@@ -497,6 +527,102 @@ namespace Web.Controllers
             return View();
 
         }
+        [Route("kurumsal")]
+        public IActionResult InfoPage() {
+
+            return View();
+
+        }
+        [HttpPost]
+        public IActionResult GetInfoPage(string id) {
+
+            var products = _productService.GetAllProductsList();
+
+            List<SelectListItem> productList = new List<SelectListItem>();
+
+            foreach (var product in products)
+            {
+                productList.Add(new SelectListItem { Text = product.Title, Value = product.Id.ToString() });
+            }
+
+            ViewBag.ProductList = productList;
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                return PartialView("~/Views/Home/_PartialView/Info/_" + id + ".cshtml");
+            }else {
+
+                return PartialView("~/Views/Home/_PartialView/Info/_AboutUs.cshtml");
+
+            }
+
+            
+        }
+        [HttpPost]
+        public IActionResult GetOrderChange(string id)
+        {
+
+            var order = _orderService.GetAllIncludeOrderId(id);
+
+            return PartialView("~/Views/Home/_PartialView/Info/_GetChangeOrder.cshtml", order);
+
+        }
+        [HttpPost]
+        public JsonResult GetChangeProduct(string id)
+        {
+
+            var order = _orderService.GetAllIncludeOrderId(id);
+
+            return Json(order.Cart);
+
+        }
+        [HttpPost]
+        public async Task<string> SendChangeRequest() {
+
+            try
+            {
+                var SendToBack = await _productService.GetByIdAsync(Convert.ToInt32(Request.Form["SendToBack"]));
+                var WantToBuy = await _productService.GetByIdAsync(Convert.ToInt32(Request.Form["WantToBuy"]));
+                var Order = await _orderService.FirstOfDefaultAsync(x => x.OrderId == Request.Form["OrderId"].ToString());
+                var NameSurname = Request.Form["NameSurname"].ToString();
+                var IBAN = Request.Form["IBAN"].ToString();
+
+                bool Type = false;
+
+                if (Request.Form["Type"].ToString() == "1")
+                {
+                    Type = true;
+                }
+
+                ReturnOrder ro = new ReturnOrder();
+
+                ro.NameSurname = NameSurname;
+                ro.IBAN = IBAN;
+                ro.SendToBack = SendToBack;
+                ro.WantToBuy = WantToBuy;
+                ro.Type = Type;
+                ro.Situation = true;
+                ro.Order = Order;
+
+                await _returnOrderService.AddAsync(ro);
+
+                return "1";
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+
+                throw;
+            }
+
+            
+
+            
+
+        }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

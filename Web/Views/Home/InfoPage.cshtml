@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Bilgilendirme";
+}
+<div class="infoPage">
+    <div class="row ">
+        <div class="col s12 m3 l3">
+            <ul class="infomenu">
+                <li><span class="AboutUs">Hakkımızda</span></li>
+                <li><span class="Delivery">Teslimat</span></li>
+                <li><span class="Rules">Kurallar</span></li>
+                <li><span class="Change">Değişim & İade</span></li>
+                <li><span class="InternationalShipping">Yurt Dışı Gönderim</span></li>
+                <li><span class="DistanceSellingContact">Mesafeli Satış Sözleşmesi</span></li>
+            </ul>
+        </div>
+        <div class="col s12 m9 l9">
+            <div class="infoText"></div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            getPage("");
+
+        });
+
+        $(".infomenu li span").click(function () {
+
+            getPage($(this).attr("class"));
+
+        });
+
+        function getPage(getpage) {
+
+            var page = getpage;
+
+            fetch("/Home/GetInfoPage/" + page, {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+
+                    $(".infoText").html(r);
+
+                })
+        
+        }
+
+    </script>
+}

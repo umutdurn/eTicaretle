@@ -1,0 +1,26 @@
+﻿@model Order
+
+@if (Model != null)
+{
+    <strong>Sipariş Bilgileri</strong>
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Adı Soyadı:</strong></td>
+                <td>@Model.Name @Model.Surname</td>
+            </tr>
+            <tr>
+                <td><strong>E-posta:</strong></td>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <td><strong>Toplam Fiyat:</strong></td>
+                <td>@Model.TotalPrice.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+}else
+{
+    @:Aradığınız sipariş numarası sistemde bulunamamıştır.
+}
+

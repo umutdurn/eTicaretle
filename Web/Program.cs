@@ -21,7 +21,10 @@ builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IBankTransferService, BankTransferService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IReturnOrderService, ReturnOrderService>();
 builder.Services.AddScoped<IBankTransferService, BankTransferService>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession();
 // Add services to the container.

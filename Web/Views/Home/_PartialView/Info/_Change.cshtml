@@ -1,0 +1,182 @@
+﻿<div class="sayfaSatir">
+    <div class="kurumsalSoru">
+        İade ve Değişim
+    </div>
+    <div class="kurumsalCevap">
+        <p><strong>Garanti ve İade Şartları</strong></p>
+
+        <p>Satın alırken içiniz rahat olsun. Size gelen ürünü herhangi bir nedenle geri iade edebilirsiniz. Ürünü bize geri yollayın, isterseniz paranızı geri iade eder, isterseniz ipek şalı başka bir renk ile değiştirebiliriz. Herhangi bir nedenle iade etmek istediğiniz geri yollamak için, ürünü elinize geçtiği andan itibaren 2 gün içerisinde bizimle iletişim kurunuz. Sonrasında ise ürünü en geç 7 gün içinde iade etmeniz gerekmektedir. Değişim veya iade yapmadan önce mutlaka iade ve değişim formunu doldurunuz.</p>
+
+        <p>Değişim ve iadeyle ilgili süreci kargo takip bölümünden sipariş numaranız ile sorgulayıp takip edebilirsiniz.</p>
+
+        <p>Kargo bedava olduğundan kötü niyetli kişileri engellemek için, Herhangi bir renk değişimi veya iade işleminde kargo ücreti size aittir.</p>
+
+        <p>Renk değişiminde kargo ücreti siz yollarken size, biz yollarken bize aittir.</p>
+
+        <p>Değişim ve iadelerde ürün tekrar satılabilme özelliğini yitirmiş olmamalı. Kullanılmış ürünler geri alınmaz.</p>
+
+        <p>Geri gelen ürünlerde kullanıcı hatasından kaynaklanan ürünler kabul edilmeyecektir. (Makyaj, pudra, rimel lekesi gibi lekeler, şalın üzerine parfüm kokusu sinme, deforme olma gibi…) Ürün faturasının aslını yollamanız zorunludur.</p>
+
+        <p><strong>Eğer para iadesi söz konusu ise;</strong></p>
+
+        <p>Kredi Kartı ile yapılan alışverişlerinizde; İadenizin onaylandığı anda, ödemeniz kredi kartınıza iade edilecektir. Ücretin kredi kartı hesabınıza geri ödenmesi bankalara göre değişmekle birlikte 10 günü bulabilir.</p>
+
+        <p>Taksitli satışlarda yapılan iadeler bankanız tarafından kredi kartınıza her ay artı bakiye olarak yansıtılmaktadır.</p>
+
+        <p>Kapıda ödeme, EFT veya Havale ile yapılan ödemelerde ücretiniz belirteceğiniz Banka Hesabına gönderilecektir.</p>
+
+        <p>Bütün iade işlemleri sadece Cuma günleri yapılmaktadır. </p>
+    </div>
+</div>
+<div class="ReturnOrder">
+
+    <div class="sayfaSatir">
+        <div class="kurumsalSoru">
+            İadeler İçin Lütfen Formu Doldurun
+        </div>
+        <div class="kurumsalCevap">
+            <div id="ContentPlaceHolder1_Iade1">
+
+                <p>İade ve değişimlerde kargo ücreti size aittir. Tarafımıza karşı ödemeli yollanan kargolar kabul edilmeyecektir.</p>
+                <p>İade ve değişim kargolarınızı Sürat Kargoyla ve anlaşmalı müşteri numarasını 1013240436 belirterek yollayabilirsiniz. Anlaşmalı olduğumuzdan kargo ücreti çok daha uygun olacaktır.</p>
+                <p>Başka bir kargoyla yollamak isteyenler için adresimiz;</p>
+                <p>Alıcı: ÇOMOĞLU GIDA SAN TİC LTD ŞTİ</p>
+                <p>Adres: ELMALIKENT MAH. ATATÜRK CAD. NO:22 ÜMRANİYE İSTANBUL</p>
+                <p>Tel: +905426009171</p>
+
+                <div class="ipekForm">
+                    <input name="Orderno" type="text" id="Orderno" placeholder="Sipariş No">
+                </div>
+                <div class="ipekForm">
+                    <p>
+                        <label>
+                            <input name="group1" type="radio" value="0" />
+                            <span>Renk Değişimi Yapacağım</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="group1" type="radio" value="1" />
+                            <span>Ürünü Geri İade Edeceğim</span>
+                        </label>
+                    </p>
+                    <div class="clear"></div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="GetOrder">
+                    Devam
+                </button>
+            </div>
+            <div class="getOrderDiv"></div>
+            <div class="getOrderDivItems">
+                <div class="val-0">
+                    <div class="sayfaSatir">
+                        <span>Geri Göndereceğiniz Renk</span>
+                        <select name="SendToBack" class="browser-default"></select>
+                    </div>
+                    <div class="sayfaSatir">
+                        <span>Almak İstediğiniz Renk</span>
+                        <select name="WantToBuy" class="browser-default" asp-items="@ViewBag.ProductList"></select>
+                    </div>
+                </div>
+                <div class="val-1">
+                    <h4>Hesap Bilgileri</h4>
+                    <span>
+                        Lütfen ücreti iade edeceğimiz Banka Hesabınızın bilgilerini doğru olarak aşağıya yazınız.
+                    </span>
+                    <div class="sayfaSatir">
+                        <input type="text" name="NameSurname" placeholder="Ad Soyad" class="browser-default" />
+                    </div>
+                    <div class="sayfaSatir">
+                        <input type="text" name="IbanNo" placeholder="Iban No" class="browser-default" />
+                    </div>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="GetBackOrder">
+                Formu Gönder
+            </button>
+        </div>
+    </div>
+</div>
+<div class="ReturnOrderOk">
+    İsteğiniz tarafımıza ulaştı en kısa sürede sizi bilgilendireceğiz.
+</div>
+<script>
+
+    $("[name='GetBackOrder']").click(function () {
+
+        var formData = new FormData();
+
+        formData.append("SendToBack", $("[name='SendToBack']").val());
+        formData.append("WantToBuy", $("[name='WantToBuy']").val());
+        formData.append("NameSurname", $("[name='NameSurname']").val());
+        formData.append("IBAN", $("[name='IbanNo']").val());
+        formData.append("Type", $("[name='group1']:checked").val());
+        formData.append("OrderId", $("[name='Orderno']").val());
+
+        fetch("/Home/SendChangeRequest", {
+            method: "post",
+            body: formData
+        })
+            .then(r => r.text())
+            .then(r => {
+
+                if (r == "1") {
+
+                    $(".ReturnOrder").hide();
+                    $(".ReturnOrderOk").show();
+
+                }
+
+            })
+
+    })
+
+    $(document).ready(function () {
+
+        $(".val-0").hide();
+        $(".val-1").hide();
+        $("[name='GetBackOrder']").hide();
+        $(".ReturnOrderOk").hide();
+
+    })
+
+    $("[name='GetOrder']").click(function () {
+
+        $(".val-0").hide();
+        $(".val-1").hide();
+
+        var select = $("[name='group1']:checked").val();
+
+        $(".val-" + select).show();
+
+        var orderNo = $("[name='Orderno']").val();
+
+        $("[name='GetBackOrder']").show();
+
+        fetch("/Home/GetChangeProduct/" + orderNo, {
+            method: "post"
+        })
+            .then(r => r.json())
+            .then(r => {
+
+                $.each(r, function (i, item) {
+                    $("[name='SendToBack']").append($('<option>', {
+                        value: item.product.id,
+                        text: item.product.title
+                    }));
+                });
+
+            })
+
+        fetch("/Home/GetOrderChange/" + orderNo, {
+            method: "post"
+        })
+            .then(r => r.text())
+            .then(r => {
+
+                $(".getOrderDiv").html(r);
+
+            })
+
+    })
+</script>

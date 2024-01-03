@@ -10,5 +10,7 @@ namespace Core.Repositories
     public interface IOrderRepository : IRepository<Order>
     {
         List<Order> GetAllInclude();
+        Order GetAllIncludeOrderId(string orderId);
+        Order GetAllIncludeId(int id);
     }
 }

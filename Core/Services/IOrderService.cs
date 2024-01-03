@@ -10,5 +10,7 @@ namespace Core.Services
     public interface IOrderService : IService<Order>
     {
         List<Order> GetAllInclude();
+        Order GetAllIncludeOrderId(string orderId);
+        Order GetAllIncludeId(int id);
     }
 }

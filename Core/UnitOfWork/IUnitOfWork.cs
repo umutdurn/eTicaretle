@@ -17,7 +17,8 @@ namespace Core.UnitOfWork
         ICountryRepository Country { get; }
         IBankTransferRepository BankTransfer { get; }
         IOrderRepository Order { get; }
-
+        IMemberRepository Member { get; }
+        IReturnOrderRepository ReturnOrder { get; }
         Task CommitAsync();
 
         void Commit();

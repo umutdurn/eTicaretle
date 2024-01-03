@@ -22,6 +22,7 @@ namespace Core.Models
         public string? OrderNote { get; set; }
         public DateTime OrderDate { get; set; }
         public Cargo Cargo { get; set; }
+        public string CargoCode { get; set; }
         public string? ThreeDError { get; set; }
         public OrderSituation OrderSituation { get; set; }
         public bool GiftBox { get; set; }

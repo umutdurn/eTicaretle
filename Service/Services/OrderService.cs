@@ -20,5 +20,15 @@ namespace Service.Services
         {
             return _unitOfWork.Order.GetAllInclude();
         }
+
+        public Order GetAllIncludeId(int id)
+        {
+            return _unitOfWork.Order.GetAllIncludeId(id);
+        }
+
+        public Order GetAllIncludeOrderId(string orderId)
+        {
+            return _unitOfWork.Order.GetAllIncludeOrderId(orderId);
+        }
     }
 }
