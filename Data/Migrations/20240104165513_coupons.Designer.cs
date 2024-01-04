@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240104165513_coupons")]
+    partial class coupons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,41 +283,6 @@ namespace Data.Migrations
                     b.ToTable("columnDetail");
                 });
 
-            modelBuilder.Entity("Core.Models.Comments", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MainCommentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Situation")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MainCommentId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("Core.Models.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -358,9 +326,6 @@ namespace Data.Migrations
                     b.Property<string>("Price")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Situation")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -851,15 +816,6 @@ namespace Data.Migrations
                     b.Navigation("HomeColumn");
                 });
 
-            modelBuilder.Entity("Core.Models.Comments", b =>
-                {
-                    b.HasOne("Core.Models.Comments", "MainComment")
-                        .WithMany("SubComments")
-                        .HasForeignKey("MainCommentId");
-
-                    b.Navigation("MainComment");
-                });
-
             modelBuilder.Entity("Core.Models.District", b =>
                 {
                     b.HasOne("Core.Models.City", "City")
@@ -970,11 +926,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Core.Models.City", b =>
                 {
                     b.Navigation("Districts");
-                });
-
-            modelBuilder.Entity("Core.Models.Comments", b =>
-                {
-                    b.Navigation("SubComments");
                 });
 
             modelBuilder.Entity("Core.Models.HomeColumn", b =>

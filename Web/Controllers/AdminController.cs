@@ -18,10 +18,12 @@ namespace Web.Controllers
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly IService<OrderSituation> _orderSituationService;
+        private readonly IService<Coupons> _couponsService;
         private readonly IReturnOrderService _returnOrderService;
+        private readonly IService<Comments> _commentsService;
 
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService, IReturnOrderService returnOrderService)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService, IReturnOrderService returnOrderService, IService<Coupons> couponsService, IService<Comments> commentsService)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
@@ -31,6 +33,8 @@ namespace Web.Controllers
             _orderService = orderService;
             _orderSituationService = orderSituationService;
             _returnOrderService = returnOrderService;
+            _couponsService = couponsService;
+            _commentsService = commentsService;
         }
 
         public IActionResult Index()
@@ -453,6 +457,108 @@ namespace Web.Controllers
 
             return "1";
         
+        }
+
+        public IActionResult AddCoupon() {
+
+            return View();
+
+        }
+        public async Task<IActionResult> UpdateCoupon(int id)
+        {
+
+            var coupon = await _couponsService.GetByIdAsync(id);
+
+            return View(coupon);
+
+        }
+        public async Task<IActionResult> AddCouponForm(Coupons coupon)
+        {
+            if (String.IsNullOrEmpty(coupon.Code))
+            {
+                coupon.Code = Guid.NewGuid().ToString("N").Substring(0, 6);
+            }
+
+            if (Request.Form["ForOnce"].ToString() == "on")
+            {
+                coupon.ForOnce = true;
+            }
+
+            await _couponsService.AddAsync(coupon);
+
+            return RedirectToAction(nameof(UpdateCoupon), new { coupon.Id });
+
+        }
+        public async Task<IActionResult> UpdateCouponForm(Coupons coupon)
+        {
+            if (String.IsNullOrEmpty(coupon.Code))
+            {
+                coupon.Code = Guid.NewGuid().ToString("N").Substring(0, 6);
+            }
+
+            if (Request.Form["ForOnce"].ToString() == "on")
+            {
+                coupon.ForOnce = true;
+            }
+
+            _couponsService.Update(coupon);
+
+            return RedirectToAction(nameof(UpdateCoupon), new { coupon.Id });
+
+        }
+        public ActionResult ListCoupon() {
+        
+            var coupons = _couponsService.GetAll().ToList();
+
+            return View(coupons);
+        
+        }
+        public async Task<ActionResult> DeleteCoupon(int id)
+        {
+
+            var coupon = await _couponsService.GetByIdAsync(id);
+
+            _couponsService.Remove(coupon);
+
+            return RedirectToAction(nameof(ListCoupon));
+
+        }
+        public IActionResult Comments() {
+
+            var comments = _commentsService.GetAll().ToList();
+
+            return View(comments);
+        
+        }
+
+        public async Task<IActionResult> ApproveComment(int id)
+        {
+
+            var comment = await _commentsService.GetByIdAsync(id);
+
+            if (comment.Situation)
+            {
+                comment.Situation = false;
+            }
+            else
+            {
+                comment.Situation = true;
+            }
+
+            _commentsService.Update(comment);
+
+            return RedirectToAction(nameof(Comments));
+
+        }
+
+        public async Task<IActionResult> DeleteComment(int id) {
+
+            var comment = await _commentsService.GetByIdAsync(id);
+
+            _commentsService.Remove(comment);
+
+            return RedirectToAction(nameof(Comments));
+
         }
     }
 }

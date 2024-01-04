@@ -1,0 +1,72 @@
+﻿@model List<Comments>
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Yorumlar";
+}
+
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Yorum Atan</th>
+            <th>Yorum</th>
+            <th>Tarih</th>
+            <th>Beğeni</th>
+            <th>Durumu</th>
+            <th>Onayla/Onay Kaldır</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td>@comment.Name</td>
+                <td>@comment.Comment</td>
+                <td>@comment.Date.ToShortDateString()</td>
+                <td>@comment.Like</td>
+                <td>
+                    @if (comment.Situation == true)
+                    {
+                        @: Aktif
+                    }
+                    else
+                    {
+                        @: Pasif
+                    }
+                </td>
+                <td><a href="/Admin/ApproveComment/@comment.Id">
+                        @if (comment.Situation == true)
+                        {
+                            @: Onayı Kaldır
+                        }
+                        else
+                        {
+                            @: Onayla
+                        }
+                </a></td>
+                <td><a href="/Admin/DeleteComment/@comment.Id" onclick="return confirmRemove();">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove() {
+
+            var setConfirm = confirm("Bu kuponu silmek istediğinden emin misin?");
+
+            return setConfirm;
+
+        }
+
+    </script>
+}

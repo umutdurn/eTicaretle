@@ -1,0 +1,62 @@
+﻿@model List<Coupons>
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Kupon Listele";
+}
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Kupon Kodu</th>
+            <th>Kupon Tutarı</th>
+            <th>Tarih Aralığı</th>
+            <th>Tek Seferlik</th>
+            <th>Durumu</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var copun in Model)
+        {
+            <tr>
+                <td>@copun.Code</td>
+                <td>@copun.Price</td>
+                <td>@copun.Date</td>
+                <td>@copun.ForOnce</td>
+                <td>
+                    @if (copun.Situation == true)
+                    {
+                        @: Aktif
+                    }
+                    else
+                    {
+                        @: Pasif
+                    }
+                </td>
+                <td><a href="/Admin/UpdateCoupon/@copun.Id">Düzenle</a></td>
+                <td><a href="/Admin/DeleteCoupon/@copun.Id" onclick="return confirmRemove();">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove() {
+
+            var setConfirm = confirm("Bu kuponu silmek istediğinden emin misin?");
+
+            return setConfirm;
+
+        }
+
+    </script>
+}

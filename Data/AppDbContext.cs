@@ -35,6 +35,8 @@ namespace Data
         public DbSet<BankTransfer> BankTransfer { get; set; }
         public DbSet<OrderSituation> OrderSituation { get; set; }
         public DbSet<ReturnOrder> ReturnOrder { get; set; }
+        public DbSet<Coupons> Coupons { get; set; }
+        public DbSet<Comments> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

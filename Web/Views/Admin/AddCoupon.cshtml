@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Kupon Ekle";
+}
+<form name="addCoupon" asp-action="AddCouponForm" method="post" method="post" class="col s12 m10 l12 productform">
+    <div class="row">
+        <div class="input-field">
+            <label for="first_name">Kupon Kodu<br /> <small>*Boş kalırsa otomatik üretir.</small></label>
+            <input type="text" name="Code" placeholder="Kupon Kodu" class="browser-default" />
+        </div>
+        <br class="clearfix" />
+        <div class="input-field">
+            <label for="first_name">
+                Kupon Tutarı<br /> <small>*Örnek: 80-15 veya 80-%15</small>
+            </label>
+            <input type="text" name="Price" placeholder="Kupon Fiyatı" class="browser-default" required />
+        </div>
+        <br class="clearfix" />
+        <div class="input-field">
+            <label for="first_name">
+                Tarih Aralığı<br /> <small>*Örnek: 28.03.2024-30.03.2024</small>
+            </label>
+            <input type="text" name="Date" placeholder="Kullanma Tarihi" class="browser-default" required />
+        </div>
+        <br class="clearfix" />
+        <div class="input-field">
+            <p>
+                <label>
+                    <input type="checkbox" name="ForOnce" />
+                    <span>Tek Seferlik</span>
+                </label>
+            </p>
+        </div>
+        <br class="clearfix" />
+        <small>Not: Kuponun türü tarih aralığına bağlıdır. Boş bırakırsanız sürekli kullanılabilir olacaktır. Eğer tarih aralığı belirtirseniz kuponunuz bu tarihler arasında kullanıma açık olacaktır. Tek seferlik seçimi kuponun seçili tarihler arasında veya herhangi bir tarih belirtmeksizin tek seferlik kullanımını sağlayacaktır.</small>
+        <div class="input-field">
+            <input type="submit" name="AddCoupon" value="Kuponu Ekle" />
+        </div>
+    </div>
+</form>
