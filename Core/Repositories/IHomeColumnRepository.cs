@@ -10,5 +10,6 @@ namespace Core.Repositories
     public interface IHomeColumnRepository : IRepository<HomeColumn>
     {
         ICollection<HomeColumn> GetAllHomecolumn();
+        HomeColumn GetIdHomecolumn(int id);
     }
 }

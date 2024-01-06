@@ -259,18 +259,15 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FrontText")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FrontTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HomeColumnId")
+                    b.Property<int?>("HomeColumnId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -294,6 +291,10 @@ namespace Data.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Like")
                         .HasColumnType("int");
@@ -438,7 +439,7 @@ namespace Data.Migrations
                     b.Property<int>("RightColumn")
                         .HasColumnType("int");
 
-                    b.Property<int>("ScreenId")
+                    b.Property<int?>("ScreenId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -656,6 +657,9 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Arrangement")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("DiscountPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -665,9 +669,6 @@ namespace Data.Migrations
                     b.Property<string>("FeaturedImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -745,12 +746,15 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("MaxResolution")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinResolution")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Resolution")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -844,9 +848,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Core.Models.HomeColumn", "HomeColumn")
                         .WithMany("ColumnDetail")
-                        .HasForeignKey("HomeColumnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HomeColumnId");
 
                     b.Navigation("HomeColumn");
                 });
@@ -886,9 +888,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Core.Models.Screen", "Screen")
                         .WithMany()
-                        .HasForeignKey("ScreenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ScreenId");
 
                     b.Navigation("Screen");
                 });

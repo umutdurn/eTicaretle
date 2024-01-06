@@ -3,12 +3,9 @@
 }
 <div class="row ipekSlide">
     <div class="col s12 l12 m12 ">
-        <img src="/tema/images/banner3.jpg" />
+        <img src="~/tema/images/banner3.jpg" />
         <div class="clearfix"></div>
     </div>
-</div>
-<div class="indexSearch hide-on-large-only">
-    <input type="text" name="Searc" placeholder="Ürün ara..." class="browser-default" />
 </div>
 <div class="row infoBox">
     <div class="col s12 m6 l3">
@@ -71,117 +68,29 @@
 </div>
 <div class="featuredProducts">
     <div class="row">
+        @{
+            var lastProducts = (List<Product>)ViewBag.LastProducts;
+        }
         <div class="col s12 m12 l12">
-            <h2>Sizin İçin Seçtiklerimiz</h2>
+            <h2>Son Eklenenler</h2>
             <div class="productBox">
                 <div class="owl-carousel owl-theme featuredProductOwl">
-                    <div class="item">
-                        <div class="productBoxOwl">
-                            <img src="/tema/images/demo/urun1.jpg" />
-                            <span>Lorem İpsum Dolor</span>
-                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                    @foreach (var product in lastProducts)
+                    {
+                        <div class="item">
+                            <div class="productBoxOwl">
+                                <img src="/tema/images/upload/@product.FeaturedImage" />
+                                <span class="productTitle">@product.Title</span>
+                                <a href="/urun/@product.SeoUrl"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="productBoxOwl">
-                            <img src="/tema/images/demo/urun2.jpg" />
-                            <span>Lorem İpsum Dolor</span>
-                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="productBoxOwl">
-                            <img src="/tema/images/demo/urun3.jpg" />
-                            <span>Lorem İpsum Dolor</span>
-                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="productBoxOwl">
-                            <img src="/tema/images/demo/urun4.jpg" />
-                            <span>Lorem İpsum Dolor</span>
-                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="productBoxOwl">
-                            <img src="/tema/images/demo/urun5.jpg" />
-                            <span>Lorem İpsum Dolor</span>
-                            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Ürüne Git</a>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
-@{
-    var homeColumnModel = (ICollection<HomeColumn>)ViewBag.HomeColumn;
-}
-<div class="row dynamicRow">
-    @foreach (var item in homeColumnModel)
-    {
-        var scoll = "s" + item.LeftColumn;
-        var scolm = "s" + item.MidColumn;
-        var scolr = "s" + item.RightColumn;
-
-        var mcoll = "m" + item.LeftColumn;
-        var mcolm = "m" + item.MidColumn;
-        var mcolr = "m" + item.RightColumn;
-
-        var lcoll = "l" + item.LeftColumn;
-        var lcolm = "l" + item.MidColumn;
-        var lcolr = "l" + item.RightColumn;
-
-        @foreach (var detail in item.ColumnDetail)
-        {
-            if (detail.Column == "Left")
-            {
-                <div class="col @scoll @mcoll @lcoll dynamixBox">
-                    <img src="/tema/images/homepage/@detail.Background" />
-                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
-                    {
-                        <span>@detail.FrontTitle</span>
-                    }
-                    @if (!String.IsNullOrEmpty(detail.FrontText))
-                    {
-                        <p>@detail.FrontText</p>
-                    }
-                </div>
-            }
-
-            if (detail.Column == "Mid")
-            {
-                <div class="col @scolm @mcolm @lcolm dynamixBox">
-                    <img src="/tema/images/homepage/@detail.Background" />
-                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
-                    {
-                        <span>@detail.FrontTitle</span>
-                    }
-                    @if (!String.IsNullOrEmpty(detail.FrontText))
-                    {
-                        <p>@detail.FrontText</p>
-                    }
-                </div>
-            }
-
-            if (detail.Column == "Right")
-            {
-                <div class="col @scolr @mcolr @lcolr dynamixBox">
-                    <img src="/tema/images/homepage/@detail.Background" />
-                    @if (!String.IsNullOrEmpty(detail.FrontTitle))
-                    {
-                        <span>@detail.FrontTitle</span>
-                    }
-                    @if (!String.IsNullOrEmpty(detail.FrontText))
-                    {
-                        <p>@detail.FrontText</p>
-                    }
-                </div>
-            }
-        }
-
-    }
+<div class="row dynamicRow homeColumn">
 </div>
 <div class="row instagramFeed">
     <div class="col s12 m12 l12">
@@ -205,67 +114,32 @@
             <p>Burada satın aldığınız <strong>ipek şal</strong>ınız ile ilgili tüm bilgileri paylaşabilirsiniz. </p>
             <small>Acil sorunlarınız için lütfen iletişim bölümünden yazın. Buradan geç cevap verilebilir.</small>
         </div>
+        <span class="selectedSubComment">Yorum Seçildi #<span class="commentId"></span> <a href="javascript:void(0)" class="deleteSubCommment">Sil</a></span>
         <div class="clearfix"></div>
-        <div class="sendComment">
+        <div class="sendComment" id="sendComment">
+            <input type="hidden" name="subCommentId" value="" />
             <div class="col s12 l4 m4">
                 <div class="commentInput">
-                    <input type="text" name="Adsoyad" class="browser-default" value="Adınız Soyadınız" onclick="this.value='';" onblur="if(this.value=='') this.value='Adınız Soyadınız';" />
+                    <input type="text" name="Adsoyad" class="browser-default" placeholder="Adınız" required />
                 </div>
                 <div class="commentInput">
-                    <input type="text" name="Email" class="browser-default" value="E-mail Adresiniz" onclick="this.value='';" onblur="if(this.value=='') this.value='E-mail Adresiniz';" />
+                    <input type="text" name="Email" class="browser-default" placeholder="Mail Adresiniz" required />
                 </div>
             </div>
             <div class="col s12 l6 m6">
                 <div class="commentInput">
-                    <textarea name="Yorum" onclick="this.value='';" onblur="if(this.value=='') this.value='Yorumunuz';">Yorumunuz</textarea>
+                    <textarea name="Yorum" id="commentTextarea" placeholder="Yorumunuz" required></textarea>
                 </div>
             </div>
             <div class="col s12 l2 m2">
                 <div class="commentInput">
-                    <input type="button" name="Email" value="Gönder" />
+                    <input type="button" name="SendComment" value="Gönder" />
                 </div>
             </div>
             <div class="clearfix"></div>
+            <span class="commentMessage"></span>
         </div>
-        <div class="commentMain">
-            <div class="profilPhoto">
-                <img src="/tema/images/commenthead.png" />
-            </div>
-            <div class="commentElement">
-                <div class="commentText">
-                    <span>Lorem İpsum</span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. </p>
-                </div>
-                <div class="commentIcon">
-                    <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
-                    <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="subIcon">
-            <img src="~/tema/images/turnright.png" />
-        </div>
-        <div class="subComment">
-            <div class="commentMain">
-                <div class="profilPhoto">
-                    <img src="/tema/images/commenthead.png" />
-                </div>
-                <div class="commentElement">
-                    <div class="commentText">
-                        <span>Lorem İpsum</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mollis nisi diam, pretium suscipit velit consectetur eu. </p>
-                    </div>
-                    <div class="commentIcon">
-                        <a href="#"><i class="fa-solid fa-share"></i>Yanıtla</a>
-                        <a href="#"><i class="fa-regular fa-heart"></i>Beğen  (0 Beğeni)</a>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <a href="#" class="commentLoad"><i class="fa-solid fa-angles-down"></i> Daha Fazla Yorum Yükle</a>
+        <div class="commentList"></div>
     </div>
 </div>
 @section Scripts{
@@ -280,12 +154,103 @@
             //    navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>']
             //})
 
+            var screenWidth = $(window).width();
+
+            fetch("/Home/GetHomeColumn/" + screenWidth, {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+                    $(".homeColumn").html(r);
+                })
+
+
+            $("[name='SendComment']").click(function () {
+
+                $(this).prop("disabled", true);
+                $(".commentMessage").html("");
+
+                var area = $("textarea#commentTextarea").val();
+                var name = $("[name='Adsoyad']").val();
+                var email = $("[name='Email']").val();
+
+                if (area.trim() && name.trim() && email.trim()) {
+
+                    var formData = new FormData();
+
+                    formData.append("Name", name);
+                    formData.append("Comment", area);
+                    formData.append("Email", email);
+                    formData.append("MainComment", $("[name='subCommentId']").val());
+
+                    fetch("/Home/Sendcomment", {
+                        method: "post",
+                        body: formData
+                    }).then(r => r.text())
+                        .then(r => {
+
+                            if (r == "1") {
+
+                                $(".commentMessage").html("Yorumunuz başarıyla iletildi. Onaylandıktan sonra gözükecektir.");
+
+
+
+                            } else {
+
+                                $(".commentMessage").html(r);
+
+                            }
+
+                            $(this).prop("disabled", false);
+                        })
+
+                } else {
+
+                    $(".commentMessage").html("Tüm alanları doldurunuz.");
+                    $(this).prop("disabled", false);
+
+                }
+
+
+
+            })
+
+            $(".selectedSubComment").hide();
+
+            fetch("/Home/GetComments", {
+                method: "post"
+            })
+                .then(r => r.text())
+                .then(r => {
+
+                    $(".commentList").html(r);
+
+                })
+
             $('.featuredProductOwl').owlCarousel({
-                loop: false,
+                loop: true,
                 margin: 0,
                 nav: true,
                 dots: false,
-                items: 5,
+                responsiveClass: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 2,
+                        nav: false
+                    },
+                    600: {
+                        items: 3,
+                        nav: false
+                    },
+                    1000: {
+                        items: 5,
+                        nav: true,
+                        loop: true
+                    }
+                },
                 navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>']
             })
 
@@ -302,6 +267,9 @@
                 }
 
             });
+
+
         })
     </script>
+
 }

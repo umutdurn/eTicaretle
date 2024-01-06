@@ -1,0 +1,51 @@
+﻿@model List<HomeColumn>
+@{
+    Layout = "_Admin";
+}
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Adı</th>
+            <th>Sol</th>
+            <th>Orta</th>
+            <th>Sağ</th>
+            <th>Sırası</th>
+            <th>Düzenle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var column in Model)
+        {
+            <tr>
+                <td>@column.ColumnName</td>
+                <td>@column.LeftColumn</td>
+                <td>@column.MidColumn</td>
+                <td>@column.RightColumn</td>
+                <td>@column.Order</td>
+                <td><a href="/Admin/ColumnUpdate/@column.Id">Düzenle</a></td>
+                <td><a href="/Admin/DeleteColumn/@column.Id" onclick="return confirmRemove();">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove() {
+
+            var setConfirm = confirm("Bu kolonu silmek istediğinden emin misin?");
+
+            return setConfirm;
+
+        }
+
+    </script>
+}

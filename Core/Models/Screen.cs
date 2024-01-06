@@ -9,6 +9,7 @@ namespace Core.Models
     public class Screen : EntityBase
     {
         public string Name { get; set; }
-        public int Resolution { get; set; }
+        public int MinResolution { get; set; }
+        public int MaxResolution { get; set; }
     }
 }

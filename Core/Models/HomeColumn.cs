@@ -20,7 +20,7 @@ namespace Core.Models
         public int MidColumn { get; set; }
         public int RightColumn { get; set; }
         public int Order { get; set; }
-        public Screen Screen { get; set; }
+        public Screen? Screen { get; set; }
         public ICollection<ColumnDetail> ColumnDetail { get; set; }
     }
 }

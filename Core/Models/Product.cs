@@ -23,7 +23,7 @@ namespace Core.Models
         public decimal? DiscountPrice { get; set; } // İndirimli Fiyatı
         public string FeaturedImage { get; set; } // Öne Çıkarılan Resim
         public bool Situation { get; set; } // Durum
-        public int Order { get; set; } // Sıralama
+        public int Arrangement { get; set; } // Sıralama
         public int Stock { get; set; } // Stok
         public ICollection<Colors> Colors { get; set; } = new HashSet<Colors>();
         public ICollection<Galleries> Gallery { get; set; }

@@ -10,5 +10,6 @@ namespace Core.Services
     public interface IHomeColumnService : IService<HomeColumn>
     {
         ICollection<HomeColumn> GetAllHomecolumn();
+        HomeColumn GetIdHomecolumn(int id);
     }
 }

@@ -28,6 +28,8 @@ namespace Data.UnitOfWork
         private OrderRepository orderRepository;
         private MemberRepository memberRepository;
         private ReturnOrderRepository returnOrderRepository;
+        private CommentsRepository commentsRepository;
+        private ColumnDetailRepository columnDetailRepository;
 
         public IHomeColumnRepository HomeColumn => homeColumnRepository = homeColumnRepository ?? new HomeColumnRepository(_appDbContext);
         public IProductRepository Product => productRepository = productRepository ?? new ProductRepository(_appDbContext);
@@ -45,6 +47,10 @@ namespace Data.UnitOfWork
         public IMemberRepository Member => memberRepository = memberRepository ?? new MemberRepository(_appDbContext);
 
         public IReturnOrderRepository ReturnOrder => returnOrderRepository = returnOrderRepository ?? new ReturnOrderRepository(_appDbContext);
+
+        public ICommentsRepository Comments => commentsRepository = commentsRepository ?? new CommentsRepository(_appDbContext);
+
+        public IColumnDetailRepository ColumnDetail => columnDetailRepository = columnDetailRepository ?? new ColumnDetailRepository(_appDbContext);
 
         public void Commit()
         {

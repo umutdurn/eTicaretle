@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Core.Services;
+using IPara.DeveloperPortal.Core.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,9 +22,12 @@ namespace Web.Controllers
         private readonly IService<Coupons> _couponsService;
         private readonly IReturnOrderService _returnOrderService;
         private readonly IService<Comments> _commentsService;
+        private readonly IService<Screen> _screenService;
+        private readonly IColumnDetailService _columnDetailService;
+        private readonly IHomeColumnService _homeColumnService;
 
 
-        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService, IReturnOrderService returnOrderService, IService<Coupons> couponsService, IService<Comments> commentsService)
+        public AdminController(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IService<Colors> colorService, IProductService productService, IService<Galleries> imageGallery, IOrderService orderService, IService<OrderSituation> orderSituationService, IReturnOrderService returnOrderService, IService<Coupons> couponsService, IService<Comments> commentsService, IHomeColumnService homeColumnService, IService<Screen> screenService, IColumnDetailService columnDetailService)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
@@ -35,6 +39,9 @@ namespace Web.Controllers
             _returnOrderService = returnOrderService;
             _couponsService = couponsService;
             _commentsService = commentsService;
+            _homeColumnService = homeColumnService;
+            _screenService = screenService;
+            _columnDetailService = columnDetailService;
         }
 
         public IActionResult Index()
@@ -80,7 +87,7 @@ namespace Web.Controllers
             return View(product);
         }
         [HttpPost]
-        public async Task<IActionResult> AddProduct(Product product, IFormFile fileImage)
+        public async Task<IActionResult> AddProduct(Core.Models.Product product, IFormFile fileImage)
         {
 
             // Situation
@@ -160,7 +167,7 @@ namespace Web.Controllers
             return RedirectToAction(nameof(UpdateProduct), new { id = product.Id });
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(Product getProduct, IFormFile fileImage)
+        public async Task<IActionResult> UpdateProduct(Core.Models.Product getProduct, IFormFile fileImage)
         {
 
             var product = _productService.UpdateProductGetAllInclude(Convert.ToInt32(Request.Form["Id"]));
@@ -170,7 +177,7 @@ namespace Web.Controllers
             product.Price = getProduct.Price;
             product.DiscountPrice = getProduct.DiscountPrice;
             product.Stock = getProduct.Stock;
-            product.Order = getProduct.Order;
+            product.Arrangement = getProduct.Arrangement;
             product.SeoTitle = getProduct.SeoTitle;
             product.SeoDescpription = getProduct.SeoDescpription;
             product.SeoUrl = getProduct.SeoUrl;
@@ -558,6 +565,218 @@ namespace Web.Controllers
             _commentsService.Remove(comment);
 
             return RedirectToAction(nameof(Comments));
+
+        }
+
+        public IActionResult ColumnAdd() {
+
+            var screens = _screenService.GetAll().ToList();
+
+            List<SelectListItem> screenList = new List<SelectListItem>();
+
+            foreach (var screen in screens)
+            {
+                screenList.Add(new SelectListItem { Text = screen.Name, Value = screen.Id.ToString() });
+            }
+
+            ViewBag.Screens = screenList;
+
+            return View();
+        
+        }
+        public async Task<IActionResult> ColumnUpdate(int id)
+        {
+            var column = _homeColumnService.GetIdHomecolumn(id);
+
+            var screens = _screenService.GetAll().ToList();
+
+            List<SelectListItem> screenList = new List<SelectListItem>();
+
+            foreach (var screen in screens)
+            {
+                if (column.Screen.Id == screen.Id)
+                {
+                    screenList.Add(new SelectListItem { Text = screen.Name, Value = screen.Id.ToString(), Selected = true });
+                }
+                else
+                {
+                    screenList.Add(new SelectListItem { Text = screen.Name, Value = screen.Id.ToString() });
+                }
+                
+            }
+
+            ViewBag.Screens = screenList;
+
+            return View(column);
+
+        }
+        public async Task<IActionResult> AddColumnForm(HomeColumn column) {
+
+            var screen = await _screenService.GetByIdAsync(Convert.ToInt32(Request.Form["Screen"].ToString()));
+
+            column.Screen = screen;
+
+            await _homeColumnService.AddAsync(column);
+
+            return RedirectToAction(nameof(ColumnUpdate), new { column.Id });
+        
+        }
+        public async Task<IActionResult>  UpdateColumnForm(HomeColumn column)
+        {
+
+            var screen = await _screenService.GetByIdAsync(Convert.ToInt32(Request.Form["Screen"].ToString()));
+
+            column.Screen = screen;
+
+            _homeColumnService.Update(column);
+
+            return RedirectToAction(nameof(ColumnUpdate), new { column.Id });
+
+        }
+        public IActionResult ListColumn() { 
+        
+            var column = _homeColumnService.GetAll().ToList();
+
+            return View(column);
+        
+        }
+
+        public IActionResult DeleteColumn(int id) { 
+        
+            var column = _homeColumnService.GetIdHomecolumn(id);
+
+            _homeColumnService.Remove(column);
+
+            return RedirectToAction(nameof(ListColumn));
+
+        }
+
+        public IActionResult AddColumnDetail() {
+
+            var homecolums = _homeColumnService.GetAll();
+
+            List<SelectListItem> homeList = new List<SelectListItem>();
+
+            foreach (var block in homecolums)
+            {
+                homeList.Add(new SelectListItem { Text = block.ColumnName, Value = block.Id.ToString() });
+            }
+
+            ViewBag.homeList = homeList;
+
+            return View();
+        
+        }
+        public async Task<IActionResult> UpdateColumnDetail(int id)
+        {
+
+            var columnDetail = _columnDetailService.GetById(id);
+
+            var homecolums = _homeColumnService.GetAll();
+
+            List<SelectListItem> homeList = new List<SelectListItem>();
+
+            foreach (var block in homecolums)
+            {
+                if (columnDetail.HomeColumn.Id == block.Id)
+                {
+                    homeList.Add(new SelectListItem { Text = block.ColumnName, Value = block.Id.ToString(), Selected = true });
+                }
+                else
+                {
+                    homeList.Add(new SelectListItem { Text = block.ColumnName, Value = block.Id.ToString() });
+                }
+                
+            }
+
+            ViewBag.homeList = homeList;
+
+            return View(columnDetail);
+
+        }
+
+        public async Task<IActionResult> AddColumnDetailForm(ColumnDetail detail, IFormFile Background) {
+
+            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "tema/images/homepage");
+
+            string imageTitle = "";
+            if (Background != null)
+            {
+
+                imageTitle = Guid.NewGuid().ToString() + Path.GetExtension(Background.FileName);
+
+                if (Background.Length > 0)
+                {
+                    string filePath = Path.Combine(uploads, imageTitle);
+                    using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Background.CopyToAsync(fileStream);
+                    }
+
+                    detail.Background = imageTitle;
+                }
+
+            }
+
+            var block = _homeColumnService.GetIdHomecolumn(Convert.ToInt32(Request.Form["HomeColumn"].ToString()));
+
+            detail.HomeColumn = block;
+
+            await _columnDetailService.AddAsync(detail);
+
+            return RedirectToAction(nameof(UpdateColumnDetail), new { detail.Id });
+
+        }
+        public async Task<IActionResult> UpdateColumnDetailForm(ColumnDetail detail, IFormFile Background)
+        {
+
+            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "tema/images/homepage");
+
+            string imageTitle = "";
+            if (Background != null)
+            {
+
+                imageTitle = Guid.NewGuid().ToString() + Path.GetExtension(Background.FileName);
+
+                if (Background.Length > 0)
+                {
+                    string filePath = Path.Combine(uploads, imageTitle);
+                    using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Background.CopyToAsync(fileStream);
+                    }
+
+                    detail.Background = imageTitle;
+                }
+
+            }
+
+            var block = _homeColumnService.GetIdHomecolumn(Convert.ToInt32(Request.Form["HomeColumn"].ToString()));
+
+            detail.HomeColumn = block;
+
+            _columnDetailService.Update(detail);
+
+            return RedirectToAction(nameof(UpdateColumnDetail), new { detail.Id });
+
+        }
+
+        public IActionResult ListColumnDetail() {
+
+            var columnDetails = _columnDetailService.GetAll().ToList();
+
+            return View(columnDetails);
+        
+        }
+
+        public IActionResult DeleteColumnDetail(int id)
+        {
+
+            var columnDetail = _columnDetailService.GetById(id);
+
+            _columnDetailService.Remove(columnDetail);
+
+            return RedirectToAction(nameof(ListColumnDetail));
 
         }
     }

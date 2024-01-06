@@ -1,0 +1,64 @@
+﻿@model List<ColumnDetail>
+@{
+    Layout = "_Admin";
+}
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>Arka Planı</th>
+            <th>Başlığı</th>
+            <th>Yazısı</th>
+            <th>Tarafı</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var column in Model)
+        {
+            <tr>
+                <td><img src="~/tema/images/homepage/@column.Background" width="50" /></td>
+                <td>@column.FrontTitle</td>
+                <td>@column.FrontText</td>
+                <td>
+                    @if(column.Column == "Left")
+                    {
+                        @:Sol
+                    }
+                    else if (column.Column == "Right")
+                    {
+                        @:Sağ
+                    }
+                    else if (column.Column == "Middle")
+                    {
+                        @:Orta
+                    }
+                </td>
+
+                <td><a href="/Admin/UpdateColumnDetail/@column.Id">Düzenle</a></td>
+                <td><a href="/Admin/DeleteColumnDetail/@column.Id" onclick="return confirmRemove();">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                "language": {
+                    "url": "/tema/js/tr.json"
+                }
+            });
+        });
+
+        function confirmRemove() {
+
+            var setConfirm = confirm("Bu kolon detayını silmek istediğinden emin misin?");
+
+            return setConfirm;
+
+        }
+
+    </script>
+}

@@ -6,6 +6,7 @@ using Data;
 using Data.Repositories;
 using Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Service.Services;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -20,6 +21,8 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IBankTransferService, BankTransferService>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
+builder.Services.AddScoped<IColumnDetailService, ColumnDetailService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IReturnOrderService, ReturnOrderService>();
@@ -38,6 +41,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
 
     });
+    //x.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 var app = builder.Build();

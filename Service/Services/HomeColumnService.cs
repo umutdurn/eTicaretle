@@ -20,5 +20,10 @@ namespace Service.Services
         {
             return _unitOfWork.HomeColumn.GetAllHomecolumn();
         }
+
+        public HomeColumn GetIdHomecolumn(int id)
+        {
+            return _unitOfWork.HomeColumn.GetIdHomecolumn(id);
+        }
     }
 }

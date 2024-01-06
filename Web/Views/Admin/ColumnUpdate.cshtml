@@ -1,0 +1,53 @@
+﻿@model HomeColumn
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Kolon Düzenle";
+}
+
+<form name="updateColumn" asp-action="UpdateColumnForm" method="post" method="post" class="col s12 m10 l12 productform">
+    <input type="hidden" value="@Model.Id" name="Id" />
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <label for="first_name">Blok Adı</label>
+                <input type="text" name="ColumnName" placeholder="Blok Adı" class="browser-default" value="@Model.ColumnName" required />
+            </div>
+        </div>
+        <br class="clearfix" />
+        <div class="col s12 m6 l6">
+            <div class="input-field">
+                <label for="first_name">Sırası</label>
+                <input type="text" name="Order" placeholder="Sırası" class="browser-default" value="@Model.Order" required />
+            </div>
+        </div>
+        <div class="col s12 m6 l6">
+            <div class="input-field">
+                <select name="Screen" asp-items="@ViewBag.Screens">
+                    <option value="">Platform Seçiniz</option>
+                </select>
+            </div>
+        </div>
+        <br class="clearfix" />
+        <div class="col s12 l4 m4">
+            <div class="input-field">
+                <label for="first_name">Sol Kolon</label>
+                <input type="text" name="LeftColumn" placeholder="Sol Kolon" class="browser-default" value="@Model.LeftColumn" required />
+            </div>
+        </div>
+        <div class="col s12 l4 m4">
+            <div class="input-field">
+                <label for="first_name">Orta Kolon</label>
+                <input type="text" name="MidColumn" placeholder="Orta Kolon" class="browser-default" value="@Model.MidColumn" required />
+            </div>
+        </div>
+        <div class="col s12 l4 m4">
+            <div class="input-field">
+                <label for="first_name">Sağ Kolon</label>
+                <input type="text" name="RightColumn" placeholder="Sağ Kolon" class="browser-default" value="@Model.RightColumn" required />
+            </div>
+        </div>
+        <div class="input-field">
+            <input type="submit" name="UpdateColumn" value="Blok Ekle" />
+        </div>
+    </div>
+</form>

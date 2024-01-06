@@ -22,5 +22,10 @@ namespace Data.Repositories
         {
             return _appDbContext.HomeColumns.Include(x => x.Screen).Include(x => x.ColumnDetail).ToList();
         }
+
+        public HomeColumn GetIdHomecolumn(int id)
+        {
+            return _appDbContext.HomeColumns.Include(x => x.Screen).Include(x => x.ColumnDetail).FirstOrDefault(x => x.Id == id);
+        }
     }
 }

@@ -17,6 +17,7 @@ using IPara.DeveloperPortal.Core.Entity;
 using Payment = Core.Models.Payment;
 using Azure.Core;
 using Service.Services.Helper;
+using Data.Migrations;
 
 namespace Web.Controllers
 {
@@ -37,9 +38,10 @@ namespace Web.Controllers
         private readonly IOrderService _orderService;
         private readonly IMemberService _memberService;
         private readonly IReturnOrderService _returnOrderService;
+        private readonly ICommentsService _commentService;
+        private readonly IService<Screen> _screenService;
 
-
-        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService, IBankTransferService bankService, IOrderService orderService, IService<OrderSituation> orderSituationService, IMemberService memberService, IReturnOrderService returnOrderService)
+        public HomeController(ILogger<HomeController> logger, IHomeColumnService columnService, IProductService productService, ICartService cartService, ICargoService cargoService, ICountryService countryService, IService<City> cityService, IService<District> districtService, IService<Payment> paymentService, IService<Installment> installmentService, IBankTransferService bankService, IOrderService orderService, IService<OrderSituation> orderSituationService, IMemberService memberService, IReturnOrderService returnOrderService, ICommentsService commentService, IService<Screen> screenService)
         {
             _logger = logger;
             _homeColumnService = columnService;
@@ -56,13 +58,15 @@ namespace Web.Controllers
             _orderSituationService = orderSituationService;
             _memberService = memberService;
             _returnOrderService = returnOrderService;
+            _commentService = commentService;
+            _screenService = screenService;
         }
 
         public IActionResult Index()
         {
-            var homeColumn = _homeColumnService.GetAllHomecolumn();
+            var lastProducts = _productService.GetAllProductsList().OrderByDescending(x => x.Id).Take(12).ToList();
 
-            ViewBag.HomeColumn = homeColumn;
+            ViewBag.LastProducts = lastProducts;
 
             return View();
         }
@@ -92,66 +96,85 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<string> AddToBasket(string situation, int product, int piece) {
 
-            try
+            var getProduct = await _productService.FirstOfDefaultAsync(x => x.Id == product);
+            var ifCart = false;
+            var ifProduct = false;
+
+            if (Request.Cookies["CookieId"] != null)
             {
-                var getProduct = await _productService.FirstOfDefaultAsync(x => x.Id == product);
-                var ifCart = false;
+                var getCart = _cartService.GetAllCartInclude(Request.Cookies["CookieId"].ToString());
 
-                if (Request.Cookies["CookieId"] != null)
+                if (getCart.Count() > 0)
                 {
-                    var getCart = await _cartService.Where(x => x.CookieId == Request.Cookies["CookieId"].ToString());
+                    ifCart = true;
 
-                    if (getCart.Count() > 0)
+                    foreach (var cart in getCart)
                     {
-                        ifCart = true;
-
-                        foreach (var cart in getCart)
+                        if (cart.Product.Id == getProduct.Id)
                         {
-                            if (cart.Product.Id == getProduct.Id)
-                            {
-                                var getPiece = cart.Piece;
-                                var totalPiece = piece + getPiece;
+                            var getPiece = cart.Piece;
+                            var totalPiece = piece + getPiece;
 
-                                var totalPrice = totalPiece * cart.Price;
+                            var totalPrice = totalPiece * cart.Price;
 
-                                cart.Piece = totalPiece;
-                                cart.TotalPrice = totalPrice;
+                            cart.Piece = totalPiece;
+                            cart.TotalPrice = totalPrice;
 
-                                _cartService.Update(cart);
+                            _cartService.Update(cart);
+                            
+                            ifProduct = true;
 
-                                break;
-                            }
+                            break;
                         }
                     }
 
+                    if (!ifProduct)
+                    {
+                        var cookieId = Request.Cookies["CookieId"].ToString();
+
+                        Cart newCart = new Cart();
+                        newCart.Product = getProduct;
+                        newCart.Piece = piece;
+                        newCart.CookieId = cookieId;
+                        newCart.Price = getProduct.Price;
+                        newCart.TotalPrice = piece * getProduct.Price;
+
+                        await _cartService.AddAsync(newCart);
+                    }
                 }
 
-                if (!ifCart)
-                {
-                    var cookieId = Guid.NewGuid().ToString();
+            }
 
-                    CookieOptions cookie = new CookieOptions();
-                    cookie.Expires = DateTime.Now.AddMonths(1);
-                    Response.Cookies.Append("CookieId", cookieId, cookie);
+            if (!ifCart)
+            {
 
-                    Cart newCart = new Cart();
-                    newCart.Product = getProduct;
-                    newCart.Piece = piece;
-                    newCart.CookieId = cookieId;
-                    newCart.Price = getProduct.Price;
-                    newCart.TotalPrice = piece * getProduct.Price;
+                var cookieId = Guid.NewGuid().ToString();
 
-                    await _cartService.AddAsync(newCart);
-                }
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTime.Now.AddMonths(1);
+                Response.Cookies.Append("CookieId", cookieId, cookie);
 
-                if (situation == "buyNow")
-                {
-                    return situation;
-                }
-                else
-                {
-                    return "1";
-                }
+                Cart newCart = new Cart();
+                newCart.Product = getProduct;
+                newCart.Piece = piece;
+                newCart.CookieId = cookieId;
+                newCart.Price = getProduct.Price;
+                newCart.TotalPrice = piece * getProduct.Price;
+
+                await _cartService.AddAsync(newCart);
+            }
+
+            if (situation == "buyNow")
+            {
+                return situation;
+            }
+            else
+            {
+                return "1";
+            }
+            try
+            {
+                
 
                 
             }
@@ -615,14 +638,97 @@ namespace Web.Controllers
 
                 throw;
             }
+        }
 
-            
+        [HttpPost]
+        public IActionResult GetComments() {
 
-            
+            var comments = _commentService.GetAllInclude();
+
+            return PartialView("~/Views/Home/_PartialView/_Comments.cshtml", comments);
 
         }
 
-        
+        [HttpPost]
+        public async Task<string> Sendcomment() {
+
+            try
+            {
+                var comment = new Comments();
+
+                if (!String.IsNullOrEmpty(Request.Form["MainComment"].ToString()))
+                {
+                    var mainComment = await _commentService.GetByIdAsync(Convert.ToInt32(Request.Form["MainComment"].ToString()));
+                    comment.MainComment = mainComment;
+                }
+
+                comment.Name = Request.Form["Name"].ToString();
+                comment.Comment = Request.Form["Comment"].ToString();
+                comment.Email = Request.Form["Email"].ToString();
+                comment.Date = DateTime.Now;
+                comment.Like = 0;
+                comment.Situation = false;
+
+                await _commentService.AddAsync(comment);
+
+                return "1";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+                throw;
+            }
+
+        }
+
+        public async Task<string> LikeComment(int id)
+        {
+
+            var comment = await _commentService.GetByIdAsync(id);
+
+            if (Request.Cookies["Like" + id] == null)
+            {
+                comment.Like = comment.Like + 1;
+
+                _commentService.Update(comment);
+
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTime.Now.AddYears(10);
+                Response.Cookies.Append("Like" + id.ToString(), "1", cookie);
+            }
+            else
+            {
+                comment.Like = comment.Like - 1;
+
+                _commentService.Update(comment);
+
+                CookieOptions cookie = new CookieOptions();
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Append("Like" + id.ToString(), "1", cookie);
+            }
+
+            return comment.Like.ToString();
+
+        }
+        [HttpPost]
+        public IActionResult GetHomeColumn(int id) {
+
+            var homeColumn = _homeColumnService.GetAllHomecolumn();
+
+            List<HomeColumn> homeColumns = new List<HomeColumn>();
+
+            foreach (var item in homeColumn)
+            {
+                if (id > item.Screen.MinResolution && id < item.Screen.MaxResolution)
+                {
+                    homeColumns.Add(item);
+                }
+            }
+
+            return PartialView("~/Views/Home/_PartialView/_HomeColumn.cshtml", homeColumns);
+
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

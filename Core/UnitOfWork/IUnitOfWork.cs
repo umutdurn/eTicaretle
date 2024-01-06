@@ -19,6 +19,8 @@ namespace Core.UnitOfWork
         IOrderRepository Order { get; }
         IMemberRepository Member { get; }
         IReturnOrderRepository ReturnOrder { get; }
+        ICommentsRepository Comments { get; }
+        IColumnDetailRepository ColumnDetail { get; }
         Task CommitAsync();
 
         void Commit();

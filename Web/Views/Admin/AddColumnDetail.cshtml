@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Kolon Detayı Ekle";
+}
+
+<form name="addColumnDetail" asp-action="AddColumnDetailForm" enctype="multipart/form-data" method="post" class="col s12 m10 l12 productform">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <select name="HomeColumn" asp-items="@ViewBag.homeList" class="browser-default">
+                    <option value="">Blok Seçiniz</option>
+                </select>
+            </div>
+        </div>
+        <br class="clearfix" />
+        <div class="col s12 m4 l4">
+            <div class="input-field">
+                <label for="first_name">Başlık</label>
+                <input type="text" name="FrontTitle" placeholder="Başlık" class="browser-default" />
+            </div>
+        </div>
+        <div class="col s12 m4 l4">
+            <div class="input-field">
+                <label for="first_name">URL</label>
+                <input type="text" name="Url" placeholder="URL" class="browser-default" />
+            </div>
+        </div>
+        <div class="col s12 m4 l4">
+            <div class="input-field">
+                <select name="Column" class="browser-default">
+                    <option value="">Kolon Seçiniz</option>
+                    <option value="Left">Sol</option>
+                    <option value="Middle">Orta</option>
+                    <option value="Right">Sağ</option>
+                </select>
+            </div>
+        </div>
+        <br class="clearfix" />
+        <hr />
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <label for="first_name">Arka Plan Resmi</label>
+                <input type="file" name="Background" required />
+            </div>
+        </div>
+        <br class="clearfix" />
+        <hr />
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <textarea name="FrontText" placeholder="Açıklama yazısı" ></textarea>
+            </div>
+        </div>
+    </div>
+    <br class="clearfix" />
+    <div class="col s12 m12 l12">
+        <div class="input-field">
+            <input type="submit" name="AddColumnDetail" value="Kolon Detayı Ekle" />
+        </div>
+    </div>
+    </div>
+</form>

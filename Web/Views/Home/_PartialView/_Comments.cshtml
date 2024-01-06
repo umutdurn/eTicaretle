@@ -1,0 +1,124 @@
+﻿@model List<Comments>
+
+@foreach (var comment in Model)
+{
+
+    <div class="commentMain">
+        <div class="profilPhoto">
+            <img src="/tema/images/commenthead.png" />
+        </div>
+        <div class="commentElement">
+            <div class="commentText">
+                <span>@comment.Name</span>
+                <p>@comment.Comment</p>
+            </div>
+            <div class="commentIcon">
+                <a href="#sendComment" id="@comment.Id" class="subCommentSend"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                <a href="javascript:void(0)" class="LikedComment" id="@comment.Id">
+
+                    @if (Context.Request.Cookies["Like" + comment.Id] == null)
+                    {
+                        <i class="fa-regular fa-heart"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-heart"></i>
+                    }
+
+                    Beğen  (<span span="likeCount">@comment.Like</span> Beğeni)
+                </a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+
+    @foreach (var subComment in comment.SubComments)
+    {
+        <div class="subIcon">
+            
+        </div>
+        <div class="subComment">
+            <div class="commentMain">
+                <div class="profilPhoto">
+                    <img src="/tema/images/commenthead.png" />
+                </div>
+                <div class="commentElement">
+                    <div class="commentText">
+                        <span>@subComment.Name</span>
+                        <p>@subComment.Comment</p>
+                    </div>
+                    <div class="commentIcon">
+                        <a href="#sendComment" id="@comment.Id" class="subCommentSend"><i class="fa-solid fa-share"></i>Yanıtla</a>
+                        <a href="javascript:void(0)" class="LikedComment" id="@subComment.Id">
+
+                            @if (Context.Request.Cookies["Like" + subComment.Id] == null)
+                            {
+                                <i class="fa-regular fa-heart"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-heart"></i>
+                            }
+
+                            Beğen  (<span span="likeCount">@subComment.Like</span> Beğeni)</a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    }
+}
+<script>
+
+    $(".LikedComment").click(function () {
+
+        var commentId = $(this).attr("id");
+        var count = $(this).find("span").html();
+
+
+        fetch("/Home/LikeComment/" + commentId)
+            .then(r => r.text())
+            .then(r => {
+
+                var rNum = parseInt(r);
+
+                if (rNum > count) {
+
+                    $(this).find("i").removeClass("fa-regular");
+                    $(this).find("i").addClass("fa-solid");
+
+                } else {
+
+                    $(this).find("i").removeClass("fa-solid");
+                    $(this).find("i").addClass("fa-regular");
+
+                }
+
+                $(this).find("span").html(r);
+
+            })
+
+    })
+
+    $(".subCommentSend").click(function () {
+
+        var subId = $(this).attr("id");
+
+        $("[name='subCommentId']").val(subId);
+
+        $(".selectedSubComment").show();
+
+        $(".commentId").html(subId);
+
+    })
+
+    $(".deleteSubCommment").click(function () {
+
+        $("[name='subCommentId']").val("");
+
+        $(".selectedSubComment").hide();
+
+    })
+</script>
